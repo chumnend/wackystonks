@@ -1,0 +1,80 @@
+version: 2.1
+
+parameters:
+  # This parameter is used to trigger the main workflow
+  trigger:
+    type: boolean
+    default: true
+
+  # A parameter per package
+  ws-server:
+    type: boolean
+    default: false
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:12.18.4
+      - image: circleci/postgres:9.6.2-alpine
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circledb
+
+jobs:
+  trigger-workflows:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          name: Trigger workflows
+          command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
+  
+  build:
+    parameters:
+      package_name:
+        type: string
+    executor: node
+    working_directory: ~/project/packages/<< parameters.package_name >>
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: yarn install --immutable
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            - ~/.npm
+            - ~/.cache
+      - run: yarn lint
+      - run:
+          name: Start Test
+          environment:
+            DB_URL: "postgres://root@localhost:5432/circledb"
+            DB_TEST_URL: "postgres://root@localhost:5432/circledb"
+          command: yarn test
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - packages/<< parameters.package_name >>
+
+workflows:
+  version: 2
+
+  # The main workflow responsible for triggering all other workflows
+  ci:
+    when: << pipeline.parameters.trigger >>
+    jobs:
+      - trigger-workflows
+
+  # Workflows defined for each package.
+  ws-server:
+    when: << pipeline.parameters.ws-server >>
+    jobs:
+      - build:
+          name: ws-server-build
+          package_name: ws-server
