@@ -21,8 +21,7 @@ class BRouter {
       try {
         const result = this._controller.default();
         res.status(200).json(result);
-      }
-      catch (error) {
+      } catch (error) {
         next(error);
       }
     });
