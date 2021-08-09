@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import AController from '../../controllers/A';
+import SampleController from '../controllers/sample.controller';
 
-class ARouter {
+class SampleRouter {
   private _router = Router();
-  private _controller = AController;
+  private _controller = SampleController;
 
   get router() {
     return this._router;
@@ -18,9 +18,14 @@ class ARouter {
    */
   private _configure() {
     this._router.get('/', (req: Request, res: Response, next: NextFunction) => {
-      res.status(200).json(this._controller.default());
+      try {
+        const result = this._controller.default();
+        res.status(200).json(result);
+      } catch (error) {
+        next(error);
+      }
     });
   }
 }
 
-export = new ARouter().router;
+export = new SampleRouter().router;

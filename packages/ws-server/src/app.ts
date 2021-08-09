@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 
-import MasterRouter from './router/MasterRouter';
+import Router from './router';
 import ErrorHandler from './models/ErrorHandler';
 
 dotenv.config();
@@ -11,7 +11,7 @@ dotenv.config();
  */
 class Server {
   public app = express();
-  public router = MasterRouter;
+  public router = Router;
 }
 
 // create Server instance
@@ -29,6 +29,9 @@ server.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFuncti
   });
 });
 
-((port = process.env.PORT || 5000) => {
-  server.app.listen(port, () => console.log(`Listening on port ${port}`));
-})();
+// start the express server
+const port = process.env.SERVER_PORT || 5000;
+
+server.app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});

@@ -1,4 +1,4 @@
-class AController {
+class SampleController {
   default() {
     return {
       text: `You've reached ${this.constructor.name} default method`,
@@ -6,4 +6,4 @@ class AController {
   }
 }
 
-export = new AController();
+export = new SampleController();
