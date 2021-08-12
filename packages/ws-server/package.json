@@ -1,7 +1,7 @@
 {
   "name": "ws-server",
   "version": "1.0.0",
-  "description": "wacky stoncks express server",
+  "description": "wacky stonks express server",
   "main": "dist/index.js",
   "author": "Nicholas Chumney",
   "license": "ISC",
