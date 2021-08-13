@@ -1,0 +1,27 @@
+extend type Query {
+  "validates user information and returns token if correct"
+  login(email: String!, password: String!): AuthResponse!
+
+  "return all users"
+  users: [User]
+
+  "get user information given an ID"
+  user(id: ID!): User
+
+  "for testing"
+  me: User
+}
+
+extend type Mutation {
+  "creates new user account"
+  register(email: String!, password: String!): AuthResponse!
+}
+
+type AuthResponse {
+  token: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+}

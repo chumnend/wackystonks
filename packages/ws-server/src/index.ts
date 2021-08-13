@@ -1,13 +1,15 @@
+import cors from 'cors';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 
 import { PORT } from './config/constants';
-import schema from './graphql/schemasMap';
 import pool from './config/database';
+import schema from './graphql/schemasMap';
 
 const app = express();
+app.use(cors());
 
-pool.connect((err, client, done) => {
+pool.connect((err) => {
   if (err) {
     throw err;
   }

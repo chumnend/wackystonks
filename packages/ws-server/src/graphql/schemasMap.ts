@@ -3,7 +3,7 @@ import 'graphql-import-node';
 import { GraphQLSchema } from 'graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-import * as authTypeDefs from './schemas/auth.graphql';
+import * as authTypeDefs from './schemas/users.graphql';
 import * as emptyTypeDefs from './schemas/empty.graphql';
 import resolvers from './resolversMap';
 
