@@ -2,7 +2,7 @@ import { IResolvers } from '@graphql-tools/utils';
 
 import { AuthResponse, MutationRegisterArgs, QueryLoginArgs } from '../generated';
 
-const UserResolvers: IResolvers = {
+const AuthResolvers: IResolvers = {
   Query: {
     async login(_: void, args: QueryLoginArgs): Promise<AuthResponse> {
       return {
@@ -20,4 +20,4 @@ const UserResolvers: IResolvers = {
   },
 };
 
-export default UserResolvers;
+export default AuthResolvers;

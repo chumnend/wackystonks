@@ -7,8 +7,6 @@ import pool from './config/database';
 
 const app = express();
 
-app.use(express.json());
-
 pool.connect((err, client, done) => {
   if (err) {
     throw err;
