@@ -31,6 +31,13 @@ app.use(cors());
       models,
       me: await models.User.findByLogin('chumnend'),
     }),
+    formatError: (error) => {
+      const message = error.message.replace('SequelizeValidationError: ', '').replace('Validation error: ', '');
+      return {
+        ...error,
+        message,
+      };
+    },
   });
   await server.start();
   server.applyMiddleware({ app, path: '/graphql' });

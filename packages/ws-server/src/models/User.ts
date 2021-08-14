@@ -45,11 +45,23 @@ User.init(
     },
     email: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'email must not be empty',
+        },
+      },
     },
     username: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'username must not be empty',
+        },
+      },
     },
   },
   {
