@@ -2,20 +2,7 @@ import { IResolvers } from '@graphql-tools/utils';
 
 import { AuthResponse, User, MutationRegisterArgs, QueryLoginArgs, QueryUserArgs } from '../generated';
 
-const mockUsers: Record<string, User> = {
-  1: {
-    id: '1',
-    username: 'Nicholas Chumney',
-  },
-  2: {
-    id: '2',
-    username: 'Dave Barns',
-  },
-};
-
-const me = mockUsers[1];
-
-const AuthResolvers: IResolvers = {
+const UserResolvers: IResolvers = {
   Query: {
     async login(_: void, args: QueryLoginArgs): Promise<AuthResponse> {
       return {
@@ -23,17 +10,19 @@ const AuthResolvers: IResolvers = {
       };
     },
 
-    users(): User[] {
-      return Object.values(mockUsers);
+    users(parent, args, context): User[] {
+      const { models } = context;
+      return Object.values(models.users);
     },
 
-    user(_: void, args: QueryUserArgs): User {
+    user(_: void, args: QueryUserArgs, context): User {
       const { id } = args;
-      return mockUsers[id];
+      const { models } = context;
+      return models.users[id];
     },
 
-    me(): User {
-      return me;
+    me(parent, args, context): User {
+      return context.me;
     },
   },
 
@@ -46,4 +35,4 @@ const AuthResolvers: IResolvers = {
   },
 };
 
-export default AuthResolvers;
+export default UserResolvers;
