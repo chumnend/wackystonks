@@ -4,30 +4,33 @@ import { AuthResponse, User, MutationRegisterArgs, QueryLoginArgs, QueryUserArgs
 
 const UserResolvers: IResolvers = {
   Query: {
-    async login(_: void, args: QueryLoginArgs): Promise<AuthResponse> {
+    async login(parent: void, args: QueryLoginArgs, context): Promise<AuthResponse> {
+      const { login, password } = args;
       return {
         token: 'token',
       };
     },
 
-    users(parent, args, context): User[] {
+    async users(parent, args, context): Promise<User[]> {
       const { models } = context;
-      return Object.values(models.users);
+      return await models.User.findAll();
     },
 
-    user(_: void, args: QueryUserArgs, context): User {
+    async user(parent: void, args: QueryUserArgs, context): Promise<User> {
       const { id } = args;
       const { models } = context;
-      return models.users[id];
+      return await models.User.findByPk(id);
     },
 
-    me(parent, args, context): User {
-      return context.me;
+    async me(parent, args, context): Promise<User> {
+      const { models, me } = context;
+      return await models.User.findByPk(me?.id);
     },
   },
 
   Mutation: {
-    async register(_: void, args: MutationRegisterArgs): Promise<AuthResponse> {
+    async register(parent: void, args: MutationRegisterArgs, context): Promise<AuthResponse> {
+      const { email, username, password } = args;
       return {
         token: 'token',
       };

@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { Sequelize } from 'sequelize';
 dotenv.config();
 
 const config = {
@@ -6,5 +7,10 @@ const config = {
   port: process.env.PORT || 4000,
   db: process.env.POSTGRES_URI || 'postgres://root:newPassword@localhost:port/dbname',
 };
+
+export const sequelize = new Sequelize(config.db, {
+  dialect: 'postgres',
+  logging: false,
+});
 
 export default config;

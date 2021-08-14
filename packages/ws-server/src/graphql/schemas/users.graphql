@@ -1,6 +1,6 @@
 extend type Query {
   "validates user information and returns token if correct"
-  login(email: String!, password: String!): AuthResponse!
+  login(login: String!, password: String!): AuthResponse!
 
   "return all users"
   users: [User]
@@ -14,7 +14,7 @@ extend type Query {
 
 extend type Mutation {
   "creates new user account"
-  register(email: String!, password: String!): AuthResponse!
+  register(email: String!, username: String!, password: String!): AuthResponse!
 }
 
 type AuthResponse {
@@ -23,5 +23,6 @@ type AuthResponse {
 
 type User {
   id: ID!
+  email: String!
   username: String!
 }
