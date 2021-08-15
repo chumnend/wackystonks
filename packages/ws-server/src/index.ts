@@ -23,7 +23,7 @@ app.use(cors());
   }
 })();
 
-// initialize appllo server
+// initialize apollo server
 (async () => {
   const server = new ApolloServer({
     schema,
