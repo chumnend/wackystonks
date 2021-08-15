@@ -1,10 +1,12 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Optional } from 'sequelize';
+import bcrypt from 'bcrypt';
 
 import { sequelize } from '../config';
 
 interface UserAttributes {
-  id: number;
+  id?: number;
   email: string;
+  password: string;
   username: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -15,11 +17,21 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public id!: number;
   public email!: string;
   public username!: string;
+  public password!: string;
 
   // timestamps!
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
+
+  async generatePasswordHash(): Promise<string> {
+    const salt = 10;
+    return await bcrypt.hash(this.password, salt);
+  }
+
+  async validatePassword(password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this.password);
+  }
 
   static async findByLogin(login: string): Promise<User> {
     let user = await User.findOne({
@@ -51,6 +63,9 @@ User.init(
         notEmpty: {
           msg: 'email must not be empty',
         },
+        isEmail: {
+          msg: 'email has an invalid format',
+        },
       },
     },
     username: {
@@ -63,6 +78,16 @@ User.init(
         },
       },
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'username must not be empty',
+        },
+        len: [5, 20],
+      },
+    },
   },
   {
     tableName: 'users',
@@ -71,5 +96,9 @@ User.init(
     paranoid: true,
   },
 );
+
+User.beforeCreate(async (user) => {
+  user.password = await user.generatePasswordHash();
+});
 
 export default User;

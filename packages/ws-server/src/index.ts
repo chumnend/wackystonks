@@ -30,6 +30,7 @@ app.use(cors());
     context: async () => ({
       models,
       me: await models.User.findByLogin('chumnend'),
+      secret: config.secret,
     }),
     formatError: (error) => {
       const message = error.message.replace('SequelizeValidationError: ', '').replace('Validation error: ', '');
