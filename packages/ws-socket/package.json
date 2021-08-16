@@ -1,0 +1,11 @@
+{
+  "name": "ws-socket",
+  "version": "0.0.0",
+  "description": "a package for the stonk models",
+  "author": "Nicholas Chumney",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "dependencies": {
+    "ws-models": "0.0.0"
+  }
+}
