@@ -6,7 +6,7 @@
   "author": "Nicholas Chumney",
   "license": "ISC",
   "scripts": {
-    "prestart": "yarn codegen && yarn build",
+    "prestart": "yarn codegen && yarn build && cp -r src/graphql/schemas dist/graphql",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "prebuild": "yarn run lint:fix",
