@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-const cache = new InMemoryCache();
-const uri = process.env.REACT_APP_GQL_SERVER_URI || 'http://localhost:8000';
-
-console.log(uri);
-
-export const client = new ApolloClient({ cache, uri });
-
+export const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: process.env.REACT_APP_GQL_SERVER_URI || 'http://localhost:8000/graphql',
+});
 interface Props {
   children: React.ReactNode;
 }
