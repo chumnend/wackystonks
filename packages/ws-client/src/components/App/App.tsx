@@ -1,5 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 
+import Router from '../Router';
+
 const GET_ME = gql`
   query {
     me {
@@ -19,7 +21,8 @@ const App = () => {
   const { username } = data.me;
   return (
     <div>
-      <h1>Hello, {username}</h1>
+      <h1>Hello, {username ?? 'Stranger'}</h1>
+      <Router />
     </div>
   );
 };
