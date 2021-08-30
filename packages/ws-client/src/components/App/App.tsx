@@ -1,8 +1,9 @@
 import { gql, useQuery } from '@apollo/client';
 
+import Loader from '../Loader';
 import Router from '../Router';
 
-const GET_ME = gql`
+const GET_ME_QUERY = gql`
   query getMe {
     me {
       id
@@ -13,9 +14,9 @@ const GET_ME = gql`
 `;
 
 const App = () => {
-  const { loading, error, data } = useQuery(GET_ME);
+  const { loading, error, data } = useQuery(GET_ME_QUERY);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error</p>;
 
   const { username } = data.me;

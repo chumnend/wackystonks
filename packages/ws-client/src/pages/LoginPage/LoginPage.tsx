@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
+import Loader from '../../components/Loader';
+
 const LOGIN_QUERY = gql`
   query LoginQuery($login: String!, $password: String!) {
     login(login: $login, password: $password) {
@@ -29,7 +31,7 @@ const LoginPage = () => {
     loginUser({ variables: { login, password } });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error</p>;
 
   if (data) {
