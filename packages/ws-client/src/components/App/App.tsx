@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import Router from '../Router';
 
 const GET_ME = gql`
-  query {
+  query getMe {
     me {
       id
       email
