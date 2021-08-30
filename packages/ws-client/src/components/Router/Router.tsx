@@ -1,25 +1,25 @@
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
-const Home = () => {
-  return <h2>Home</h2>;
-};
+import HomePage from '../../pages/HomePage';
+import LoginPage from '../../pages/LoginPage';
 
-const Room = () => {
-  return <h2>Room</h2>;
-};
+export const HOME_ROUTE = '/';
+export const REGISTER_ROUTE = '/register';
+export const LOGIN_ROUTE = '/login';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <div>
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/room">Room</Link>
+          <Link to={HOME_ROUTE}>Home</Link>
+          <Link to={REGISTER_ROUTE}>Register</Link>
+          <Link to={LOGIN_ROUTE}>Login</Link>
         </nav>
       </div>
 
-      <Route exact path="/" component={Home} />
-      <Route exact path="/room" component={Room} />
+      <Route exact path={LOGIN_ROUTE} component={LoginPage} />
+      <Route exact path={HOME_ROUTE} component={HomePage} />
     </BrowserRouter>
   );
 };
