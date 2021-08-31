@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import HomePage from '../../pages/HomePage';
 import LoginPage from '../../pages/LoginPage';
+import RegisterPage from '../../pages/RegisterPage';
 
 export const HOME_ROUTE = '/';
 export const REGISTER_ROUTE = '/register';
@@ -18,6 +19,7 @@ const Router = () => {
         </nav>
       </div>
 
+      <Route exact path={REGISTER_ROUTE} component={RegisterPage} />
       <Route exact path={LOGIN_ROUTE} component={LoginPage} />
       <Route exact path={HOME_ROUTE} component={HomePage} />
     </BrowserRouter>

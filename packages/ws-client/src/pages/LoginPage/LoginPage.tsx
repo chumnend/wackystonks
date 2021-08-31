@@ -3,7 +3,7 @@ import { gql, useLazyQuery } from '@apollo/client';
 
 import Loader from '../../components/Loader';
 
-const LOGIN_QUERY = gql`
+export const LOGIN_QUERY = gql`
   query LoginQuery($login: String!, $password: String!) {
     login(login: $login, password: $password) {
       token
@@ -35,7 +35,7 @@ const LoginPage = () => {
   if (error) return <p>Error</p>;
 
   if (data) {
-    console.log(data);
+    console.log(data?.login?.token);
   }
 
   return (
