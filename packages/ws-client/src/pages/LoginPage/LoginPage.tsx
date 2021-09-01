@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
+import { useAuth } from '../../providers/AuthProvider';
 
 export const LOGIN_QUERY = gql`
   query LoginQuery($login: String!, $password: String!) {
@@ -14,6 +16,8 @@ export const LOGIN_QUERY = gql`
 const LoginPage = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const auth = useAuth();
+  const history = useHistory();
 
   const [loginUser, { loading, error, data }] = useLazyQuery(LOGIN_QUERY, {
     variables: {
@@ -35,7 +39,9 @@ const LoginPage = () => {
   if (error) return <p>Error</p>;
 
   if (data) {
-    console.log(data?.login?.token);
+    const token = data?.login?.token;
+    auth?.setToken(token);
+    history.push('/');
   }
 
   return (
