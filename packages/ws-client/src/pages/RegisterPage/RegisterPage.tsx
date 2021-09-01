@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
+import { HOME_ROUTE } from '../../constants/routes';
+import { useAuth } from '../../providers/AuthProvider';
 
 export const REGISTER_MUTATION = gql`
   mutation RegisterMutation($email: String!, $username: String!, $password: String!) {
@@ -15,8 +18,19 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const auth = useAuth();
+  const history = useHistory();
 
-  const [registerUser, { loading, error, data }] = useMutation(REGISTER_MUTATION);
+  const [registerUser, { called, loading, error }] = useMutation(REGISTER_MUTATION, {
+    onCompleted: (data) => {
+      const token = data?.register?.token;
+      auth?.setToken(token);
+      history.push(HOME_ROUTE);
+    },
+  });
+
+  if (called && loading) return <Loader />;
+  if (error) return <p>Error</p>;
 
   const validateForm = (): boolean => {
     return email.length > 0 && username.length > 0 && password.length > 0;
@@ -26,13 +40,6 @@ const RegisterPage = () => {
     e.preventDefault();
     registerUser({ variables: { email, username, password } });
   };
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error</p>;
-
-  if (data) {
-    console.log(data?.register?.token);
-  }
 
   return (
     <div>

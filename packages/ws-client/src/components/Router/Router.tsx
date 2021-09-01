@@ -4,9 +4,7 @@ import HomePage from '../../pages/HomePage';
 import LoginPage from '../../pages/LoginPage';
 import RegisterPage from '../../pages/RegisterPage';
 
-export const HOME_ROUTE = '/';
-export const REGISTER_ROUTE = '/register';
-export const LOGIN_ROUTE = '/login';
+import { HOME_ROUTE, REGISTER_ROUTE, LOGIN_ROUTE } from '../../constants/routes';
 
 const Router = () => {
   return (
