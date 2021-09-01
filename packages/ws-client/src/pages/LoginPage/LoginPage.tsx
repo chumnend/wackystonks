@@ -19,12 +19,20 @@ const LoginPage = () => {
   const auth = useAuth();
   const history = useHistory();
 
-  const [loginUser, { loading, error, data }] = useLazyQuery(LOGIN_QUERY, {
+  const [loginUser, { called, loading, error }] = useLazyQuery(LOGIN_QUERY, {
     variables: {
       login,
       password,
     },
+    onCompleted: (data) => {
+      const token = data?.login?.token;
+      auth?.setToken(token);
+      history.push('/');
+    },
   });
+
+  if (called && loading) return <Loader />;
+  if (error) return <p>Error</p>;
 
   const validateForm = (): boolean => {
     return login.length > 0 && password.length > 0;
@@ -34,15 +42,6 @@ const LoginPage = () => {
     e.preventDefault();
     loginUser({ variables: { login, password } });
   };
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error</p>;
-
-  if (data) {
-    const token = data?.login?.token;
-    auth?.setToken(token);
-    history.push('/');
-  }
 
   return (
     <div>
