@@ -5,6 +5,7 @@ interface IAuthContext {
   isAuth: boolean;
 
   setToken(token: string): void;
+  clearToken(): void;
 }
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -27,10 +28,19 @@ const AuthProvider = ({ children }: Props) => {
     }));
   }, []);
 
+  const clearToken = useCallback(() => {
+    setState((state) => ({
+      ...state,
+      token: '',
+    }));
+  }, []);
+
   const values = {
     ...state,
     isAuth: state.token.length > 0,
+
     setToken,
+    clearToken,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
