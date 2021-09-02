@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
-import * as http from 'http';
-import * as socketio from 'socket.io';
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
 
 import config, { sequelize } from './config';
 import schema from './graphql';
@@ -11,6 +11,8 @@ import { createUsers } from './models/seeds/users';
 
 // initialize app
 const app = express();
+
+// configure middleware
 app.use(cors());
 
 // initialize sequelize
@@ -47,13 +49,15 @@ app.use(cors());
 })();
 
 // setup socketio
-const server = http.createServer(app);
-const io = new socketio.Server();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
-io.attach(server);
-
-io.on('connection', (socket: socketio.Socket) => {
-  console.log('connection');
+io.on('connection', (socket: Socket) => {
+  console.log('client connected');
   socket.emit('status', 'Hello from socket.io');
 
   socket.on('disconnect', () => {
@@ -62,6 +66,6 @@ io.on('connection', (socket: socketio.Socket) => {
 });
 
 // start the application
-app.listen(config.port, () => {
+server.listen(config.port, () => {
   console.log(`Server is listening on port ${config.port}`);
 });
