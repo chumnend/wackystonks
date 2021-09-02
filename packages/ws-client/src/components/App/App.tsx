@@ -1,7 +1,9 @@
 import { gql, useQuery } from '@apollo/client';
+import { useEffect } from 'react';
 
 import Loader from '../Loader';
 import Router from '../Router';
+import { socket } from '../../socket';
 
 const GET_ME_QUERY = gql`
   query getMe {
@@ -15,6 +17,12 @@ const GET_ME_QUERY = gql`
 
 const App = () => {
   const { loading, error, data } = useQuery(GET_ME_QUERY);
+
+  useEffect(() => {
+    socket.on('status', (msg) => {
+      console.log(msg);
+    });
+  }, []);
 
   if (loading) return <Loader />;
   if (error) return <p>Error</p>;
