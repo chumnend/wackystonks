@@ -1,6 +1,8 @@
+import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import * as http from 'http';
+import * as socketio from 'socket.io';
 
 import config, { sequelize } from './config';
 import schema from './graphql';
@@ -43,6 +45,21 @@ app.use(cors());
   await server.start();
   server.applyMiddleware({ app, path: '/graphql' });
 })();
+
+// setup socketio
+const server = http.createServer(app);
+const io = new socketio.Server();
+
+io.attach(server);
+
+io.on('connection', (socket: socketio.Socket) => {
+  console.log('connection');
+  socket.emit('status', 'Hello from socket.io');
+
+  socket.on('disconnect', () => {
+    console.log('client disconnected');
+  });
+});
 
 // start the application
 app.listen(config.port, () => {
