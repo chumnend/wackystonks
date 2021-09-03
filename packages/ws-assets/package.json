@@ -1,16 +1,18 @@
 {
-  "name": "ws-stonk",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "ws-assets",
+  "version": "0.1.0",
+  "description": "wackystonks assets",
+  "author": "Nicholas Chumney",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["/dist"],
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix && ./node_modules/.bin/prettier --write ./src"
   },
-  "author": "Nicholas Chumney",
-  "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
