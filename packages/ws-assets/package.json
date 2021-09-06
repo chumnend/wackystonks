@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "./node_modules/.bin/_mocha -r ts-node/register src/**/*.test.ts",
+    "test": "./node_modules/.bin/_mocha -r ts-node/register tests/**/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" yarn test",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix && ./node_modules/.bin/prettier --write ./src"
