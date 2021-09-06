@@ -20,4 +20,8 @@ describe('Stonk', () => {
     stonk.modifyPrice(1);
     expect(stonk.getPrice()).to.equal(11);
   });
+
+  it('expects an error if invalid initial price is given', () => {
+    expect(() => new Stonk('Test Stonk', 'TST', -1)).to.throw('invalid initial price');
+  });
 });
