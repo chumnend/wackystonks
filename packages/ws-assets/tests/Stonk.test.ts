@@ -31,4 +31,14 @@ describe('Stonk', () => {
   it('expects an error if invalid initial price is given', () => {
     expect(() => new Stonk('Test Stonk', 'TST', -1)).to.throw('invalid initial price');
   });
+
+  it('expects to create a clone of the Stonk', () => {
+    const stonk = new Stonk('Test Stonk', 'TST', 10.0);
+    const clone = stonk.clone();
+
+    expect(stonk.getName()).to.equal(clone.getName());
+    expect(stonk.getSymbol()).to.equal(clone.getSymbol());
+    expect(stonk.getPrice()).to.equal(clone.getPrice());
+    expect(stonk).to.not.equal(clone); // check references
+  });
 });

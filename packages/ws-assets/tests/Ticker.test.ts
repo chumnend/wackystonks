@@ -20,4 +20,19 @@ describe('Ticker', () => {
     ticker.addStonk(stonk);
     expect(ticker.getStonks()).to.have.length(1);
   });
+
+  it('expects simulate to modify all the prices of the ticker', () => {
+    const ticker = new Ticker('Test Ticker');
+    const stonk1 = new Stonk('Test Stonk 1', 'TS1', 20.03);
+    const stonk2 = new Stonk('Test Stonk 2', 'TS2', 3.15);
+    ticker.addStonk(stonk1);
+    ticker.addStonk(stonk2);
+
+    const oldValues = ticker.getStonks();
+    ticker.simulate();
+    const newValues = ticker.getStonks();
+
+    expect(newValues[0].getPrice()).to.not.equal(oldValues[0].getPrice());
+    expect(newValues[1].getPrice()).to.not.equal(oldValues[1].getPrice());
+  });
 });

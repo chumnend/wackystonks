@@ -1,3 +1,4 @@
+import round from './utils/round';
 class Stonk {
   private name: string;
   private symbol: string;
@@ -7,7 +8,7 @@ class Stonk {
     this.name = name;
     this.symbol = symbol;
     if (initialPrice >= 0) {
-      this.price = initialPrice;
+      this.price = Math.round(initialPrice * 100) / 100;
     } else {
       throw new Error('invalid initial price');
     }
@@ -26,8 +27,12 @@ class Stonk {
   }
 
   public modifyPrice(value: number): void {
-    const newPrice = this.price + value;
+    const newPrice = round(this.price + value, 2);
     this.price = newPrice > 0 ? newPrice : 0;
+  }
+
+  public clone(): Stonk {
+    return new Stonk(this.name, this.symbol, this.price);
   }
 }
 
