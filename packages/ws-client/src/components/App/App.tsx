@@ -22,6 +22,10 @@ const App = () => {
     socket.on('status', (msg) => {
       console.log(msg);
     });
+
+    socket.on('update', (obj) => {
+      console.log(obj);
+    });
   }, []);
 
   if (loading) return <Loader />;

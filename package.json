@@ -7,10 +7,10 @@
   "scripts": {
     "run-client": "yarn workspace ws-client start",
     "run-server": "yarn workspace ws-server start",
+    "prestart": "yarn workspace ws-assets build",
     "start": "concurrently --kill-others-on-fail \"yarn run-server\"  \"yarn run-client\""
   },
   "dependencies": {
     "concurrently": "^6.2.0"
-  },
-  "version": "0.0.0"
+  }
 }

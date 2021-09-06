@@ -57,7 +57,7 @@ const io = new Server(server, {
   },
 });
 
-const ticker = new Ticker();
+const ticker = new Ticker('Demo Ticker');
 const stonk = new Stonk('Test', 'TST', 27.03);
 
 ticker.addStonk(stonk);
@@ -67,7 +67,7 @@ io.on('connection', (socket: Socket) => {
   socket.emit('status', 'Hello from socket.io');
 
   setInterval(() => {
-    console.log(ticker.listStonks());
+    socket.emit('update', ticker.getStonks());
     ticker.simulate();
   }, 5000);
 
