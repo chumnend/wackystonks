@@ -26,7 +26,8 @@ class Stonk {
   }
 
   public modifyPrice(value: number): void {
-    this.price += value;
+    const newPrice = this.price + value;
+    this.price = newPrice > 0 ? newPrice : 0;
   }
 }
 

@@ -21,6 +21,13 @@ describe('Stonk', () => {
     expect(stonk.getPrice()).to.equal(11);
   });
 
+  it('expects price to be 0 if price is modified to be negative', () => {
+    const stonk = new Stonk('Test Stonk', 'TST', 10.0);
+    stonk.modifyPrice(-11);
+
+    expect(stonk.getPrice()).to.equal(0);
+  });
+
   it('expects an error if invalid initial price is given', () => {
     expect(() => new Stonk('Test Stonk', 'TST', -1)).to.throw('invalid initial price');
   });
