@@ -1,16 +1,20 @@
 import Stonk from './Stonk';
 
 class Ticker {
+  private name: string;
   private stonks: Stonk[];
 
-  constructor() {
+  constructor(name: string) {
+    this.name = name;
     this.stonks = [];
   }
 
-  public listStonks(): void {
-    this.stonks.forEach((stonk) => {
-      console.log(`${stonk.getName()}<${stonk.getSymbol()}>: $${stonk.getPrice()}`);
-    });
+  public getName(): string {
+    return this.name;
+  }
+
+  public getStonks(): Stonk[] {
+    return [...this.stonks];
   }
 
   public addStonk(stonk: Stonk): void {
