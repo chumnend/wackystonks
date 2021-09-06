@@ -9,8 +9,8 @@
       "./node_modules"
     ],
     "include": [
-      "src/**/*", 
-      "tests/**/*"    
+      "src/**/*",
+      "tests/**/*"
     ]
   }
   

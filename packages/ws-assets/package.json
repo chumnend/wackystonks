@@ -1,6 +1,6 @@
 {
   "name": "ws-assets",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "wackystonks assets",
   "author": "Nicholas Chumney",
   "license": "MIT",
@@ -17,8 +17,6 @@
     "lint:fix": "./node_modules/.bin/eslint ./src --fix && ./node_modules/.bin/prettier --write ./src"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.21",
-    "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "chai": "^4.3.4",
