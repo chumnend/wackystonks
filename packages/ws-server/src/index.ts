@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
+import { Ticker, Stonk } from 'ws-assets';
 
 import config, { sequelize } from './config';
 import schema from './graphql';
@@ -56,9 +57,19 @@ const io = new Server(server, {
   },
 });
 
+const ticker = new Ticker('Demo Ticker');
+const stonk = new Stonk('Test', 'TST', 27.03);
+
+ticker.addStonk(stonk);
+
 io.on('connection', (socket: Socket) => {
   console.log('client connected');
   socket.emit('status', 'Hello from socket.io');
+
+  setInterval(() => {
+    socket.emit('update', ticker.getStonks());
+    ticker.simulate();
+  }, 5000);
 
   socket.on('disconnect', () => {
     console.log('client disconnected');

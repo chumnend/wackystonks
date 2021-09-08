@@ -1,6 +1,6 @@
 {
   "name": "ws-server",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "wacky stonks express server",
   "main": "dist/index.js",
   "author": "Nicholas Chumney",
@@ -28,7 +28,8 @@
     "lodash": "^4.17.21",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5",
-    "socket.io": "^4.2.0"
+    "socket.io": "^4.2.0",
+    "ws-assets": "^0.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.0.1",
@@ -41,8 +42,8 @@
     "@types/jsonwebtoken": "^8.5.4",
     "@types/lodash": "^4.14.172",
     "@types/node": "^16.4.13",
-    "@types/socket.io": "^3.0.2",
     "@types/pg": "^8.6.1",
+    "@types/socket.io": "^3.0.2",
     "@types/validator": "^13.6.3",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
