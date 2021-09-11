@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { socket } from '../../socket';
+import { useSocket } from '../../providers/SocketProvider';
 
 interface IStonk {
   name: string;
@@ -10,6 +10,7 @@ interface IStonk {
 
 const DemoPage = () => {
   const [stonks, setStonks] = useState([]);
+  const socket = useSocket();
 
   useEffect(() => {
     socket.on('status', (msg) => {
@@ -17,8 +18,14 @@ const DemoPage = () => {
     });
 
     socket.on('update', (obj) => {
+      console.log(obj);
       setStonks(obj);
     });
+
+    return () => {
+      socket.off('status');
+      socket.off('update');
+    };
   }, []);
 
   const stonksList = stonks.map((stonk: IStonk, idx) => (

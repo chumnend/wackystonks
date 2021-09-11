@@ -2,7 +2,7 @@ import React from 'react';
 
 import GQLProvider from '../GQLProvider';
 import AuthProvider from '../AuthProvider';
-
+import SocketProvider from '../SocketProvider';
 interface Props {
   children: React.ReactNode;
 }
@@ -10,7 +10,9 @@ interface Props {
 const AppProviders = ({ children }: Props) => {
   return (
     <GQLProvider>
-      <AuthProvider>{children}</AuthProvider>
+      <SocketProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </SocketProvider>
     </GQLProvider>
   );
 };
