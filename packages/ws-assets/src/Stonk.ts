@@ -1,4 +1,5 @@
 import round from './utils/round';
+
 class Stonk {
   private name: string;
   private symbol: string;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useSocket } from '../../providers/SocketProvider';
 
-interface IStonk {
+interface Stonk {
   name: string;
   symbol: string;
   price: number;
@@ -13,22 +13,17 @@ const DemoPage = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    socket.on('status', (msg) => {
-      console.log(msg);
-    });
-
     socket.on('update', (obj) => {
       console.log(obj);
       setStonks(obj);
     });
 
     return () => {
-      socket.off('status');
       socket.off('update');
     };
   }, []);
 
-  const stonksList = stonks.map((stonk: IStonk, idx) => (
+  const stonksList = stonks.map((stonk: Stonk, idx) => (
     <div key={idx}>
       <h2>
         {stonk.name}: {stonk.symbol} = {stonk.price}

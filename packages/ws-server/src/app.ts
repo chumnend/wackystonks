@@ -69,12 +69,11 @@ ticker.addStonk(stonk);
 
 io.on('connection', (socket: Socket) => {
   console.log('client connected');
-  socket.emit('status', 'Hello from socket.io');
 
   setInterval(() => {
     socket.emit('update', ticker.getStonks());
     ticker.simulate();
-  }, 5000);
+  }, 1000);
 
   socket.on('disconnect', () => {
     console.log('client disconnected');
