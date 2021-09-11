@@ -8,7 +8,8 @@
     "run-client": "yarn workspace ws-client start",
     "run-server": "yarn workspace ws-server start",
     "prestart": "yarn workspace ws-assets build",
-    "start": "concurrently --kill-others-on-fail \"yarn run-server\"  \"yarn run-client\""
+    "start": "concurrently --kill-others-on-fail \"yarn run-server\"  \"yarn run-client\"",
+    "build": "yarn workspace ws-assets build  && yarn workspace ws-client build && yarn workspace ws-server build"
   },
   "dependencies": {
     "@changesets/cli": "^2.17.0",

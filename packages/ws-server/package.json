@@ -6,11 +6,10 @@
   "author": "Nicholas Chumney",
   "license": "ISC",
   "scripts": {
-    "prestart": "yarn codegen && yarn build && cp -r src/graphql/schemas dist/graphql",
+    "prestart": "yarn build",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "prebuild": "yarn lint:fix",
-    "build": "tsc",
+    "build": "yarn codegen && tsc && cp -r src/graphql/schemas dist/graphql",
     "test": "./node_modules/.bin/_mocha -r ts-node/register tests/**/*.test.ts",
     "coverage": "nyc yarn test",
     "lint": "./node_modules/.bin/eslint ./src",
