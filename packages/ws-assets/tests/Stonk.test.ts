@@ -11,6 +11,7 @@ describe('Stonk', () => {
     expect(stonk.getName()).to.equal('Test Stonk');
     expect(stonk.getSymbol()).to.equal('TST');
     expect(stonk.getPrice()).to.equal(10);
+    expect(stonk.getPriceHistory()).to.deep.equal([10]);
   });
 
   it('expects to modify price of the Stonk', () => {
@@ -19,6 +20,7 @@ describe('Stonk', () => {
 
     stonk.modifyPrice(1);
     expect(stonk.getPrice()).to.equal(11);
+    expect(stonk.getPriceHistory()).to.deep.equal([10, 11]);
   });
 
   it('expects price to be 0 if price is modified to be negative', () => {

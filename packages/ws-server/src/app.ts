@@ -64,7 +64,6 @@ const io = new Server(server, {
 
 const ticker = new Ticker('Demo Ticker');
 const stonk = new Stonk('Test', 'TST', 27.03);
-
 ticker.addStonk(stonk);
 
 io.on('connection', (socket: Socket) => {
