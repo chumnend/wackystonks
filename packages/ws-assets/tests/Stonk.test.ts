@@ -30,6 +30,18 @@ describe('Stonk', () => {
     expect(stonk.getPrice()).to.equal(0);
   });
 
+  it('expects the price history to not exceed a size of 100', () => {
+    const stonk = new Stonk('Test Stonk', 'TST', 0);
+    for (let i = 0; i < 200; i++) {
+      stonk.modifyPrice(1);
+    }
+
+    expect(stonk.getPrice()).to.equal(200);
+    expect(stonk.getPriceHistory().length).to.equal(100);
+    expect(stonk.getPriceHistory()[0]).to.equal(101);
+    expect(stonk.getPriceHistory()[stonk.getPriceHistory().length - 1]).to.equal(200);
+  });
+
   it('expects an error if invalid initial price is given', () => {
     expect(() => new Stonk('Test Stonk', 'TST', -1)).to.throw('invalid initial price');
   });

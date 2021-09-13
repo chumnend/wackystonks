@@ -6,6 +6,8 @@ class Stonk {
   private price: number;
   private priceHistory: number[];
 
+  static MAX_HISTORY_COUNT = 100;
+
   constructor(name: string, symbol: string, initialPrice: number) {
     this.name = name;
     this.symbol = symbol;
@@ -41,6 +43,9 @@ class Stonk {
     const newPrice = round(this.price + value, 2);
     this.price = newPrice > 0 ? newPrice : 0;
     this.priceHistory.push(this.price);
+    if (this.priceHistory.length > Stonk.MAX_HISTORY_COUNT) {
+      this.priceHistory.shift();
+    }
   }
 
   public clone(): Stonk {
