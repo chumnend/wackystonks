@@ -19,6 +19,10 @@ describe('Ticker', () => {
     const stonk = new Stonk('Test Stonk', 'TST', 1);
     ticker.addStonk(stonk);
     expect(ticker.getStonks()).to.have.length(1);
+    expect(ticker.getStonks()[0]).to.have.property('name', 'Test Stonk');
+    expect(ticker.getStonks()[0]).to.have.property('symbol', 'TST');
+    expect(ticker.getStonks()[0]).to.have.property('price', 1);
+    expect(ticker.getStonks()[0]).to.have.deep.property('priceHistory', [1]);
   });
 
   it('expects simulate to modify all the prices of the ticker', () => {

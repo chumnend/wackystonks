@@ -31,6 +31,7 @@ class Ticker {
    */
   public simulate(): void {
     this.stonks.forEach((stonk, idx) => {
+      /* istanbul ignore next */
       const direction = Math.random() > 0.5 ? 1 : -1;
       const change = round((Math.random() * stonk.getPrice()) / 10, 2);
       this.stonks[idx].modifyPrice(direction * change);
