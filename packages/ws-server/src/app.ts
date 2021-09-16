@@ -62,17 +62,45 @@ const io = new Server(server, {
   },
 });
 
-const ticker = new Ticker('Demo Ticker');
-const stonk = new Stonk('Test', 'TST', 27.03);
-ticker.addStonk(stonk);
+interface Game {
+  ticker: Ticker;
+  timer: ReturnType<typeof setInterval>;
+}
+interface GameDetails {
+  [key: string]: Game;
+}
+
+const gameDetails: GameDetails = {};
 
 io.on('connection', (socket: Socket) => {
   console.log('client connected');
 
-  setInterval(() => {
-    socket.emit('update', ticker.getStonks());
-    ticker.simulate();
-  }, 1000);
+  socket.on('create-game', (recv) => {
+    console.log('creating game...');
+    const { name } = recv;
+
+    const ticker = new Ticker(name);
+    const stonk = new Stonk('Test', 'TST', 27.03);
+    ticker.addStonk(stonk);
+
+    const timer = setInterval(() => {
+      console.log('sending update');
+      socket.emit('update', {
+        values: ticker.getStonks(),
+      });
+      ticker.simulate();
+    }, 3000);
+
+    gameDetails[name] = { ticker, timer };
+  });
+
+  socket.on('delete-game', (recv) => {
+    console.log('deleting game...');
+    const { name } = recv;
+
+    clearInterval(gameDetails[name].timer);
+    delete gameDetails[name];
+  });
 
   socket.on('disconnect', () => {
     console.log('client disconnected');

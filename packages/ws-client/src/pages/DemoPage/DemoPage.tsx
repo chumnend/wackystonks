@@ -15,11 +15,22 @@ const DemoPage = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    socket.on('update', (stonks) => {
-      setStonks(stonks);
+    console.log('creating game...');
+    socket.emit('create-game', {
+      name: 'Demo Ticker',
+    });
+
+    socket.on('update', (recv) => {
+      const { values } = recv;
+      console.log('update received', values);
+      setStonks(values);
     });
 
     return () => {
+      console.log('deleting game...');
+      socket.emit('delete-game', {
+        name: 'Demo Ticker',
+      });
       socket.off('update');
     };
   }, []);
