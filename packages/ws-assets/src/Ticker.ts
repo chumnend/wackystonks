@@ -22,8 +22,19 @@ class Ticker {
     return stonksCopy;
   }
 
-  public addStonk(stonk: Stonk): void {
+  public createStonk(name: string, symbol: string, initialPrice: number): boolean {
+    try {
+      const stonk = new Stonk(name, symbol, initialPrice);
+      this.addStonk(stonk);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  public addStonk(stonk: Stonk): boolean {
     this.stonks.push(stonk);
+    return true;
   }
 
   /**

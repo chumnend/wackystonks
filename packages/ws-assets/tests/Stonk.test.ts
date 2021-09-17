@@ -14,6 +14,10 @@ describe('Stonk', () => {
     expect(stonk.getPriceHistory()).to.deep.equal([10]);
   });
 
+  it('expects an error if invalid initial price is given', () => {
+    expect(() => new Stonk('Test Stonk', 'TST', -1)).to.throw('invalid initial price');
+  });
+
   it('expects to modify price of the Stonk', () => {
     const stonk = new Stonk('Test Stonk', 'TST', 10.0);
     expect(stonk.getPrice()).to.equal(10);
@@ -40,10 +44,6 @@ describe('Stonk', () => {
     expect(stonk.getPriceHistory().length).to.equal(100);
     expect(stonk.getPriceHistory()[0]).to.equal(101);
     expect(stonk.getPriceHistory()[stonk.getPriceHistory().length - 1]).to.equal(200);
-  });
-
-  it('expects an error if invalid initial price is given', () => {
-    expect(() => new Stonk('Test Stonk', 'TST', -1)).to.throw('invalid initial price');
   });
 
   it('expects to create a clone of the Stonk', () => {

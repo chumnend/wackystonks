@@ -12,6 +12,27 @@ describe('Ticker', () => {
     expect(ticker.getStonks()).to.have.length(0);
   });
 
+  it('expects to create a new Stonk and add it to the Ticker', () => {
+    const ticker = new Ticker('Test Ticker');
+    expect(ticker.getStonks()).to.have.length(0);
+
+    const res = ticker.createStonk('Test Stonk', 'TST', 1);
+    expect(res).to.be.true;
+    expect(ticker.getStonks()).to.have.length(1);
+    expect(ticker.getStonks()[0]).to.have.property('name', 'Test Stonk');
+    expect(ticker.getStonks()[0]).to.have.property('symbol', 'TST');
+    expect(ticker.getStonks()[0]).to.have.property('price', 1);
+    expect(ticker.getStonks()[0]).to.have.deep.property('priceHistory', [1]);
+  });
+
+  it('expects to not create a new Stonk if invalid intial price given', () => {
+    const ticker = new Ticker('Test Ticker');
+    expect(ticker.getStonks()).to.have.length(0);
+
+    const res = ticker.createStonk('Test Stonk', 'TST', -1);
+    expect(res).to.be.false;
+  });
+
   it('expects to add Stonks to Ticker', () => {
     const ticker = new Ticker('Test Ticker');
     expect(ticker.getStonks()).to.have.length(0);
