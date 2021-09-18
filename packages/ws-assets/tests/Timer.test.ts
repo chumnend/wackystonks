@@ -18,18 +18,18 @@ describe('Timer', function () {
     expect(timer.start()).to.be.false;
   });
 
-  it('expects pause to stop timer from finishing', (done) => {
+  it('expects stop to stop timer from finishing', (done) => {
     const timer = new Timer(() => done('test failed'), 100);
     expect(timer.start()).to.be.true;
-    setTimeout(() => expect(timer.pause()).to.be.true, 50);
+    setTimeout(() => expect(timer.stop()).to.be.true, 50);
     setTimeout(() => done(), 150);
   });
 
-  it('expects to not pause if already paused', (done) => {
+  it('expects to not stop if already stopd', (done) => {
     const timer = new Timer(() => done('test failed'), 100);
     expect(timer.start()).to.be.true;
-    setTimeout(() => expect(timer.pause()).to.be.true, 50);
-    setTimeout(() => expect(timer.pause()).to.be.false, 80);
+    setTimeout(() => expect(timer.stop()).to.be.true, 50);
+    setTimeout(() => expect(timer.stop()).to.be.false, 80);
     setTimeout(() => done(), 150);
   });
 
@@ -38,9 +38,22 @@ describe('Timer', function () {
     const timer = new Timer(() => counter++, 100, true);
     expect(timer.start()).to.be.true;
     setTimeout(() => {
-      timer.pause();
+      timer.stop();
       expect(counter).to.equal(3);
       done();
     }, 310);
+  });
+
+  it('expects reset to restart the timer from intial delay', (done) => {
+    const timer = new Timer(() => done('test failed'), 100);
+    expect(timer.start()).to.be.true;
+    setTimeout(() => {
+      expect(timer.reset()).to.be.true;
+      expect(timer.start()).to.be.true;
+    }, 80);
+    setTimeout(() => {
+      timer.stop();
+      done();
+    }, 150);
   });
 });
