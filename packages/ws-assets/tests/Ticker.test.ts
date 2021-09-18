@@ -4,7 +4,7 @@ import { Stonk, Ticker } from '../src';
 
 const expect = chai.expect;
 
-describe('Ticker', () => {
+describe('Ticker', function () {
   it('expects Ticker to be properly created', () => {
     const ticker = new Ticker('Test Ticker');
 

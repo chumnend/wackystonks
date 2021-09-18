@@ -4,7 +4,7 @@ import { Stonk } from '../src';
 
 const expect = chai.expect;
 
-describe('Stonk', () => {
+describe('Stonk', function () {
   it('expects Stonk to be properly created', () => {
     const stonk = new Stonk('Test Stonk', 'TST', 10.0);
 
