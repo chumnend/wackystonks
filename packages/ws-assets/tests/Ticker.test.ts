@@ -8,7 +8,7 @@ describe('Ticker', function () {
   it('expects Ticker to be properly created', () => {
     const ticker = new Ticker('Test Ticker');
 
-    expect(ticker.getName()).equal('Test Ticker');
+    expect(ticker.name).equal('Test Ticker');
     expect(ticker.getStonks()).to.have.length(0);
   });
 
