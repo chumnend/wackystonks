@@ -1,14 +1,8 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { StonkProps } from 'ws-assets';
 
 import { useSocket } from '../../providers/SocketProvider';
-
-interface Stonk {
-  name: string;
-  symbol: string;
-  price: number;
-  priceHistory: number[];
-}
 
 const DemoPage = () => {
   const [stonks, setStonks] = useState([]);
@@ -35,8 +29,10 @@ const DemoPage = () => {
     };
   }, []);
 
-  const renderStonks = stonks.map((stonk: Stonk, idx) => {
-    const data = stonk.priceHistory.map((price) => ({
+  const renderStonks = stonks.map((stonk: StonkProps, idx) => {
+    console.log(stonk);
+
+    const data = stonk.previousPrices.map((price) => ({
       time: new Date(Date.now()).toUTCString(),
       pv: price,
     }));
