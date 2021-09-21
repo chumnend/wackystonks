@@ -22,7 +22,7 @@ describe('Ticker', function () {
     expect(ticker.getStonks()[0]).to.have.property('name', 'Test Stonk');
     expect(ticker.getStonks()[0]).to.have.property('symbol', 'TST');
     expect(ticker.getStonks()[0]).to.have.property('price', 1);
-    expect(ticker.getStonks()[0]).to.have.deep.property('priceHistory', [1]);
+    expect(ticker.getStonks()[0]).to.have.deep.property('previousPrices', [1]);
   });
 
   it('expects to not create a new Stonk if invalid intial price given', () => {
@@ -43,7 +43,7 @@ describe('Ticker', function () {
     expect(ticker.getStonks()[0]).to.have.property('name', 'Test Stonk');
     expect(ticker.getStonks()[0]).to.have.property('symbol', 'TST');
     expect(ticker.getStonks()[0]).to.have.property('price', 1);
-    expect(ticker.getStonks()[0]).to.have.deep.property('priceHistory', [1]);
+    expect(ticker.getStonks()[0]).to.have.deep.property('previousPrices', [1]);
   });
 
   it('expects simulate to modify all the prices of the ticker', () => {
@@ -57,7 +57,7 @@ describe('Ticker', function () {
     ticker.simulate();
     const newValues = ticker.getStonks();
 
-    expect(newValues[0].getPrice()).to.not.equal(oldValues[0].getPrice());
-    expect(newValues[1].getPrice()).to.not.equal(oldValues[1].getPrice());
+    expect(newValues[0].price).to.not.equal(oldValues[0].price);
+    expect(newValues[1].price).to.not.equal(oldValues[1].price);
   });
 });

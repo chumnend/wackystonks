@@ -1,5 +1,8 @@
-import Stonk from './Stonk';
-import Ticker from './Ticker';
-import Timer from './Timer';
+import Stonk, { StonkProps, StonkMethods } from './Stonk';
+export { Stonk, StonkProps, StonkMethods };
 
-export { Stonk, Ticker, Timer };
+import Ticker from './Ticker';
+export { Ticker };
+
+import Timer from './Timer';
+export { Timer };

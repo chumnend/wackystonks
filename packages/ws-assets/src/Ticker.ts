@@ -15,11 +15,16 @@ class Ticker {
   }
 
   public getStonks(): Stonk[] {
-    const stonksCopy = [];
+    const stonks = [];
     this.stonks.forEach((stonk) => {
-      stonksCopy.push(stonk.clone());
+      stonks.push({
+        name: stonk.name,
+        symbol: stonk.symbol,
+        price: stonk.price,
+        previousPrices: stonk.previousPrices,
+      });
     });
-    return stonksCopy;
+    return stonks;
   }
 
   public createStonk(name: string, symbol: string, initialPrice: number): boolean {
@@ -44,7 +49,7 @@ class Ticker {
     this.stonks.forEach((stonk, idx) => {
       /* istanbul ignore next */
       const direction = Math.random() > 0.5 ? 1 : -1;
-      const change = round((Math.random() * stonk.getPrice()) / 10, 2);
+      const change = round((Math.random() * stonk.price) / 10, 2);
       this.stonks[idx].modifyPrice(direction * change);
     });
   }
