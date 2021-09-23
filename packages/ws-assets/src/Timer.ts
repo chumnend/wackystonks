@@ -1,4 +1,12 @@
-class Timer {
+export interface TimerMethods {
+  /** Start or resumes a timer */
+  start(): boolean;
+  /** Stops the timer */
+  stop(): boolean;
+  /** Resets the timer to the inital delay time */
+  reset(): boolean;
+}
+class Timer implements TimerMethods {
   private id: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout>;
   private callback: () => void;
   private delay: number;
@@ -7,6 +15,12 @@ class Timer {
   private paused: boolean;
   private loop: boolean;
 
+  /**
+   * Create a timer
+   * @param callback {Function} Callback function to call after timer delay
+   * @param delay {number} the interval (in milliseconds) to execute the callback
+   * @param loop {boolean} If true. timer will repeat after it finishes. Default to false
+   */
   constructor(callback: () => void, delay: number, loop = false) {
     this.callback = callback;
     this.delay = delay;

@@ -25,6 +25,12 @@ class Stonk implements StonkProps, StonkMethods {
   static MAX_SYMBOL_LENGTH = 4;
   static MAX_PRICES_LOGGED = 100;
 
+  /**
+   * Create a stonk
+   * @param {string} name - Name of the stonk
+   * @param {string} symbol - Symbol representing stonk (Max 4 characters)
+   * @param {number} initialPrice - Initial value of a stonk (Must be positive value)
+   */
   constructor(name: string, symbol: string, initialPrice: number) {
     this._name = name;
 
@@ -42,22 +48,42 @@ class Stonk implements StonkProps, StonkMethods {
     }
   }
 
+  /**
+   * Get name of the stonk
+   * @returns {string}
+   */
   get name(): string {
     return this._name;
   }
 
+  /**
+   * Get symbol of the stonk
+   * @return {string}
+   */
   get symbol(): string {
     return this._symbol;
   }
 
+  /**
+   * Get current price of the stonk
+   * @returns {number}
+   */
   get price(): number {
     return this._price;
   }
 
+  /**
+   * Get past 100 prices
+   * @returns [number]
+   */
   get previousPrices(): number[] {
     return [...this._previousPrices];
   }
 
+  /**
+   * Modify the price by a given amount
+   * @param value {number} amount to modify price by (+ve/-ve)
+   */
   public modifyPrice(value: number): void {
     const newPrice = round(this.price + value, 2);
     this._price = newPrice > 0 ? newPrice : 0;
