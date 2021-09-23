@@ -1,57 +1,96 @@
 import round from './utils/round';
 
-class Stonk {
-  private name: string;
-  private symbol: string;
-  private price: number;
-  private priceHistory: number[];
+export interface StonkProps {
+  /** Name of a stonk */
+  name: string;
+  /** Symbol representing stonk (Max 4 characters) */
+  symbol: string;
+  /** Current value of a stonk */
+  price: number;
+  /** Log of previous prices (Up to 100 entries) */
+  previousPrices: number[];
+}
 
-  static MAX_HISTORY_COUNT = 100;
+export interface StonkMethods {
+  /** Modify the value of a stonk */
+  modifyPrice(value: number): void;
+}
 
+class Stonk implements StonkProps, StonkMethods {
+  private _name: string;
+  private _symbol: string;
+  private _price: number;
+  private _previousPrices: number[];
+
+  static MAX_SYMBOL_LENGTH = 4;
+  static MAX_PRICES_LOGGED = 100;
+
+  /**
+   * Create a stonk
+   * @param {string} name - Name of the stonk
+   * @param {string} symbol - Symbol representing stonk (Max 4 characters)
+   * @param {number} initialPrice - Initial value of a stonk (Must be positive value)
+   */
   constructor(name: string, symbol: string, initialPrice: number) {
-    this.name = name;
-    this.symbol = symbol;
+    this._name = name;
+
+    if (symbol.length <= Stonk.MAX_SYMBOL_LENGTH) {
+      this._symbol = symbol;
+    } else {
+      throw new Error(`"symbol" cannot exceed ${Stonk.MAX_SYMBOL_LENGTH} characters`);
+    }
+
     if (initialPrice >= 0) {
-      this.price = Math.round(initialPrice * 100) / 100;
-      this.priceHistory = [this.price];
+      this._price = Math.round(initialPrice * 100) / 100;
+      this._previousPrices = [this._price];
     } else {
       throw new Error('invalid initial price');
     }
   }
 
-  public getName(): string {
-    return this.name;
+  /**
+   * Get name of the stonk
+   * @returns {string}
+   */
+  get name(): string {
+    return this._name;
   }
 
-  public getSymbol(): string {
-    return this.symbol;
+  /**
+   * Get symbol of the stonk
+   * @return {string}
+   */
+  get symbol(): string {
+    return this._symbol;
   }
 
-  public getPrice(): number {
-    return this.price;
+  /**
+   * Get current price of the stonk
+   * @returns {number}
+   */
+  get price(): number {
+    return this._price;
   }
 
-  public getPriceHistory(): number[] {
-    return [...this.priceHistory];
+  /**
+   * Get past 100 prices
+   * @returns [number]
+   */
+  get previousPrices(): number[] {
+    return [...this._previousPrices];
   }
 
-  public setPriceHistory(priceHistory: number[]): void {
-    this.priceHistory = [...priceHistory];
-  }
-
+  /**
+   * Modify the price by a given amount
+   * @param value {number} amount to modify price by (+ve/-ve)
+   */
   public modifyPrice(value: number): void {
     const newPrice = round(this.price + value, 2);
-    this.price = newPrice > 0 ? newPrice : 0;
-    this.priceHistory.push(this.price);
-    if (this.priceHistory.length > Stonk.MAX_HISTORY_COUNT) {
-      this.priceHistory.shift();
+    this._price = newPrice > 0 ? newPrice : 0;
+    this._previousPrices.push(this.price);
+    if (this._previousPrices.length > Stonk.MAX_PRICES_LOGGED) {
+      this._previousPrices.shift();
     }
-  }
-
-  public clone(): Stonk {
-    const clonedStonk = new Stonk(this.name, this.symbol, this.price);
-    clonedStonk.setPriceHistory(this.priceHistory);
-    return clonedStonk;
   }
 }
 

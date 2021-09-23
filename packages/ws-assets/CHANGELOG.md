@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.3.0
+
+### Minor Changes
+
+- Added Timer class
+
 ## 0.2.0
 
 ### Minor Changes
