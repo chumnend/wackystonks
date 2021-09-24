@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.4.0
+
+### Minor Changes
+
+- Added Player asset
+
 ## 0.3.0
 
 ### Minor Changes
