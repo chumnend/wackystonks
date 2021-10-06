@@ -9,3 +9,6 @@ export { Timer, TimerMethods };
 
 import Player, { PlayerProps } from './Player';
 export { Player, PlayerProps };
+
+import Game, { GameProps, GameMethods } from './Game';
+export { Game, GameProps, GameMethods };
