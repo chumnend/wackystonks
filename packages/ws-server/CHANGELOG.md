@@ -1,5 +1,16 @@
 # ws-server
 
+## 0.3.0
+
+### Minor Changes
+
+- ce5e8c9: created Game asset
+
+### Patch Changes
+
+- Updated dependencies [ce5e8c9]
+  - ws-assets@0.5.0
+
 ## 0.2.2
 
 ### Patch Changes
