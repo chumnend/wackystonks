@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
-import { Ticker, Timer } from 'ws-assets';
+import { Game } from 'ws-assets';
 
 import config, { sequelize } from './config';
 import schema from './graphql';
@@ -62,10 +62,6 @@ const io = new Server(server, {
   },
 });
 
-interface Game {
-  ticker: Ticker;
-  timer: Timer;
-}
 interface GameDetails {
   [key: string]: Game;
 }
@@ -79,30 +75,24 @@ io.on('connection', (socket: Socket) => {
     console.log('creating game...');
     const { name } = recv;
 
-    const ticker = new Ticker(name);
-    ticker.createStonk('Test', 'TST', 27.03);
+    const game = new Game(name);
+    game.ticker.createStonk('Test', 'TST', 27.03);
+    game.subscribe(() => {
+      console.log('sending update');
+      socket.emit('update', {
+        values: game.ticker.getStonks(),
+      });
+    });
 
-    const timer = new Timer(
-      () => {
-        console.log('sending update');
-        socket.emit('update', {
-          values: ticker.getStonks(),
-        });
-        ticker.simulate();
-      },
-      3000,
-      true,
-    );
-    timer.start();
-
-    gameDetails[name] = { ticker, timer };
+    game.start();
+    gameDetails[name] = game;
   });
 
   socket.on('delete-game', (recv) => {
     console.log('deleting game...');
     const { name } = recv;
 
-    gameDetails[name].timer.stop();
+    gameDetails[name].stop();
     delete gameDetails[name];
   });
 
