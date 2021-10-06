@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.5.0
+
+### Minor Changes
+
+- ce5e8c9: created Game asset
+
 ## 0.4.0
 
 ### Minor Changes
