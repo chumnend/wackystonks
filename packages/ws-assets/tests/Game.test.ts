@@ -9,7 +9,17 @@ describe('Game', function () {
     const game = new Game('TEST');
 
     expect(game.id).to.equal('TEST');
-    expect(game.ticker).to.deep.equal(new Ticker('TEST'));
+    expect(game.ticker).to.be.instanceOf(Ticker);
+    expect(game.ticker.getStonks()).to.have.length(5);
+    expect(game.timer).to.be.instanceOf(Timer);
+  });
+
+  it('expects to create new game with no stonks', function () {
+    const game = new Game('TEST', Game.DEFAULT_TICKER_SIMULATION_INTERVAL, 0);
+
+    expect(game.id).to.equal('TEST');
+    expect(game.ticker).to.be.instanceOf(Ticker);
+    expect(game.ticker.getStonks()).to.have.length(0);
     expect(game.timer).to.be.instanceOf(Timer);
   });
 

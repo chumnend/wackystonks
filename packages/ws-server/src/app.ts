@@ -76,7 +76,6 @@ io.on('connection', (socket: Socket) => {
     const { name } = recv;
 
     const game = new Game(name);
-    game.ticker.createStonk('Test', 'TST', 27.03);
     game.subscribe(() => {
       console.log('sending update');
       socket.emit('update', {
