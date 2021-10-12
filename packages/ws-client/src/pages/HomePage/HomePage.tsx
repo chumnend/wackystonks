@@ -1,27 +1,19 @@
-import { gql, useQuery } from '@apollo/client';
-
-import Loader from '../../components/Loader';
-
-const GET_ME_QUERY = gql`
-  query getMe {
-    me {
-      id
-      email
-      username
-    }
-  }
-`;
-
 const HomePage = () => {
-  const { loading, error, data } = useQuery(GET_ME_QUERY);
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error</p>;
-
-  const { username } = data.me;
   return (
     <div>
-      <h1>Hello, {username ?? 'Stranger'}</h1>
+      <h1>WackyStonks!</h1>
+      <h3>A Stock Simulator Game</h3>
+      <div>
+        <button>Start Sim</button>
+        <button>Join Sim</button>
+        <button>How To Play</button>
+      </div>
+      <div>
+        <h4>
+          By <b>Nicholas Chumney</b>
+        </h4>
+        <a href="#">View on GitHub</a>
+      </div>
     </div>
   );
 };

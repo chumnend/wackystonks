@@ -6,7 +6,11 @@ import LogoutPage from '../../pages/LogoutPage';
 import RegisterPage from '../../pages/RegisterPage';
 import DemoPage from '../../pages/DemoPage';
 
-import { HOME_ROUTE, REGISTER_ROUTE, LOGIN_ROUTE, LOGOUT_ROUTE, DEMO_ROUTE } from '../../constants/routes';
+export const HOME_ROUTE = '/';
+export const REGISTER_ROUTE = '/register';
+export const LOGIN_ROUTE = '/login';
+export const LOGOUT_ROUTE = '/logout';
+export const DEMO_ROUTE = '/demo';
 
 const Router = () => {
   return (

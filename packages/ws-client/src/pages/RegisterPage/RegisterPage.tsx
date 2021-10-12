@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
-import { HOME_ROUTE } from '../../constants/routes';
+import { HOME_ROUTE } from '../../components/Router';
 import { useAuth } from '../../providers/AuthProvider';
 
 export const REGISTER_MUTATION = gql`
