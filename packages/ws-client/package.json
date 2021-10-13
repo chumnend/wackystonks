@@ -40,6 +40,7 @@
     "react-scripts": "4.0.3",
     "recharts": "^2.1.2",
     "socket.io-client": "^4.2.0",
+    "styled-components": "^5.3.1",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1",
     "ws-assets": "^0.5.0"
@@ -50,6 +51,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.8",
+    "@types/styled-components": "^5.1.15",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
     "eslint": "^7.32.0",
