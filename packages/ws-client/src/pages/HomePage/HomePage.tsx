@@ -1,11 +1,22 @@
+import NavBar from '../../components/NavBar';
+
 const HomePage = () => {
+  const handleStartSim = () => {
+    console.log('starting...');
+  };
+
+  const handleJoinSim = () => {
+    console.log('joining..');
+  };
+
   return (
     <div>
+      <NavBar />
       <h1>WackyStonks!</h1>
       <h3>A Stock Simulator Game</h3>
       <div>
-        <button>Start Sim</button>
-        <button>Join Sim</button>
+        <button onClick={handleStartSim}>Start Sim</button>
+        <button onClick={handleJoinSim}>Join Sim</button>
         <button>How To Play</button>
       </div>
       <div>

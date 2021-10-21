@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { StonkProps } from 'ws-assets';
 
+import NavBar from '../../components/NavBar';
 import { useSocket } from '../../providers/SocketProvider';
 
 const DemoPage = () => {
@@ -54,6 +55,7 @@ const DemoPage = () => {
 
   return (
     <div>
+      <NavBar />
       <h1>Demo Page</h1>
       <div>{socket.connected ? renderStonks : <div>Trying to connect...</div>}</div>
     </div>
