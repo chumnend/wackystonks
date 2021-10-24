@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import AppProviders from './providers/AppProviders';
+import AppProviders from './context/AppProviders';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 

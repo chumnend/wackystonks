@@ -1,5 +1,3 @@
-import NavBar from '../../components/NavBar';
-
 const HomePage = () => {
   const handleStartSim = () => {
     console.log('starting...');
@@ -11,7 +9,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <NavBar />
       <h1>WackyStonks!</h1>
       <h3>A Stock Simulator Game</h3>
       <div>

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
 import { HOME_ROUTE } from '../../components/Router';
-import { useAuth } from '../../providers/AuthProvider';
+import { useAuth } from '../../context/AuthProvider';
 
 export const REGISTER_MUTATION = gql`
   mutation RegisterMutation($email: String!, $username: String!, $password: String!) {

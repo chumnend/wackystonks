@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { StonkProps } from 'ws-assets';
 
 import NavBar from '../../components/NavBar';
-import { useSocket } from '../../providers/SocketProvider';
+import { useSocket } from '../../context/SocketProvider';
 
 const DemoPage = () => {
   const [stonks, setStonks] = useState([]);

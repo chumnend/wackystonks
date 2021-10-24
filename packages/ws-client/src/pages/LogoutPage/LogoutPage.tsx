@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { HOME_ROUTE } from '../../components/Router';
-import { useAuth } from '../../providers/AuthProvider';
+import { useAuth } from '../../context/AuthProvider';
 
 const LogoutPage = () => {
   const auth = useAuth();
