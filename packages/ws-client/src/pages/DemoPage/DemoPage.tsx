@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { StonkProps } from 'ws-assets';
 
-import NavBar from '../../components/NavBar';
+import NavBar from '../../components/Header';
 import { useSocket } from '../../context/SocketProvider';
 
 const DemoPage = () => {

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { HOME_ROUTE, DEMO_ROUTE } from '../Router';
 
-const NavBar = () => {
+const Header = () => {
   return (
     <div>
       <nav>
@@ -13,4 +13,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Header;
