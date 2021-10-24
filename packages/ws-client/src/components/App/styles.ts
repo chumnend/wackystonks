@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-    html, body {
+    html, body, #root {
         margin: 0;
         padding: 0;
-        font-size: 1rem;
-        min-height: 100%;
         position: relative;
+        height: 100%;
+        font-size: 1rem;
         background-color: #fff;
         color: #000;
     }
