@@ -3,13 +3,11 @@ import React, { createContext, useCallback, useContext, useState } from 'react';
 interface IAuthContext {
   token: string;
   isAuth: boolean;
-
   setToken(token: string): void;
   clearToken(): void;
 }
 
-export const AuthContext = createContext<IAuthContext | undefined>(undefined);
-
+export const AuthContext = createContext<IAuthContext | null>(null);
 export const useAuth = () => useContext(AuthContext);
 
 interface Props {
@@ -37,7 +35,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const values = {
     ...state,
-    isAuth: state.token.length > 0,
+    isAuth: !!state.token,
 
     setToken,
     clearToken,
