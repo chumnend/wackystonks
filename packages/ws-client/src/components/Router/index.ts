@@ -1,1 +1,4 @@
+import { HOME_ROUTE, REGISTER_ROUTE, LOGIN_ROUTE, LOGOUT_ROUTE, DEMO_ROUTE } from './Router';
+
+export { HOME_ROUTE, REGISTER_ROUTE, LOGIN_ROUTE, LOGOUT_ROUTE, DEMO_ROUTE };
 export { default } from './Router';

@@ -1,28 +1,47 @@
-import { gql, useQuery } from '@apollo/client';
+import { useState } from 'react';
 
-import Loader from '../../components/Loader';
-
-const GET_ME_QUERY = gql`
-  query getMe {
-    me {
-      id
-      email
-      username
-    }
-  }
-`;
+import * as Styled from './styles';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Modal from '../../components/Modal';
 
 const HomePage = () => {
-  const { loading, error, data } = useQuery(GET_ME_QUERY);
+  const [showInstructions, setInstructions] = useState(false);
 
-  if (loading) return <Loader />;
-  if (error) return <p>Error</p>;
+  const handleStartSim = () => {
+    console.log('starting...');
+  };
 
-  const { username } = data.me;
+  const handleJoinSim = () => {
+    console.log('joining..');
+  };
+
   return (
-    <div>
-      <h1>Hello, {username ?? 'Stranger'}</h1>
-    </div>
+    <Styled.HomePage>
+      <Header />
+      <Styled.Content>
+        <Styled.Banner>
+          <h1>WackyStonks</h1>
+          <h3>A Stock Simulator Game</h3>
+        </Styled.Banner>
+        <Styled.MainButtons>
+          <Styled.MainButton onClick={handleStartSim}>Start Sim</Styled.MainButton>
+          <Styled.MainButton onClick={handleJoinSim}>Join Sim</Styled.MainButton>
+        </Styled.MainButtons>
+        <Styled.ExtraButtons>
+          <Styled.ExtraButton onClick={() => setInstructions(true)}>How To Play</Styled.ExtraButton>
+        </Styled.ExtraButtons>
+      </Styled.Content>
+      <Modal show={showInstructions} close={() => setInstructions(false)}>
+        <Styled.InstructionsHeader>
+          <h2>Instructions</h2>
+        </Styled.InstructionsHeader>
+        <Styled.InstructionsList>
+          <li>TODO</li>
+        </Styled.InstructionsList>
+      </Modal>
+      <Footer />
+    </Styled.HomePage>
   );
 };
 

@@ -3,6 +3,7 @@ import React from 'react';
 import GQLProvider from '../GQLProvider';
 import AuthProvider from '../AuthProvider';
 import SocketProvider from '../SocketProvider';
+
 interface Props {
   children: React.ReactNode;
 }

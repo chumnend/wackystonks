@@ -1,11 +1,12 @@
+import { GlobalStyle } from './styles';
 import Router from '../Router';
-import AppProviders from '../../providers/AppProviders';
 
 const App = () => {
   return (
-    <AppProviders>
+    <>
+      <GlobalStyle />
       <Router />
-    </AppProviders>
+    </>
   );
 };
 
