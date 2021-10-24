@@ -1,8 +1,13 @@
+import { useState } from 'react';
+
 import * as Styled from './styles';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import Modal from '../../components/Modal';
 
 const HomePage = () => {
+  const [showInstructions, setInstructions] = useState(false);
+
   const handleStartSim = () => {
     console.log('starting...');
   };
@@ -24,9 +29,17 @@ const HomePage = () => {
           <Styled.MainButton onClick={handleJoinSim}>Join Sim</Styled.MainButton>
         </Styled.MainButtons>
         <Styled.ExtraButtons>
-          <Styled.ExtraButton>How To Play</Styled.ExtraButton>
+          <Styled.ExtraButton onClick={() => setInstructions(true)}>How To Play</Styled.ExtraButton>
         </Styled.ExtraButtons>
       </Styled.Content>
+      <Modal show={showInstructions} close={() => setInstructions(false)}>
+        <Styled.InstructionsHeader>
+          <h2>Instructions</h2>
+        </Styled.InstructionsHeader>
+        <Styled.InstructionsList>
+          <li>TODO</li>
+        </Styled.InstructionsList>
+      </Modal>
       <Footer />
     </Styled.HomePage>
   );
