@@ -1,11 +1,20 @@
+import * as Styled from './styles';
+
 const Footer = () => {
   return (
-    <div>
-      <p>
-        By <b>Nicholas Chumney</b>
-      </p>
-      <a href="#">View on GitHub</a>
-    </div>
+    <Styled.Footer>
+      <Styled.Side />
+      <Styled.Tag>
+        <span>
+          WackyStonks by{' '}
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            Nicholas Chumney
+          </a>
+        </span>
+        <a href="#">View on GitHub</a>
+      </Styled.Tag>
+      <Styled.Side />
+    </Styled.Footer>
   );
 };
 
