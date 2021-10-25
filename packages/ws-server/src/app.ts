@@ -1,14 +1,9 @@
-import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
-import { createServer } from 'http';
-import { Server, Socket } from 'socket.io';
-import { Game } from 'ws-assets';
 
-import config, { sequelize } from './config';
-import schema from './graphql';
-import models from './models';
-import { createUsers } from './models/seeds/users';
+import { initializeSequelize } from './sequelize';
+import { initializeGQL } from './graphql';
+import { createSocketServer } from './socket';
 
 // initialize app
 const app = express();
@@ -22,82 +17,12 @@ app.get('/status', (req, res) => {
 });
 
 // initialize sequelize
-(async () => {
-  await sequelize.sync({
-    force: config.eraseDatabaseOnSync,
-    alter: config.alterDatabaseOnSync,
-  });
-
-  if (config.eraseDatabaseOnSync) {
-    await createUsers();
-  }
-})();
+(async () => await initializeSequelize())();
 
 // initialize apollo server
-(async () => {
-  const server = new ApolloServer({
-    schema,
-    context: async () => ({
-      models,
-      me: await models.User.findByLogin('chumnend'),
-      secret: config.secret,
-    }),
-    formatError: (error) => {
-      const message = error.message.replace('SequelizeValidationError: ', '').replace('Validation error: ', '');
-      return {
-        ...error,
-        message,
-      };
-    },
-  });
-  await server.start();
-  server.applyMiddleware({ app, path: '/graphql' });
-})();
+(async () => await initializeGQL(app))();
 
-// setup socketio
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-  },
-});
-
-interface GameDetails {
-  [key: string]: Game;
-}
-
-const gameDetails: GameDetails = {};
-
-io.on('connection', (socket: Socket) => {
-  console.log('client connected');
-
-  socket.on('create-game', (recv) => {
-    console.log('creating game...');
-    const { name } = recv;
-
-    const game = new Game(name);
-    game.subscribe(() => {
-      console.log('sending update');
-      socket.emit('update', {
-        values: game.ticker.getStonks(),
-      });
-    });
-
-    game.start();
-    gameDetails[name] = game;
-  });
-
-  socket.on('delete-game', (recv) => {
-    console.log('deleting game...');
-    const { name } = recv;
-
-    gameDetails[name].stop();
-    delete gameDetails[name];
-  });
-
-  socket.on('disconnect', () => {
-    console.log('client disconnected');
-  });
-});
+// setup socket.io
+const server = createSocketServer(app);
 
 export default server;
