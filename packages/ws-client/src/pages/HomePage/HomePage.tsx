@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import * as Styled from './styles';
+import BannerImage from './WackyStonks.png';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Modal from '../../components/Modal';
@@ -21,12 +22,12 @@ const HomePage = () => {
       <Header />
       <Styled.Content>
         <Styled.Banner>
-          <h1>WackyStonks</h1>
+          <img src={BannerImage} alt="Wacky Stonks banner" />
           <h3>A Stock Simulator Game</h3>
         </Styled.Banner>
         <Styled.MainButtons>
-          <Styled.MainButton onClick={handleStartSim}>Start Sim</Styled.MainButton>
-          <Styled.MainButton onClick={handleJoinSim}>Join Sim</Styled.MainButton>
+          <Styled.MainButton onClick={handleStartSim}>Start</Styled.MainButton>
+          <Styled.MainButton onClick={handleJoinSim}>Join</Styled.MainButton>
         </Styled.MainButtons>
         <Styled.ExtraButtons>
           <Styled.ExtraButton onClick={() => setInstructions(true)}>How To Play</Styled.ExtraButton>

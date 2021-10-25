@@ -16,11 +16,22 @@ export const Content = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   flex: 1;
 `;
 
-export const Banner = styled.div``;
+export const Banner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  h3 {
+    position: absolute;
+    top: 130px;
+  }
+`;
 
 export const MainButtons = styled.div`
   display: flex;
