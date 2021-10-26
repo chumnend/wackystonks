@@ -5,6 +5,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
   uri: process.env.REACT_APP_GQL_SERVER_URI || 'http://localhost:8000/graphql',
 });
+
 interface Props {
   children: React.ReactNode;
 }

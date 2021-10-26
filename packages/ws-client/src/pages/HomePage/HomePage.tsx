@@ -1,33 +1,33 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router';
 
 import * as Styled from './styles';
 import BannerImage from './WackyStonks.png';
-import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Modal from '../../components/Modal';
 
 const HomePage = () => {
   const [showInstructions, setInstructions] = useState(false);
+  const history = useHistory();
 
-  const handleStartSim = () => {
-    console.log('starting...');
+  const handleStart = () => {
+    history.push('/1234');
   };
 
-  const handleJoinSim = () => {
-    console.log('joining..');
+  const handleJoin = () => {
+    history.push('/1234');
   };
 
   return (
     <Styled.HomePage>
-      <Header />
       <Styled.Content>
         <Styled.Banner>
           <img src={BannerImage} alt="Wacky Stonks banner" />
           <h3>A Stock Simulator Game</h3>
         </Styled.Banner>
         <Styled.MainButtons>
-          <Styled.MainButton onClick={handleStartSim}>Start</Styled.MainButton>
-          <Styled.MainButton onClick={handleJoinSim}>Join</Styled.MainButton>
+          <Styled.MainButton onClick={handleStart}>Start</Styled.MainButton>
+          <Styled.MainButton onClick={handleJoin}>Join</Styled.MainButton>
         </Styled.MainButtons>
         <Styled.ExtraButtons>
           <Styled.ExtraButton onClick={() => setInstructions(true)}>How To Play</Styled.ExtraButton>

@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { StonkProps } from 'ws-assets';
 
 import NavBar from '../../components/Header';
+import { SocketEvents } from '../../constants';
 import { useSocket } from '../../context/SocketProvider';
 
 const DemoPage = () => {
@@ -10,20 +11,18 @@ const DemoPage = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    console.log('creating game...');
-    socket.emit('create-game', {
+    socket.emit(SocketEvents.CREATE_GAME, {
       name: 'Demo Ticker',
     });
 
-    socket.on('update', (recv) => {
+    socket.on(SocketEvents.UPDATE, (recv) => {
       const { values } = recv;
       console.log('update received', values);
       setStonks(values);
     });
 
     return () => {
-      console.log('deleting game...');
-      socket.emit('delete-game', {
+      socket.emit(SocketEvents.DELETE_GAME, {
         name: 'Demo Ticker',
       });
       socket.off('update');
@@ -31,8 +30,6 @@ const DemoPage = () => {
   }, []);
 
   const renderStonks = stonks.map((stonk: StonkProps, idx) => {
-    console.log(stonk);
-
     const data = stonk.previousPrices.map((price) => ({
       time: new Date(Date.now()).toUTCString(),
       pv: price,
