@@ -3,7 +3,7 @@ import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketServer, Socket } from 'socket.io';
 import { Game } from 'ws-assets';
 
-import * as SOCKET from './constants';
+import * as SocketEvent from './constants';
 
 const createSocketServer = (app: Application): HTTPServer => {
   const server = createServer(app);
@@ -19,15 +19,15 @@ const createSocketServer = (app: Application): HTTPServer => {
 
   const gameDetails: GameDetails = {};
 
-  io.on(SOCKET.ON_CONNECTION, (socket: Socket) => {
+  io.on(SocketEvent.CONNECTION, (socket: Socket) => {
     console.log('client connected');
 
-    socket.on(SOCKET.ON_CREATE_GAME, (recv) => {
+    socket.on(SocketEvent.CREATE_GAME, (recv) => {
       const { name } = recv;
 
       const game = new Game(name);
       game.subscribe(() => {
-        socket.emit(SOCKET.EMIT_UPDATE, {
+        socket.emit(SocketEvent.UPDATE, {
           values: game.ticker.getStonks(),
         });
       });
@@ -36,14 +36,14 @@ const createSocketServer = (app: Application): HTTPServer => {
       gameDetails[name] = game;
     });
 
-    socket.on(SOCKET.ON_DELETE_GAME, (recv) => {
+    socket.on(SocketEvent.DELETE_GAME, (recv) => {
       const { name } = recv;
 
       gameDetails[name].stop();
       delete gameDetails[name];
     });
 
-    socket.on(SOCKET.ON_DISCONNECT, () => {
+    socket.on(SocketEvent.DISCONNECT, () => {
       console.log('client disconnected');
     });
   });

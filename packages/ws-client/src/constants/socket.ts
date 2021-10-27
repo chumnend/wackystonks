@@ -1,6 +1,6 @@
-// emitters
-export const CREATE_GAME = 'create-game';
-export const DELETE_GAME = 'delete-game';
-
-// listeners
+// listener events
 export const UPDATE = 'update';
+
+// emitter events
+export const CREATE_GAME = 'create-create';
+export const DELETE_GAME = 'delete-game';
