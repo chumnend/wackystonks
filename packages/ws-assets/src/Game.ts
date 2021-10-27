@@ -1,4 +1,5 @@
 import { Ticker, Timer } from './';
+import Player from './Player';
 import round from './utils/round';
 
 export interface GameProps {
@@ -8,6 +9,8 @@ export interface GameProps {
   ticker: Ticker;
   /** A timer used to simulate stonks as game runs */
   timer: Timer;
+  /** An array of players in a game */
+  players: Player[];
 }
 
 export interface GameMethods {
@@ -26,6 +29,7 @@ class Game implements GameProps, GameMethods {
   private _ticker: Ticker;
   private _timer: Timer;
   private _handlers: (() => void)[];
+  private _players: Player[];
 
   static DEFAULT_TICKER_SIMULATION_INTERVAL = 3000; // Default timer interval (ms)
   static DEFAULT_TICKER_STONKS_AMOUNT = 5;
@@ -40,6 +44,7 @@ class Game implements GameProps, GameMethods {
     this.randomizeStonks(numberOfStonks);
     this._timer = new Timer(this.tick.bind(this), delay, true);
     this._handlers = [];
+    this._players = [];
   }
 
   get id(): string {
@@ -52,6 +57,10 @@ class Game implements GameProps, GameMethods {
 
   get timer(): Timer {
     return this._timer;
+  }
+
+  get players(): Player[] {
+    return [...this._players];
   }
 
   start(): void {
@@ -74,11 +83,33 @@ class Game implements GameProps, GameMethods {
     });
   }
 
+  addPlayer(id: string, name: string): boolean {
+    const exists = this.checkForPlayer(id);
+    if (exists) {
+      return false;
+    }
+
+    const newPlayer = new Player(id, name);
+    this._players.push(newPlayer);
+    return true;
+  }
+
+  removePlayer(id: string): boolean {
+    const exists = this.checkForPlayer(id);
+    if (!exists) {
+      return false;
+    }
+
+    this._players = this._players.filter((player) => player.id !== id);
+    return true;
+  }
+
   /**
    * Populates the ticker with random stonks
    * @param numberOfStonks {Number} Number of stonks to add to ticker. Defaults to 5.
    */
-  private randomizeStonks(numberOfStonks = Game.DEFAULT_TICKER_STONKS_AMOUNT): void {
+  /* istanbul ignore next */
+  private randomizeStonks(numberOfStonks: number = Game.DEFAULT_TICKER_STONKS_AMOUNT): void {
     for (let i = 0; i < numberOfStonks; i++) {
       const name = `Test ${i + 1}`;
       const symbol = `TST${i + 1}`;
@@ -95,6 +126,14 @@ class Game implements GameProps, GameMethods {
     this._handlers.forEach((item) => {
       item();
     });
+  }
+
+  /**
+   * Checks if player already exists
+   */
+  private checkForPlayer(id: string): boolean {
+    const found = this._players.find((p) => p.id === id);
+    return found ? true : false;
   }
 }
 

@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.6.0
+
+### Minor Changes
+
+- 7a9b9e7: added GameManager assets
+
 ## 0.5.0
 
 ### Minor Changes

@@ -12,3 +12,6 @@ export { Player, PlayerProps };
 
 import Game, { GameProps, GameMethods } from './Game';
 export { Game, GameProps, GameMethods };
+
+import GameManager, { GameManagerMethods } from './GameManager';
+export { GameManager, GameManagerMethods };
