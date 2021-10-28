@@ -1,8 +1,8 @@
 import React from 'react';
 
-import GQLProvider from '../GQLProvider';
-import AuthProvider from '../AuthProvider';
-import SocketProvider from '../SocketProvider';
+import GQLProvider from '../../../context/GQLProvider';
+import AuthProvider from '../../../context/AuthProvider';
+import SocketProvider from '../../../context/SocketProvider';
 
 interface Props {
   children: React.ReactNode;

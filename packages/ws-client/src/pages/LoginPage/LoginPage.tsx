@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
-import { HOME_ROUTE } from '../../components/Router';
+import { Routes } from '../../constants';
 import { useAuth } from '../../context/AuthProvider';
 
 export const LOGIN_QUERY = gql`
@@ -28,7 +28,7 @@ const LoginPage = () => {
     onCompleted: (data) => {
       const token = data?.login?.token;
       auth?.setToken(token);
-      history.push(HOME_ROUTE);
+      history.push(Routes.HOME_ROUTE);
     },
   });
 

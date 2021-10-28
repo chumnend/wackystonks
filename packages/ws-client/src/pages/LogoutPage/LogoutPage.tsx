@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { HOME_ROUTE } from '../../components/Router';
+import { Routes } from '../../constants';
 import { useAuth } from '../../context/AuthProvider';
 
 const LogoutPage = () => {
@@ -12,7 +12,7 @@ const LogoutPage = () => {
     authRef.current?.clearToken();
   }, []);
 
-  return <Redirect to={HOME_ROUTE} />;
+  return <Redirect to={Routes.HOME_ROUTE} />;
 };
 
 export default LogoutPage;
