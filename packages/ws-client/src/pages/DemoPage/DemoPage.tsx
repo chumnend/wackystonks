@@ -11,21 +11,22 @@ const DemoPage = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    socket.emit(SocketEvents.CREATE_GAME, {
-      name: 'Demo Ticker',
+    socket.emit(SocketEvents.CREATE_GAME);
+
+    socket.on(SocketEvents.GAME_CREATED, (recv) => {
+      const { id } = recv;
+      window.localStorage.setItem('gameId', id);
     });
 
-    socket.on(SocketEvents.UPDATE, (recv) => {
+    socket.on(SocketEvents.UPDATE_STONKS, (recv) => {
       const { values } = recv;
-      console.log('update received', values);
       setStonks(values);
     });
 
     return () => {
-      socket.emit(SocketEvents.DELETE_GAME, {
-        name: 'Demo Ticker',
-      });
-      socket.off('update');
+      socket.emit(SocketEvents.DELETE_GAME, { id: window.localStorage.getItem('gameId') });
+      socket.off(SocketEvents.GAME_CREATED);
+      socket.off(SocketEvents.UPDATE_STONKS);
     };
   }, []);
 
