@@ -5,13 +5,18 @@ import * as Styled from './styles';
 import BannerImage from './WackyStonks.png';
 import Footer from '../../components/Footer';
 import Modal from '../../components/Modal';
+import { useSocket } from '../../context/SocketProvider';
+import { SocketEvents, Routes } from '../../constants';
 
 const HomePage = () => {
   const [showInstructions, setInstructions] = useState(false);
   const history = useHistory();
+  const socket = useSocket();
 
   const handleStart = () => {
-    history.push('/1234');
+    socket.emit(SocketEvents.CREATE_GAME, {}, (id: string) => {
+      history.push(Routes.WITH_GAME_ROUTE(id));
+    });
   };
 
   const handleJoin = () => {

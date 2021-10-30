@@ -11,11 +11,8 @@ const DemoPage = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    socket.emit(SocketEvents.CREATE_GAME);
-
-    socket.on(SocketEvents.GAME_CREATED, (recv) => {
-      const { id } = recv;
-      window.localStorage.setItem('gameId', id);
+    socket.emit(SocketEvents.CREATE_GAME, {}, (id: string) => {
+      window.localStorage.setItem('socketId', id);
     });
 
     socket.on(SocketEvents.UPDATE_STONKS, (recv) => {
@@ -24,8 +21,7 @@ const DemoPage = () => {
     });
 
     return () => {
-      socket.emit(SocketEvents.DELETE_GAME, { id: window.localStorage.getItem('gameId') });
-      socket.off(SocketEvents.GAME_CREATED);
+      socket.emit(SocketEvents.DELETE_GAME, { id: window.localStorage.getItem('socketId') });
       socket.off(SocketEvents.UPDATE_STONKS);
     };
   }, []);

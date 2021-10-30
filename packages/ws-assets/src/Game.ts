@@ -5,12 +5,14 @@ import round from './utils/round';
 export interface GameProps {
   /** An indentifier used to represent a game */
   id: string;
+  /** Current status of the game */
+  status: string;
+  /** An array of players in a game */
+  players: Player[];
   /** A ticker object used to manage stonks in a game */
   ticker: Ticker;
   /** A timer used to simulate stonks as game runs */
-  timer: Timer;
-  /** An array of players in a game */
-  players: Player[];
+  simulationTimer: Timer;
 }
 
 export interface GameMethods {
@@ -26,13 +28,16 @@ export interface GameMethods {
 
 class Game implements GameProps, GameMethods {
   private _id: string;
-  private _ticker: Ticker;
-  private _timer: Timer;
-  private _handlers: (() => void)[];
+  private _status: string;
   private _players: Player[];
+  private _ticker: Ticker;
+  private _simulationTimer: Timer;
+  private _handlers: (() => void)[];
 
-  static DEFAULT_TICKER_SIMULATION_INTERVAL = 3000; // Default timer interval (ms)
+  static DEFAULT_TICKER_SIMULATION_INTERVAL = 3000; // Default simualtion timer interval (ms)
   static DEFAULT_TICKER_STONKS_AMOUNT = 5;
+
+  static STATUS_PARTY = 'party';
 
   constructor(
     id: string,
@@ -40,9 +45,10 @@ class Game implements GameProps, GameMethods {
     numberOfStonks = Game.DEFAULT_TICKER_STONKS_AMOUNT,
   ) {
     this._id = id;
+    this._status = Game.STATUS_PARTY;
     this._ticker = new Ticker(id);
     this.randomizeStonks(numberOfStonks);
-    this._timer = new Timer(this.tick.bind(this), delay, true);
+    this._simulationTimer = new Timer(this.tick.bind(this), delay, true);
     this._handlers = [];
     this._players = [];
   }
@@ -51,24 +57,28 @@ class Game implements GameProps, GameMethods {
     return this._id;
   }
 
-  get ticker(): Ticker {
-    return this._ticker;
-  }
-
-  get timer(): Timer {
-    return this._timer;
+  get status(): string {
+    return this._status;
   }
 
   get players(): Player[] {
     return [...this._players];
   }
 
+  get ticker(): Ticker {
+    return this._ticker;
+  }
+
+  get simulationTimer(): Timer {
+    return this._simulationTimer;
+  }
+
   start(): void {
-    this._timer.start();
+    this._simulationTimer.start();
   }
 
   stop(): void {
-    this._timer.stop();
+    this._simulationTimer.stop();
   }
 
   subscribe(fn: () => void): void {

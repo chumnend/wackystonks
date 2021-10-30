@@ -9,23 +9,25 @@ describe('Game', function () {
     const game = new Game('TEST');
 
     expect(game.id).to.equal('TEST');
+    expect(game.status).to.equal(Game.STATUS_PARTY);
+    expect(game.players).to.deep.equal([]);
     expect(game.ticker).to.be.instanceOf(Ticker);
     expect(game.ticker.getStonks()).to.have.length(5);
-    expect(game.timer).to.be.instanceOf(Timer);
-    expect(game.players).to.deep.equal([]);
+    expect(game.simulationTimer).to.be.instanceOf(Timer);
   });
 
   it('expects to create new game with no stonks', function () {
     const game = new Game('TEST', Game.DEFAULT_TICKER_SIMULATION_INTERVAL, 0);
 
     expect(game.id).to.equal('TEST');
+    expect(game.status).to.equal(Game.STATUS_PARTY);
+    expect(game.players).to.deep.equal([]);
     expect(game.ticker).to.be.instanceOf(Ticker);
     expect(game.ticker.getStonks()).to.have.length(0);
-    expect(game.timer).to.be.instanceOf(Timer);
-    expect(game.players).to.deep.equal([]);
+    expect(game.simulationTimer).to.be.instanceOf(Timer);
   });
 
-  it('expects to start game and subscribe to game timer', function (done) {
+  it('expects to start game and subscribe to game simulation timer', function (done) {
     this.timeout(1000);
 
     let counter1 = 0;
