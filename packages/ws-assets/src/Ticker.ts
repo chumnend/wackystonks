@@ -69,7 +69,7 @@ class Ticker implements TickerProps, TickerMethods {
 
   /**
    * Get an array representation of all the stonks in this ticker
-   * @returns [Object]
+   * @returns {StonkProps[]}
    */
   public getStonks(): StonkProps[] {
     const stonks = [];

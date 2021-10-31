@@ -39,6 +39,12 @@ class Game implements GameProps, GameMethods {
 
   static STATUS_PARTY = 'party';
 
+  /**
+   * Create a Game instance
+   * @param id {string} Identifier for the game
+   * @param delay  {number} Delay time for simulation timer
+   * @param numberOfStonks {number} Number of stonks to be generated for the game
+   */
   constructor(
     id: string,
     delay = Game.DEFAULT_TICKER_SIMULATION_INTERVAL,
@@ -53,38 +59,72 @@ class Game implements GameProps, GameMethods {
     this._players = [];
   }
 
+  /**
+   * Retrieves game identifier
+   * @returns {string}
+   */
   get id(): string {
     return this._id;
   }
 
+  /**
+   * Retrieves game status
+   * @returns {string}
+   */
   get status(): string {
     return this._status;
   }
 
+  /**
+   * Retrieves array of players
+   * @return {Player[]}
+   */
   get players(): Player[] {
     return [...this._players];
   }
 
+  /**
+   * Retrieves stonk ticker
+   * @return {Ticker}
+   */
   get ticker(): Ticker {
     return this._ticker;
   }
 
+  /**
+   * Retrieves simulation timer
+   * @returns {Timer}
+   */
   get simulationTimer(): Timer {
     return this._simulationTimer;
   }
 
+  /**
+   * Start the simulation timer
+   */
   start(): void {
     this._simulationTimer.start();
   }
 
+  /**
+   * Stop the simulation timer
+   */
   stop(): void {
     this._simulationTimer.stop();
   }
 
+  /**
+   * Set a callback to used called after a cycle of the simulation timer
+   * @param fn {Function}
+   */
   subscribe(fn: () => void): void {
     this._handlers.push(fn);
   }
 
+  /**
+   * Remove a callback from being called after a cycle of the simulation timer
+   * @param fn {Function}
+   */
   unsubscribe(fn: () => void): void {
     this._handlers = this._handlers.filter((item) => {
       if (item !== fn) {
@@ -93,6 +133,12 @@ class Game implements GameProps, GameMethods {
     });
   }
 
+  /**
+   * Add player a player to game
+   * @param id {string} Player identifier
+   * @param name {string} Name of the player
+   * @returns {boolean}
+   */
   addPlayer(id: string, name: string): boolean {
     const exists = this.checkForPlayer(id);
     if (exists) {
@@ -104,6 +150,11 @@ class Game implements GameProps, GameMethods {
     return true;
   }
 
+  /**
+   * Remove a player from game
+   * @param id {string} Identifier of the player to remove
+   * @returns {boolean}
+   */
   removePlayer(id: string): boolean {
     const exists = this.checkForPlayer(id);
     if (!exists) {

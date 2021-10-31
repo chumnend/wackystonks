@@ -17,6 +17,10 @@ class GameManager implements GameManagerMethods {
     this._gamesList = [];
   }
 
+  /**
+   * Create new game
+   * @returns {Game}
+   */
   createGame(): Game {
     let id = generateCode();
 
@@ -30,6 +34,11 @@ class GameManager implements GameManagerMethods {
     return game;
   }
 
+  /**
+   * Search game list for a game by id
+   * @param id {string} Identifier of game to find
+   * @returns {Game | null}
+   */
   findGame(id: string): Game | null {
     const game = this._gamesList.find((g) => g.id === id);
     if (!game) {
@@ -38,6 +47,11 @@ class GameManager implements GameManagerMethods {
     return game;
   }
 
+  /**
+   * Remove game from games list by id
+   * @param id {string} Identifer of game to remove
+   * @returns {boolean}
+   */
   deleteGame(id: string): boolean {
     const game = this.getGameById(id);
     if (!game) {
@@ -49,7 +63,7 @@ class GameManager implements GameManagerMethods {
   }
 
   /**
-   * Retireves a game instance from games list by it's id
+   * Retrieves a game instance from games list by it's id
    */
   private getGameById(id: string): Game {
     const foundGame = this._gamesList.find((g) => g.id === id);
