@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { SocketEvents } from '../../constants';
+import { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { Game, GameState } from 'ws-assets';
 
+import * as Styled from './styles';
+import GameLobby from './GameLobby';
+import Footer from '../../components/Footer';
+import { Routes, SocketEvents } from '../../constants';
 import { useSocket } from '../../context/SocketProvider';
 
 interface ParamTypes {
@@ -9,13 +13,20 @@ interface ParamTypes {
 }
 
 const GamePage = () => {
+  const [gameState, setGameState] = useState<GameState>();
+  const history = useHistory();
   const params = useParams<ParamTypes>();
   const socket = useSocket();
 
   useEffect(() => {
     const { id } = params;
-    socket.emit(SocketEvents.FIND_GAME, { id }, () => {
-      console.log('Hello World');
+    socket.emit(SocketEvents.FIND_GAME, { id }, (game: GameState) => {
+      if (game) {
+        setGameState(game);
+      } else {
+        // TODO: Handle faliure to find game better
+        history.push(Routes.HOME_ROUTE);
+      }
     });
 
     return () => {
@@ -23,10 +34,20 @@ const GamePage = () => {
     };
   }, []);
 
+  let content;
+  switch (gameState?.status) {
+    case Game.STATUS_PARTY:
+      content = <GameLobby gameState={gameState} />;
+      break;
+    default:
+      content = <p>Something went wrong</p>;
+  }
+
   return (
-    <div>
-      <h1>Game Page</h1>
-    </div>
+    <Styled.GamePage>
+      <Styled.Content>{content}</Styled.Content>
+      <Footer />
+    </Styled.GamePage>
   );
 };
 

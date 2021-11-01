@@ -1,7 +1,7 @@
 import Game from './Game';
 import generateCode from './utils/generateCode';
 
-export interface GameManagerMethods {
+interface GameManagerMethods {
   /** Create a Game instance and store it in with GameManager instance */
   createGame: () => Game;
   /** Find a Game instance with the GameManager instance */

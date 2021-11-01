@@ -10,7 +10,7 @@ export const HomePage = styled.div`
 `;
 
 export const Content = styled.main`
-  width: min(24rem, 95vw);
+  width: min(24em, 95vw);
   margin: 0 auto;
   display: flex;
   flex-direction: column;

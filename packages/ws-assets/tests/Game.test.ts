@@ -73,4 +73,12 @@ describe('Game', function () {
     const game = new Game('TEST');
     expect(game.removePlayer('1234')).to.be.false;
   });
+
+  it('expects to return current game state', function () {
+    const game = new Game('TEST');
+    const obj = game.getGameState();
+    expect(game.id).to.equal(obj.id);
+    expect(game.status).to.equal(obj.status);
+    expect(game.players).to.deep.equal(obj.players);
+  });
 });

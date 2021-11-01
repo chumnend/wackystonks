@@ -1,7 +1,8 @@
 export interface StonkPortfolio {
   [key: string]: number;
 }
-export interface PlayerProps {
+
+interface PlayerProps {
   /** An identifier used to represent a player */
   id: string;
   /** Name of a player */
@@ -10,14 +11,14 @@ export interface PlayerProps {
   portfolio: StonkPortfolio;
 }
 
-export interface PlayerMethods {
+interface PlayerMethods {
   /** Add stonks to a palyer's portfolio */
   addStonkToPortfolio(symbol: string, amount: number): boolean;
   /** Reomve stonks from a player's portfolio */
   removeStonkToPortfolio(symbol: string, amount: number): boolean;
 }
 
-class Player implements PlayerProps {
+class Player implements PlayerProps, PlayerMethods {
   private _id: string;
   private _name: string;
   private _portfolio: StonkPortfolio;

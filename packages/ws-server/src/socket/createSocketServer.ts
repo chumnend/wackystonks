@@ -48,7 +48,7 @@ const createSocketServer = (app: Application): HTTPServer => {
       }
 
       const game = wackyStonks.findGame(id);
-      cb(game.id);
+      cb(game?.getGameState());
     });
 
     socket.on(SocketEvents.DELETE_GAME, (recv) => {

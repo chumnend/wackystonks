@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { StonkProps } from 'ws-assets';
+import { StonkInfo } from 'ws-assets';
 
 import NavBar from '../../components/Header';
 import { SocketEvents } from '../../constants';
@@ -26,7 +26,7 @@ const DemoPage = () => {
     };
   }, []);
 
-  const renderStonks = stonks.map((stonk: StonkProps, idx) => {
+  const renderStonks = stonks.map((stonk: StonkInfo, idx) => {
     const data = stonk.previousPrices.map((price) => ({
       time: new Date(Date.now()).toUTCString(),
       pv: price,

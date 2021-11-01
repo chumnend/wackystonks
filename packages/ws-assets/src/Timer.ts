@@ -1,4 +1,4 @@
-export interface TimerMethods {
+interface TimerMethods {
   /** Start or resumes a timer */
   start(): boolean;
   /** Stops the timer */
@@ -6,6 +6,7 @@ export interface TimerMethods {
   /** Resets the timer to the inital delay time */
   reset(): boolean;
 }
+
 class Timer implements TimerMethods {
   private id: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout>;
   private callback: () => void;

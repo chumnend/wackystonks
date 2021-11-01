@@ -2,7 +2,16 @@ import { Ticker, Timer } from './';
 import Player from './Player';
 import round from './utils/round';
 
-export interface GameProps {
+export interface GameState {
+  /** An indentifier used to represent a game */
+  id: string;
+  /** Current status of the game */
+  status: string;
+  /** An array of players in a game */
+  players: Player[];
+}
+
+interface GameProps {
   /** An indentifier used to represent a game */
   id: string;
   /** Current status of the game */
@@ -15,15 +24,17 @@ export interface GameProps {
   simulationTimer: Timer;
 }
 
-export interface GameMethods {
+interface GameMethods {
   /** Starts tne stonk ticker simulation */
   start: () => void;
   /** Stops the stonk tikcer simulation */
   stop: () => void;
   /** Adds function handler that will be called every ticker interval */
   subscribe: (fn: () => void) => void;
-  /** Removes function handler that will be called every ticker interval*/
+  /** Removes function handler that will be called every ticker interval */
   unsubscribe: (fn: () => void) => void;
+  /** Returns an object detailing current game */
+  getGameState: () => GameState;
 }
 
 class Game implements GameProps, GameMethods {
@@ -163,6 +174,18 @@ class Game implements GameProps, GameMethods {
 
     this._players = this._players.filter((player) => player.id !== id);
     return true;
+  }
+
+  /**
+   * Returns current game state
+   * @returns {GameState}
+   */
+  getGameState(): GameState {
+    return {
+      id: this.id,
+      status: this.status,
+      players: this.players,
+    };
   }
 
   /**

@@ -1,17 +1,17 @@
-import Stonk, { StonkProps, StonkMethods } from './Stonk';
-export { Stonk, StonkProps, StonkMethods };
+import Stonk, { StonkInfo } from './Stonk';
+export { Stonk, StonkInfo };
 
-import Ticker, { TickerProps, TickerMethods } from './Ticker';
-export { Ticker, TickerProps, TickerMethods };
+import Ticker from './Ticker';
+export { Ticker };
 
-import Timer, { TimerMethods } from './Timer';
-export { Timer, TimerMethods };
+import Timer from './Timer';
+export { Timer };
 
-import Player, { PlayerProps } from './Player';
-export { Player, PlayerProps };
+import Player from './Player';
+export { Player };
 
-import Game, { GameProps, GameMethods } from './Game';
-export { Game, GameProps, GameMethods };
+import Game, { GameState } from './Game';
+export { Game, GameState };
 
-import GameManager, { GameManagerMethods } from './GameManager';
-export { GameManager, GameManagerMethods };
+import GameManager from './GameManager';
+export { GameManager };
