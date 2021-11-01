@@ -8,12 +8,8 @@ interface Props {
 
 const GameLobby = ({ gameState }: Props) => {
   const handleCopyLink = () => {
-    const el = document.createElement('textarea');
-    el.value = process.env.REACT_APP_CLIENT_URI + '/' + gameState.id;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+    const inviteUrl = process.env.REACT_APP_CLIENT_URI + '/' + gameState.id;
+    navigator.clipboard.writeText(inviteUrl);
   };
 
   const handleStartGame = () => {
