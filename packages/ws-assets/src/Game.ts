@@ -1,5 +1,5 @@
 import { Ticker, Timer } from './';
-import Player from './Player';
+import Player, { PlayerInfo } from './Player';
 import round from './utils/round';
 
 export interface GameState {
@@ -8,7 +8,7 @@ export interface GameState {
   /** Current status of the game */
   status: string;
   /** An array of players in a game */
-  players: Player[];
+  players: PlayerInfo[];
 }
 
 interface GameProps {
@@ -35,6 +35,10 @@ interface GameMethods {
   unsubscribe: (fn: () => void) => void;
   /** Returns an object detailing current game */
   getGameState: () => GameState;
+  /** Add player to game */
+  addPlayer(id: string, name: string): boolean;
+  /** Remove player from game */
+  removePlayer(id: string): boolean;
 }
 
 class Game implements GameProps, GameMethods {
@@ -184,7 +188,7 @@ class Game implements GameProps, GameMethods {
     return {
       id: this.id,
       status: this.status,
-      players: this.players,
+      players: this.players.map((p) => p.getPlayerInfo()),
     };
   }
 

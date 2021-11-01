@@ -7,8 +7,8 @@ export { Ticker };
 import Timer from './Timer';
 export { Timer };
 
-import Player from './Player';
-export { Player };
+import Player, { PlayerInfo, StonkPortfolio } from './Player';
+export { Player, PlayerInfo, StonkPortfolio };
 
 import Game, { GameState } from './Game';
 export { Game, GameState };

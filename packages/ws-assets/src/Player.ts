@@ -1,3 +1,14 @@
+import deepClone from './utils/deepClone';
+
+export interface PlayerInfo {
+  /** An identifier used to represent a player */
+  id: string;
+  /** Name of a player */
+  name: string;
+  /** Details of a player's stonk portfolio */
+  portfolio: StonkPortfolio;
+}
+
 export interface StonkPortfolio {
   [key: string]: number;
 }
@@ -12,10 +23,12 @@ interface PlayerProps {
 }
 
 interface PlayerMethods {
-  /** Add stonks to a palyer's portfolio */
+  /** Add stonks to a player's portfolio */
   addStonkToPortfolio(symbol: string, amount: number): boolean;
   /** Reomve stonks from a player's portfolio */
   removeStonkToPortfolio(symbol: string, amount: number): boolean;
+  /**Returns Object detailing player information */
+  getPlayerInfo(): PlayerInfo;
 }
 
 class Player implements PlayerProps, PlayerMethods {
@@ -55,7 +68,7 @@ class Player implements PlayerProps, PlayerMethods {
    * @returns {StonkPortfolio}
    */
   get portfolio(): StonkPortfolio {
-    return this._portfolio;
+    return deepClone(this._portfolio);
   }
 
   /**
@@ -66,9 +79,9 @@ class Player implements PlayerProps, PlayerMethods {
    */
   addStonkToPortfolio(symbol: string, amount: number): boolean {
     if (symbol in this.portfolio) {
-      this.portfolio[symbol] += amount;
+      this._portfolio[symbol] += amount;
     } else {
-      this.portfolio[symbol] = amount;
+      this._portfolio[symbol] = amount;
     }
     return true;
   }
@@ -80,12 +93,20 @@ class Player implements PlayerProps, PlayerMethods {
    * @returns {boolean}
    */
   removeStonkToPortfolio(symbol: string, amount: number): boolean {
-    if (!(symbol in this.portfolio)) {
+    if (!(symbol in this._portfolio)) {
       return false;
     }
-    const newAmount = this.portfolio[symbol] - amount;
-    this.portfolio[symbol] = newAmount > 0 ? newAmount : 0;
+    const newAmount = this._portfolio[symbol] - amount;
+    this._portfolio[symbol] = newAmount > 0 ? newAmount : 0;
     return true;
+  }
+
+  getPlayerInfo(): PlayerInfo {
+    return {
+      id: this.id,
+      name: this.name,
+      portfolio: this.portfolio,
+    };
   }
 }
 
