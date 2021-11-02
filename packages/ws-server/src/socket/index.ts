@@ -1,3 +1,3 @@
-import createSocketServer from './createSocketServer';
+import createSocketServer from './socket';
 
 export { createSocketServer };
