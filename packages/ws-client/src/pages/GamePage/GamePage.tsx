@@ -18,26 +18,35 @@ const GamePage = () => {
   const params = useParams<ParamTypes>();
   const socket = useSocket();
 
+  const findGame = (game: GameState) => {
+    if (game) {
+      setGameState(game);
+    } else {
+      // TODO: Handle faliure to find game better
+      history.push(Routes.HOME_ROUTE);
+    }
+  };
+
+  const leaveGame = () => {
+    socket.emit(SocketEvents.LEAVE_GAME, { id: params.id }, () => {
+      history.push(Routes.HOME_ROUTE);
+    });
+  };
+
   useEffect(() => {
-    const { id } = params;
-    socket.emit(SocketEvents.FIND_GAME, { id }, (game: GameState) => {
-      if (game) {
-        setGameState(game);
-      } else {
-        // TODO: Handle faliure to find game better
-        history.push(Routes.HOME_ROUTE);
-      }
+    socket.emit(SocketEvents.FIND_GAME, { id: params.id }, (game: GameState) => {
+      findGame(game);
     });
 
     return () => {
-      socket.emit(SocketEvents.DELETE_GAME, { id: params.id });
+      leaveGame();
     };
   }, []);
 
   let content;
   switch (gameState?.status) {
     case Game.STATUS_PARTY:
-      content = <GameLobby gameState={gameState} />;
+      content = <GameLobby socketId={socket.id} gameState={gameState} leaveGame={leaveGame} />;
       break;
     default:
       content = <p>Something went wrong</p>;

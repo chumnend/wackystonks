@@ -16,8 +16,9 @@ const createSocketServer = (app: Application): HTTPServer => {
   });
 
   io.on(SocketEvents.CONNECTION, (socket: Socket) => {
-    console.log('client connected');
-
+    /**
+     * Called by client when a host creates a new game.
+     */
     socket.on(SocketEvents.CREATE_GAME, (_, cb) => {
       if (!cb) {
         console.log(SocketEvents.CREATE_GAME, 'called without callback');
@@ -25,6 +26,7 @@ const createSocketServer = (app: Application): HTTPServer => {
       }
 
       const game = wackyStonks.createGame();
+      game.addPlayer(socket.id, 'Player' + socket.id.slice(0, 4));
       game.subscribe(() => {
         socket.emit(SocketEvents.UPDATE_STONKS, {
           values: game.ticker.getStonks(),
@@ -34,6 +36,9 @@ const createSocketServer = (app: Application): HTTPServer => {
       cb(game.id);
     });
 
+    /**
+     * Called by client to get the game state of a desired game.
+     */
     socket.on(SocketEvents.FIND_GAME, (recv, cb) => {
       const { id } = recv;
 
@@ -51,6 +56,49 @@ const createSocketServer = (app: Application): HTTPServer => {
       cb(game?.getGameState());
     });
 
+    /**
+     * Called by client when a new player wishes to enter a game lobby.
+     */
+    socket.on(SocketEvents.JOIN_GAME, () => {
+      console.log('NOT YET IMPLMENTED');
+    });
+
+    /**
+     * Called by client when player leaves a game.
+     */
+    socket.on(SocketEvents.LEAVE_GAME, (recv, cb) => {
+      const { id } = recv;
+
+      if (!id) {
+        console.log(SocketEvents.FIND_GAME, 'called without id');
+        return;
+      }
+
+      if (!cb) {
+        console.log(SocketEvents.CREATE_GAME, 'called without callback');
+        return;
+      }
+
+      const game = wackyStonks.findGame(id);
+      if (game) {
+        game.removePlayer(socket.id);
+        if (game.players.length == 0) {
+          wackyStonks.deleteGame(id);
+        }
+      }
+      cb();
+    });
+
+    /**
+     * Called by client when player is changing thier name.
+     */
+    socket.on(SocketEvents.RENAME_PLAYER, () => {
+      console.log('NOT YET IMPLMENTED');
+    });
+
+    /**
+     * Called by client when host wishes to end the game room.
+     */
     socket.on(SocketEvents.DELETE_GAME, (recv) => {
       const { id } = recv;
       if (!id) {
@@ -61,10 +109,6 @@ const createSocketServer = (app: Application): HTTPServer => {
       if (!wackyStonks.deleteGame(id)) {
         console.log('Something went wrong deleting game', id);
       }
-    });
-
-    socket.on(SocketEvents.DISCONNECT, () => {
-      console.log('client disconnected');
     });
   });
 

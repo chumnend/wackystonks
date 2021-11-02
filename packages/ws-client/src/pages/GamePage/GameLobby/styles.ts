@@ -28,6 +28,28 @@ export const PlayerContainer = styled.div`
   padding: 1rem;
 `;
 
+export const PlayerCards = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PlayerCard = styled.div`
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  padding: 1rem;
+`;
+
 export const ChatContainer = styled.div`
   border-radius: 5px;
   border: 1px solid #eaeaea;

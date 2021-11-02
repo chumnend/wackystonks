@@ -20,7 +20,7 @@ const HomePage = () => {
   };
 
   const handleJoin = () => {
-    history.push('/1234');
+    alert('Not Yet Implemented');
   };
 
   return (
