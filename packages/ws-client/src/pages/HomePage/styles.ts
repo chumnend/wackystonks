@@ -91,15 +91,3 @@ export const ExtraButton = styled.button`
     transform: scale(1.1);
   }
 `;
-
-export const InstructionsHeader = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-export const InstructionsList = styled.ul`
-  margin: 0;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: center;
-`;

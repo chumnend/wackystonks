@@ -10,6 +10,8 @@ export const Modal = styled.div<ModalProps>`
   background: rgba(0, 0, 0, 0.15);
   display: ${(props) => (props.show ? 'flex' : 'none')};
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   z-index: 999;
   top: 0;
@@ -17,13 +19,20 @@ export const Modal = styled.div<ModalProps>`
 `;
 
 export const Container = styled.div`
-  padding: 1rem;
-  position: fixed;
-  z-index: 999;
-  background: #fff;
-  width: 60%;
+  width: min(24em, 95vw);
   height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  padding: 1rem;
+  box-shadow: 2px 5px 10px rgb(0, 0, 0, 0.12);
+  border-radius: 5px;
+  background: #fff;
+  animation: popup 0.3s;
+
+  @keyframes popup {
+    0% {
+      transform: scale(0.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 `;

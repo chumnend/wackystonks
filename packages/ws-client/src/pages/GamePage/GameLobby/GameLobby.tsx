@@ -22,6 +22,10 @@ const GameLobby = ({ socketId, gameState, leaveGame }: Props) => {
     leaveGame();
   };
 
+  const isHost = () => {
+    return socketId === gameState.players[0].id;
+  };
+
   const playerList = (
     <Styled.PlayerCards>
       {gameState.players.map((p) => (
@@ -49,7 +53,7 @@ const GameLobby = ({ socketId, gameState, leaveGame }: Props) => {
         </div>
       </Styled.ChatContainer>
       <Styled.ButtonContainer>
-        <Styled.Button disabled onClick={handleStartGame}>
+        <Styled.Button disabled={!isHost} onClick={handleStartGame}>
           Start Game
         </Styled.Button>
         <Styled.Button onClick={handleLeaveGame}>Leave Lobby</Styled.Button>

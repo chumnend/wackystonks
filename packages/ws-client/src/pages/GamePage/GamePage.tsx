@@ -18,28 +18,41 @@ const GamePage = () => {
   const params = useParams<ParamTypes>();
   const socket = useSocket();
 
-  const findGame = (game: GameState) => {
-    if (game) {
+  const joinGame = () => {
+    socket.emit(SocketEvents.JOIN_GAME, { id: params.id }, (game: GameState) => {
+      if (!game) {
+        // TODO: Handle faliure to find game better
+        console.log('unable to find game');
+        history.push(Routes.HOME_ROUTE);
+        return;
+      }
+
       setGameState(game);
-    } else {
-      // TODO: Handle faliure to find game better
-      history.push(Routes.HOME_ROUTE);
-    }
+    });
   };
 
   const leaveGame = () => {
-    socket.emit(SocketEvents.LEAVE_GAME, { id: params.id }, () => {
-      history.push(Routes.HOME_ROUTE);
+    socket.emit(SocketEvents.LEAVE_GAME, { id: params.id });
+    history.push(Routes.HOME_ROUTE);
+  };
+
+  const addSocketListeners = () => {
+    socket.on(SocketEvents.PLAYERS_UPDATE, (game: GameState) => {
+      setGameState(game);
     });
   };
 
+  const removeSocketListeners = () => {
+    socket.off(SocketEvents.PLAYERS_UPDATE);
+  };
+
   useEffect(() => {
-    socket.emit(SocketEvents.FIND_GAME, { id: params.id }, (game: GameState) => {
-      findGame(game);
-    });
+    addSocketListeners();
+    joinGame();
 
     return () => {
       leaveGame();
+      removeSocketListeners();
     };
   }, []);
 

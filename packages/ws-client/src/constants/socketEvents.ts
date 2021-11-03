@@ -1,5 +1,7 @@
 // listeners
-export const UPDATE_STONKS = 'update-stonks';
+export const PLAYERS_UPDATE = 'players-update';
+export const STONKS_UPDATE = 'stonks-update';
+export const GAME_ENDED = 'game-ended';
 
 // emitters
 export const CREATE_GAME = 'create-game';

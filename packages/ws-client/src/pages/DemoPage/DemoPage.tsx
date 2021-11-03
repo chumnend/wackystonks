@@ -13,16 +13,19 @@ const DemoPage = () => {
   useEffect(() => {
     socket.emit(SocketEvents.CREATE_GAME, {}, (id: string) => {
       window.localStorage.setItem('socketId', id);
+      socket.emit(SocketEvents.JOIN_GAME, { id }, () => {
+        setStonks([]);
+      });
     });
 
-    socket.on(SocketEvents.UPDATE_STONKS, (recv) => {
+    socket.on(SocketEvents.STONKS_UPDATE, (recv) => {
       const { values } = recv;
       setStonks(values);
     });
 
     return () => {
-      socket.emit(SocketEvents.DELETE_GAME, { id: window.localStorage.getItem('socketId') });
-      socket.off(SocketEvents.UPDATE_STONKS);
+      socket.emit(SocketEvents.LEAVE_GAME, { id: window.localStorage.getItem('socketId') });
+      socket.off(SocketEvents.STONKS_UPDATE);
     };
   }, []);
 
