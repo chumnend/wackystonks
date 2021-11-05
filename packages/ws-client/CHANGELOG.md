@@ -1,5 +1,16 @@
 # ws-client
 
+## 0.4.0
+
+### Minor Changes
+
+- ff1155a: Setup game lobbies
+
+### Patch Changes
+
+- Updated dependencies [ff1155a]
+  - ws-assets@0.7.0
+
 ## 0.3.3
 
 ### Patch Changes

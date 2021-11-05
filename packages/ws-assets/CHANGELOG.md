@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.7.0
+
+### Minor Changes
+
+- ff1155a: Setup game lobbies
+
 ## 0.6.0
 
 ### Minor Changes
