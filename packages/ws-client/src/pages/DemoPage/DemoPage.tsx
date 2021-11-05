@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { StonkProps } from 'ws-assets';
+import { StonkInfo } from 'ws-assets';
 
 import NavBar from '../../components/Header';
+import { SocketEvents } from '../../constants';
 import { useSocket } from '../../context/SocketProvider';
 
 const DemoPage = () => {
@@ -10,29 +11,25 @@ const DemoPage = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    console.log('creating game...');
-    socket.emit('create-game', {
-      name: 'Demo Ticker',
+    socket.emit(SocketEvents.CREATE_GAME, {}, (id: string) => {
+      window.localStorage.setItem('socketId', id);
+      socket.emit(SocketEvents.JOIN_GAME, { id }, () => {
+        setStonks([]);
+      });
     });
 
-    socket.on('update', (recv) => {
+    socket.on(SocketEvents.STONKS_UPDATE, (recv) => {
       const { values } = recv;
-      console.log('update received', values);
       setStonks(values);
     });
 
     return () => {
-      console.log('deleting game...');
-      socket.emit('delete-game', {
-        name: 'Demo Ticker',
-      });
-      socket.off('update');
+      socket.emit(SocketEvents.LEAVE_GAME, { id: window.localStorage.getItem('socketId') });
+      socket.off(SocketEvents.STONKS_UPDATE);
     };
   }, []);
 
-  const renderStonks = stonks.map((stonk: StonkProps, idx) => {
-    console.log(stonk);
-
+  const renderStonks = stonks.map((stonk: StonkInfo, idx) => {
     const data = stonk.previousPrices.map((price) => ({
       time: new Date(Date.now()).toUTCString(),
       pv: price,

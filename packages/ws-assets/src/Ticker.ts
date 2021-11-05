@@ -1,20 +1,20 @@
-import Stonk, { StonkProps } from './Stonk';
+import Stonk, { StonkInfo } from './Stonk';
 import round from './utils/round';
 
-export interface TickerProps {
+interface TickerProps {
   /** Name of a ticker */
   name: string;
   /** An array of stonks in tikcer */
   stonks: Stonk[];
 }
 
-export interface TickerMethods {
+interface TickerMethods {
   /** Create new sonk and add it to a ticker */
   createStonk(name: string, symbol: string, initialPrice: number): boolean;
   /** Add a stonk to this ticker */
   addStonk(stonk: Stonk): boolean;
   /** Get array of stonk properties in the ticker */
-  getStonks(): StonkProps[];
+  getStonks(): StonkInfo[];
   /** Randomly modifies the values of stonks in the ticker */
   simulate(): void;
 }
@@ -69,9 +69,9 @@ class Ticker implements TickerProps, TickerMethods {
 
   /**
    * Get an array representation of all the stonks in this ticker
-   * @returns [Object]
+   * @returns {StonkProps[]}
    */
-  public getStonks(): StonkProps[] {
+  public getStonks(): StonkInfo[] {
     const stonks = [];
     this.stonks.forEach((stonk) => {
       stonks.push({

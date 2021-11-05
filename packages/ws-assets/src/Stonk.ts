@@ -1,6 +1,6 @@
 import round from './utils/round';
 
-export interface StonkProps {
+export interface StonkInfo {
   /** Name of a stonk */
   name: string;
   /** Symbol representing stonk (Max 4 characters) */
@@ -11,7 +11,18 @@ export interface StonkProps {
   previousPrices: number[];
 }
 
-export interface StonkMethods {
+interface StonkProps {
+  /** Name of a stonk */
+  name: string;
+  /** Symbol representing stonk (Max 4 characters) */
+  symbol: string;
+  /** Current value of a stonk */
+  price: number;
+  /** Log of previous prices (Up to 100 entries) */
+  previousPrices: number[];
+}
+
+interface StonkMethods {
   /** Modify the value of a stonk */
   modifyPrice(value: number): void;
 }

@@ -10,7 +10,7 @@ export const HomePage = styled.div`
 `;
 
 export const Content = styled.main`
-  width: min(24rem, 95vw);
+  width: min(24em, 95vw);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -90,16 +90,4 @@ export const ExtraButton = styled.button`
   &:hover {
     transform: scale(1.1);
   }
-`;
-
-export const InstructionsHeader = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-export const InstructionsList = styled.ul`
-  margin: 0;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: center;
 `;

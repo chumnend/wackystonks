@@ -34,4 +34,12 @@ describe('Player', function () {
     // remove stonk that does not exist
     expect(player.removeStonkToPortfolio('ABC', 10)).to.be.false;
   });
+
+  it('expects to get Object of Player information', function () {
+    const player = new Player('TSTR-123', 'Chester Tester');
+    const playerInfo = player.getPlayerInfo();
+    expect(player.id).to.equal(playerInfo.id);
+    expect(player.name).to.equal(playerInfo.name);
+    expect(player.portfolio).to.deep.equal(playerInfo.portfolio);
+  });
 });

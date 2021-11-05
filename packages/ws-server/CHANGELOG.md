@@ -1,5 +1,12 @@
 # ws-server
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [7a9b9e7]
+  - ws-assets@0.6.0
+
 ## 0.3.0
 
 ### Minor Changes

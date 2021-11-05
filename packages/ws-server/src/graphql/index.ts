@@ -1,3 +1,3 @@
-import schema from './schemasMap';
+import initializeGQL from './initializeGQL';
 
-export default schema;
+export { initializeGQL };
