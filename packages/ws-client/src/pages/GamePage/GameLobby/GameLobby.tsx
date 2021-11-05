@@ -1,16 +1,17 @@
-import { GameState } from 'ws-assets';
+import { PlayerInfo } from 'ws-assets';
 
 import * as Styled from './styles';
 
 interface Props {
   socketId: string;
-  gameState: GameState;
+  code: string;
+  players: PlayerInfo[];
   leaveGame: () => void;
 }
 
-const GameLobby = ({ socketId, gameState, leaveGame }: Props) => {
+const GameLobby = ({ socketId, code, players, leaveGame }: Props) => {
   const handleCopyLink = () => {
-    const inviteUrl = process.env.REACT_APP_CLIENT_URI + '/' + gameState.id;
+    const inviteUrl = process.env.REACT_APP_CLIENT_URI + '/' + code;
     navigator.clipboard.writeText(inviteUrl);
   };
 
@@ -23,12 +24,12 @@ const GameLobby = ({ socketId, gameState, leaveGame }: Props) => {
   };
 
   const isHost = () => {
-    return socketId === gameState.players[0].id;
+    return socketId === players[0].id;
   };
 
   const playerList = (
     <Styled.PlayerCards>
-      {gameState.players.map((p) => (
+      {players.map((p) => (
         <Styled.PlayerCard key={p.id}>
           {p.name} {socketId === p.id && '(You)'}
         </Styled.PlayerCard>
@@ -39,7 +40,7 @@ const GameLobby = ({ socketId, gameState, leaveGame }: Props) => {
   return (
     <Styled.GameLobby>
       <Styled.BannerContainer>
-        <h2>Room Code: {gameState.id}</h2>
+        <h2>Room Code: {code}</h2>
         <Styled.InviteLink onClick={handleCopyLink}>(Click here to copy link)</Styled.InviteLink>
       </Styled.BannerContainer>
       <Styled.PlayerContainer>

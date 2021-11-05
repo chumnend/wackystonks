@@ -69,7 +69,7 @@ const createSocketServer = (app: Application): HTTPServer => {
       if (game) {
         game.addPlayer(socket.id, 'Player-' + socket.id.slice(0, 4));
         socket.join(id);
-        socket.to(id).emit(SocketEvents.PLAYERS_UPDATE, { gameState: game.getGameState() });
+        socket.to(id).emit(SocketEvents.PLAYERS_UPDATE, game.getGameState());
       }
       cb(game?.getGameState());
     });
@@ -89,7 +89,7 @@ const createSocketServer = (app: Application): HTTPServer => {
       if (game) {
         game.removePlayer(socket.id);
         socket.leave(id);
-        socket.to(id).emit(SocketEvents.PLAYERS_UPDATE, { gameState: game.getGameState() });
+        socket.to(id).emit(SocketEvents.PLAYERS_UPDATE, game.getGameState());
 
         if (game.players.length == 0) {
           wackyStonks.deleteGame(id);

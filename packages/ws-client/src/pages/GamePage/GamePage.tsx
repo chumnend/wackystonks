@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Game, GameState } from 'ws-assets';
+import { Game, GameState, PlayerInfo } from 'ws-assets';
 
 import * as Styled from './styles';
 import GameLobby from './GameLobby';
@@ -13,7 +13,8 @@ interface ParamTypes {
 }
 
 const GamePage = () => {
-  const [gameState, setGameState] = useState<GameState>();
+  const [status, setStatus] = useState<string>('');
+  const [players, setPlayers] = useState<PlayerInfo[]>([]);
   const history = useHistory();
   const params = useParams<ParamTypes>();
   const socket = useSocket();
@@ -22,12 +23,11 @@ const GamePage = () => {
     socket.emit(SocketEvents.JOIN_GAME, { id: params.id }, (game: GameState) => {
       if (!game) {
         // TODO: Handle faliure to find game better
-        console.log('unable to find game');
         history.push(Routes.HOME_ROUTE);
         return;
       }
-
-      setGameState(game);
+      setStatus(game.status);
+      setPlayers(game.players);
     });
   };
 
@@ -38,7 +38,7 @@ const GamePage = () => {
 
   const addSocketListeners = () => {
     socket.on(SocketEvents.PLAYERS_UPDATE, (game: GameState) => {
-      setGameState(game);
+      setPlayers(game.players);
     });
   };
 
@@ -47,8 +47,8 @@ const GamePage = () => {
   };
 
   useEffect(() => {
-    addSocketListeners();
     joinGame();
+    addSocketListeners();
 
     return () => {
       leaveGame();
@@ -57,9 +57,9 @@ const GamePage = () => {
   }, []);
 
   let content;
-  switch (gameState?.status) {
+  switch (status) {
     case Game.STATUS_PARTY:
-      content = <GameLobby socketId={socket.id} gameState={gameState} leaveGame={leaveGame} />;
+      content = <GameLobby socketId={socket.id} code={params.id} players={players} leaveGame={leaveGame} />;
       break;
     default:
       content = <p>Something went wrong</p>;
