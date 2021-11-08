@@ -26,6 +26,10 @@ const createSocketServer = (app: Application): HTTPServer => {
       }
 
       const game = wackyStonks.createGame();
+      game.subscribe(() => {
+        // setup subscriber to communicate with room
+        io.in(game.id).emit(SocketEvents.STONKS_UPDATE, game.getGameState());
+      });
       cb(game.id);
     });
 
@@ -104,6 +108,7 @@ const createSocketServer = (app: Application): HTTPServer => {
 
         if (game.players.length == 0) {
           wackyStonks.deleteGame(id);
+          io.in(id).socketsLeave(id); // ensure the room is torn down
         }
       }
     });
