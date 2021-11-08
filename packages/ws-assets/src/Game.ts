@@ -1,5 +1,6 @@
 import { Ticker, Timer } from './';
 import Player, { PlayerInfo } from './Player';
+import { StonkInfo } from './Stonk';
 import round from './utils/round';
 
 export interface GameState {
@@ -9,6 +10,8 @@ export interface GameState {
   status: string;
   /** An array of players in a game */
   players: PlayerInfo[];
+  /** An array of stonk details in ticker */
+  stonks: StonkInfo[];
 }
 
 interface GameProps {
@@ -193,6 +196,7 @@ class Game implements GameProps, GameMethods {
       id: this.id,
       status: this.status,
       players: this.players.map((p) => p.getPlayerInfo()),
+      stonks: this.ticker.getStonks(),
     };
   }
 

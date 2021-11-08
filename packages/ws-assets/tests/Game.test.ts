@@ -77,9 +77,10 @@ describe('Game', function () {
   it('expects to return current game state', function () {
     const game = new Game('TEST');
     game.addPlayer('TST', 'Tester');
-    const obj = game.getGameState();
-    expect(game.id).to.equal(obj.id);
-    expect(game.status).to.equal(obj.status);
-    expect(game.players[0].getPlayerInfo()).to.deep.equal(obj.players[0]);
+    const gameState = game.getGameState();
+    expect(game.id).to.equal(gameState.id);
+    expect(game.status).to.equal(gameState.status);
+    expect(game.players[0].getPlayerInfo()).to.deep.equal(gameState.players[0]);
+    expect(game.ticker.getStonks()).to.deep.equal(gameState.stonks);
   });
 });
