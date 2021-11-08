@@ -53,6 +53,8 @@ class Game implements GameProps, GameMethods {
   static DEFAULT_TICKER_STONKS_AMOUNT = 5;
 
   static STATUS_PARTY = 'party';
+  static STATUS_START = 'start';
+  static STATUS_END = 'end';
 
   /**
    * Create a Game instance
@@ -118,6 +120,7 @@ class Game implements GameProps, GameMethods {
    * Start the simulation timer
    */
   start(): void {
+    this._status = Game.STATUS_START;
     this._simulationTimer.start();
   }
 
@@ -125,6 +128,7 @@ class Game implements GameProps, GameMethods {
    * Stop the simulation timer
    */
   stop(): void {
+    this._status = Game.STATUS_END;
     this._simulationTimer.stop();
   }
 

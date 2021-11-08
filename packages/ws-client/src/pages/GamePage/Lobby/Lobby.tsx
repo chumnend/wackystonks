@@ -6,17 +6,18 @@ interface Props {
   socketId: string;
   code: string;
   players: PlayerInfo[];
+  startGame: () => void;
   leaveGame: () => void;
 }
 
-const GameLobby = ({ socketId, code, players, leaveGame }: Props) => {
+const Lobby = ({ socketId, code, players, startGame, leaveGame }: Props) => {
   const handleCopyLink = () => {
     const inviteUrl = process.env.REACT_APP_CLIENT_URI + '/' + code;
     navigator.clipboard.writeText(inviteUrl);
   };
 
   const handleStartGame = () => {
-    alert('Not Yet Implemented');
+    startGame();
   };
 
   const handleLeaveGame = () => {
@@ -38,7 +39,7 @@ const GameLobby = ({ socketId, code, players, leaveGame }: Props) => {
   );
 
   return (
-    <Styled.GameLobby>
+    <Styled.Lobby>
       <Styled.BannerContainer>
         <h2>Room Code: {code}</h2>
         <Styled.InviteLink onClick={handleCopyLink}>(Click here to copy link)</Styled.InviteLink>
@@ -59,8 +60,8 @@ const GameLobby = ({ socketId, code, players, leaveGame }: Props) => {
         </Styled.Button>
         <Styled.Button onClick={handleLeaveGame}>Leave Lobby</Styled.Button>
       </Styled.ButtonContainer>
-    </Styled.GameLobby>
+    </Styled.Lobby>
   );
 };
 
-export default GameLobby;
+export default Lobby;

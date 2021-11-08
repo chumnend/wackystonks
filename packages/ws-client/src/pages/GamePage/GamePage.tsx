@@ -3,7 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Game, GameState, PlayerInfo } from 'ws-assets';
 
 import * as Styled from './styles';
-import GameLobby from './GameLobby';
+import Lobby from './Lobby';
+import GameStart from './GameStart';
 import Footer from '../../components/Footer';
 import { Routes, SocketEvents } from '../../constants';
 import { useSocket } from '../../context/SocketProvider';
@@ -31,6 +32,10 @@ const GamePage = () => {
     });
   };
 
+  const startGame = () => {
+    socket.emit(SocketEvents.START_GAME, { id: params.id });
+  };
+
   const leaveGame = () => {
     socket.emit(SocketEvents.LEAVE_GAME, { id: params.id });
     history.push(Routes.HOME_ROUTE);
@@ -39,6 +44,10 @@ const GamePage = () => {
   const addSocketListeners = () => {
     socket.on(SocketEvents.PLAYERS_UPDATE, (game: GameState) => {
       setPlayers(game.players);
+    });
+
+    socket.on(SocketEvents.STATUS_UPDATE, (game: GameState) => {
+      setStatus(game.status);
     });
   };
 
@@ -59,8 +68,14 @@ const GamePage = () => {
   let content;
   switch (status) {
     case Game.STATUS_PARTY:
-      content = <GameLobby socketId={socket.id} code={params.id} players={players} leaveGame={leaveGame} />;
+      content = (
+        <Lobby socketId={socket.id} code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />
+      );
       break;
+    case Game.STATUS_START:
+      content = <GameStart />;
+      break;
+    case Game.STATUS_END:
     default:
       content = <p>Something went wrong</p>;
   }

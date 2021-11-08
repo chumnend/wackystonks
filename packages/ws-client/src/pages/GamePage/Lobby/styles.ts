@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const GameLobby = styled.div`
+export const Lobby = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
