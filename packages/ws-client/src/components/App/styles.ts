@@ -9,7 +9,10 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         position: relative;
+        width: 100%;
+        min-width: 100vw;
         height: 100%;
+        min-height: 100vh;
         font-size: 1rem;
         background-color: #fff;
         color: #000;
