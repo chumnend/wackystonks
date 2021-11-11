@@ -1,6 +1,17 @@
 import styled from 'styled-components';
 
 export const Lobby = styled.div`
+  width: min(24em, 95vw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+`;
+
+export const Content = styled.main`
   width: 100%;
   display: flex;
   flex-direction: column;

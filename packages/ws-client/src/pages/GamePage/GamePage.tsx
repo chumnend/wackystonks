@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Game, GameState, PlayerInfo } from 'ws-assets';
+import { Game, GameState, PlayerInfo, StonkInfo } from 'ws-assets';
 
 import * as Styled from './styles';
 import Lobby from './Lobby';
-import GameStart from './GameStart';
+import Session from './Session';
 import Footer from '../../components/Footer';
 import { Routes, SocketEvents } from '../../constants';
 import { useSocket } from '../../context/SocketProvider';
@@ -16,6 +16,7 @@ interface ParamTypes {
 const GamePage = () => {
   const [status, setStatus] = useState<string>('');
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
+  const [stonks, setStonks] = useState<StonkInfo[]>([]);
   const history = useHistory();
   const params = useParams<ParamTypes>();
   const socket = useSocket();
@@ -49,10 +50,16 @@ const GamePage = () => {
     socket.on(SocketEvents.STATUS_UPDATE, (game: GameState) => {
       setStatus(game.status);
     });
+
+    socket.on(SocketEvents.STONKS_UPDATE, (game: GameState) => {
+      setStonks(game.stonks);
+    });
   };
 
   const removeSocketListeners = () => {
     socket.off(SocketEvents.PLAYERS_UPDATE);
+    socket.off(SocketEvents.STATUS_UPDATE);
+    socket.off(SocketEvents.STONKS_UPDATE);
   };
 
   useEffect(() => {
@@ -73,7 +80,7 @@ const GamePage = () => {
       );
       break;
     case Game.STATUS_START:
-      content = <GameStart />;
+      content = <Session socketId={socket.id} stonks={stonks} players={players} />;
       break;
     case Game.STATUS_END:
     default:
@@ -82,7 +89,7 @@ const GamePage = () => {
 
   return (
     <Styled.GamePage>
-      <Styled.Content>{content}</Styled.Content>
+      {content}
       <Footer />
     </Styled.GamePage>
   );
