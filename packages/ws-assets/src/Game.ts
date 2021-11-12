@@ -25,6 +25,8 @@ interface GameProps {
   ticker: Ticker;
   /** A timer used to simulate stonks as game runs */
   simulationTimer: Timer;
+  /** A timer used to manage game length */
+  gameTimer: Timer;
 }
 
 interface GameMethods {
@@ -50,10 +52,13 @@ class Game implements GameProps, GameMethods {
   private _players: Player[];
   private _ticker: Ticker;
   private _simulationTimer: Timer;
+  private _gameTimer: Timer;
   private _handlers: (() => void)[];
 
-  static DEFAULT_TICKER_SIMULATION_INTERVAL = 3000; // Default simualtion timer interval (ms)
+  static DEFAULT_TICKER_SIMULATION_INTERVAL = 5000; // Default simulation timer interval (ms) 5000ms = 5s
   static DEFAULT_TICKER_STONKS_AMOUNT = 5;
+
+  static DEFAULT_GAME_TIMER_INTERVAL = 60000; // Default game timer interval (ms) 60000ms = 1 min
 
   static STATUS_PARTY = 'party';
   static STATUS_START = 'start';
@@ -62,19 +67,22 @@ class Game implements GameProps, GameMethods {
   /**
    * Create a Game instance
    * @param id {string} Identifier for the game
-   * @param delay  {number} Delay time for simulation timer
+   * @param gameDelay  {number} Delay time for game timer
+   * @param simulationDelay  {number} Delay time for simulation timer
    * @param numberOfStonks {number} Number of stonks to be generated for the game
    */
   constructor(
     id: string,
-    delay = Game.DEFAULT_TICKER_SIMULATION_INTERVAL,
+    gameDelay = Game.DEFAULT_GAME_TIMER_INTERVAL,
+    simulationDelay = Game.DEFAULT_TICKER_SIMULATION_INTERVAL,
     numberOfStonks = Game.DEFAULT_TICKER_STONKS_AMOUNT,
   ) {
     this._id = id;
     this._status = Game.STATUS_PARTY;
     this._ticker = new Ticker(id);
     this.randomizeStonks(numberOfStonks);
-    this._simulationTimer = new Timer(this.tick.bind(this), delay, true);
+    this._simulationTimer = new Timer(this.tick.bind(this), simulationDelay, true);
+    this._gameTimer = new Timer(() => null, gameDelay, false);
     this._handlers = [];
     this._players = [];
   }
@@ -120,11 +128,20 @@ class Game implements GameProps, GameMethods {
   }
 
   /**
+   * Retrieves game timer
+   * @returns {Timer}
+   */
+  get gameTimer(): Timer {
+    return this._gameTimer;
+  }
+
+  /**
    * Start the simulation timer
    */
   start(): void {
     this._status = Game.STATUS_START;
     this._simulationTimer.start();
+    this._gameTimer.start();
   }
 
   /**
@@ -133,6 +150,7 @@ class Game implements GameProps, GameMethods {
   stop(): void {
     this._status = Game.STATUS_END;
     this._simulationTimer.stop();
+    this._gameTimer.stop();
   }
 
   /**
