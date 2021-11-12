@@ -192,11 +192,14 @@ class Game implements GameProps, GameMethods {
    * @returns {GameState}
    */
   getGameState(): GameState {
+    const stonks = this.ticker.getStonks();
+    const players = this.players.map((p) => p.getPlayerInfo(stonks));
+
     return {
       id: this.id,
       status: this.status,
-      players: this.players.map((p) => p.getPlayerInfo()),
-      stonks: this.ticker.getStonks(),
+      players,
+      stonks,
     };
   }
 

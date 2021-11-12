@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 
-import { Player } from '../src';
+import { Player, Ticker } from '../src';
 
 const expect = chai.expect;
 
@@ -24,22 +24,24 @@ describe('Player', function () {
     expect(player.portfolio).to.deep.equal({ TST: 15 });
 
     // remove from existing
-    player.removeStonkToPortfolio('TST', 5);
+    player.removeStonkFromPortfolio('TST', 5);
     expect(player.portfolio).to.deep.equal({ TST: 10 });
 
     // remove more stonk than exists
-    player.removeStonkToPortfolio('TST', 100);
+    player.removeStonkFromPortfolio('TST', 100);
     expect(player.portfolio).to.deep.equal({ TST: 0 });
 
     // remove stonk that does not exist
-    expect(player.removeStonkToPortfolio('ABC', 10)).to.be.false;
+    expect(player.removeStonkFromPortfolio('ABC', 10)).to.be.false;
   });
 
-  it('expects to get Object of Player information', function () {
+  it('expects to get player information', function () {
+    const ticker = new Ticker('test');
     const player = new Player('TSTR-123', 'Chester Tester');
-    const playerInfo = player.getPlayerInfo();
+    const playerInfo = player.getPlayerInfo(ticker.getStonks());
     expect(player.id).to.equal(playerInfo.id);
     expect(player.name).to.equal(playerInfo.name);
     expect(player.portfolio).to.deep.equal(playerInfo.portfolio);
+    expect(playerInfo.netValue).to.equal(0);
   });
 });
