@@ -111,7 +111,9 @@ class Player implements PlayerProps, PlayerMethods {
   getPlayerInfo(stonks: StonkInfo[]): PlayerInfo {
     let netValue = 0;
     for (const stonk of stonks) {
-      netValue += this._portfolio[stonk.symbol] * stonk.price;
+      if (this._portfolio.hasOwnProperty(stonk.symbol)) {
+        netValue += this._portfolio[stonk.symbol] * stonk.price;
+      }
     }
 
     return {

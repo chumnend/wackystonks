@@ -37,11 +37,18 @@ describe('Player', function () {
 
   it('expects to get player information', function () {
     const ticker = new Ticker('test');
+    ticker.createStonk('Test Stonk', 'TST', 1);
+    ticker.createStonk('Another Stonk', 'ABC', 5);
+
     const player = new Player('TSTR-123', 'Chester Tester');
-    const playerInfo = player.getPlayerInfo(ticker.getStonks());
+    player.addStonkToPortfolio('TST', 3);
+
+    const stonks = ticker.getStonks();
+    const playerInfo = player.getPlayerInfo(stonks);
+
     expect(player.id).to.equal(playerInfo.id);
     expect(player.name).to.equal(playerInfo.name);
     expect(player.portfolio).to.deep.equal(playerInfo.portfolio);
-    expect(playerInfo.netValue).to.equal(0);
+    expect(playerInfo.netValue).to.equal(3);
   });
 });
