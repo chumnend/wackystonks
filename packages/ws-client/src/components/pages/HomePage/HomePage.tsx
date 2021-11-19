@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { GameState } from 'ws-assets';
 
-import * as Styled from './styles';
 import BannerImage from './WackyStonks.png';
 import Footer from '../../common/Footer';
+import Banner from '../../common/Banner';
+import Button from '../../common/Button';
+import ButtonGroup from '../../common/ButtonGroup';
+import PageWrapper from '../../common/PageWrapper';
 import JoinModal from './JoinModal';
 import HelpModal from './HelpModal';
 import { useSocket } from '../../providers/SocketProvider';
@@ -50,23 +53,18 @@ const HomePage = () => {
   }
 
   return (
-    <Styled.HomePage>
-      <Styled.Content>
-        <Styled.Banner>
-          <img src={BannerImage} alt="Wacky Stonks banner" />
-          <h3>A Stock Simulator Game</h3>
-        </Styled.Banner>
-        <Styled.MainButtons>
-          <Styled.MainButton onClick={startGame}>Start</Styled.MainButton>
-          <Styled.MainButton onClick={() => setModal(MODAL_JOIN)}>Join</Styled.MainButton>
-        </Styled.MainButtons>
-        <Styled.ExtraButtons>
-          <Styled.ExtraButton onClick={() => setModal(MODAL_HELP)}>How To Play</Styled.ExtraButton>
-        </Styled.ExtraButtons>
-      </Styled.Content>
+    <PageWrapper>
+      <Banner src={BannerImage} alt="WackStonks Banner" title="A Stonk Simulator Game" />
+      <ButtonGroup direction="horizontal">
+        <Button variant="primary" text="Start" onClick={startGame} />
+        <Button variant="primary" text="Join" onClick={() => setModal(MODAL_JOIN)} />
+      </ButtonGroup>
+      <ButtonGroup direction="vertical">
+        <Button variant="secondary" text="How to Play" onClick={() => setModal(MODAL_HELP)} />
+      </ButtonGroup>
       {currentModal}
       <Footer />
-    </Styled.HomePage>
+    </PageWrapper>
   );
 };
 
