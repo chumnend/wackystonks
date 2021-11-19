@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-interface ModalProps {
+interface Props {
   readonly show: boolean;
 }
 
-export const Modal = styled.div<ModalProps>`
+export const Modal = styled.div<Props>`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.15);
