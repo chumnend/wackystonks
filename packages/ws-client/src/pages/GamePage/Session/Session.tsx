@@ -11,13 +11,37 @@ interface Props {
   players: PlayerInfo[];
 }
 
-const Session = ({}: Props) => {
+const Session = ({ stonks, players }: Props) => {
+  const stonkCards = stonks.map((stonk) => {
+    return (
+      <div key={stonk.symbol}>
+        <h3>
+          {stonk.name} - {stonk.price}
+        </h3>
+        <div>
+          <input type="number" placeholder="Quantity" min={0} />
+          <button>Buy</button>
+          <button>Sell</button>
+        </div>
+      </div>
+    );
+  });
+
+  const playerCards = players.map((player) => {
+    return (
+      <Styled.PlayerCard key={player.id}>
+        <h3>{player.name}</h3>
+        <div>${player.netValue}</div>
+      </Styled.PlayerCard>
+    );
+  });
+
   return (
     <Styled.Session>
-      <Styled.Header>Header</Styled.Header>
+      <Styled.Header>{/** TODO: Add Timer */}</Styled.Header>
       <Styled.Content>
-        <Styled.Stonks>Stonks</Styled.Stonks>
-        <Styled.Players>Players</Styled.Players>
+        <Styled.Stonks>{stonkCards}</Styled.Stonks>
+        <Styled.Players>{playerCards}</Styled.Players>
       </Styled.Content>
     </Styled.Session>
   );

@@ -8,7 +8,7 @@ export const Lobby = styled.div`
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  flex: 1;
+  flex: 1 1 auto;
 `;
 
 export const Content = styled.main`
