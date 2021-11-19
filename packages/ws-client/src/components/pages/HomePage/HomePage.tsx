@@ -4,11 +4,11 @@ import { GameState } from 'ws-assets';
 
 import * as Styled from './styles';
 import BannerImage from './WackyStonks.png';
-import Footer from '../../components/Footer';
+import Footer from '../../common/Footer';
 import JoinModal from './JoinModal';
 import HelpModal from './HelpModal';
-import { useSocket } from '../../context/SocketProvider';
-import { SocketEvents, Routes } from '../../constants';
+import { useSocket } from '../../providers/SocketProvider';
+import { SocketEvents, Routes } from '../../../helpers/constants';
 
 const MODAL_NONE = 0;
 const MODAL_HELP = 1;

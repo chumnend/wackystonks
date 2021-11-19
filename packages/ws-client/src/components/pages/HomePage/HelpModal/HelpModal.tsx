@@ -1,5 +1,5 @@
 import * as Styled from './styles';
-import Modal from '../../../components/Modal';
+import Modal from '../../../common/Modal';
 
 interface Props {
   show: boolean;

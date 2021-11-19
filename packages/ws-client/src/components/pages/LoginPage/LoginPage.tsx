@@ -2,9 +2,9 @@ import { gql, useLazyQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Loader from '../../components/Loader';
-import { Routes } from '../../constants';
-import { useAuth } from '../../context/AuthProvider';
+import Loader from '../../common/Loader';
+import { Routes } from '../../../helpers/constants';
+import { useAuth } from '../../providers/AuthProvider';
 
 export const LOGIN_QUERY = gql`
   query LoginQuery($login: String!, $password: String!) {

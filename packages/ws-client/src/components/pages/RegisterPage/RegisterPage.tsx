@@ -2,9 +2,9 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Loader from '../../components/Loader';
-import { Routes } from '../../constants';
-import { useAuth } from '../../context/AuthProvider';
+import Loader from '../../common/Loader';
+import { Routes } from '../../../helpers/constants';
+import { useAuth } from '../../providers/AuthProvider';
 
 export const REGISTER_MUTATION = gql`
   mutation RegisterMutation($email: String!, $username: String!, $password: String!) {

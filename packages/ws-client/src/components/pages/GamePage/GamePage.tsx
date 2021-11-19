@@ -5,9 +5,9 @@ import { Game, GameState, PlayerInfo, StonkInfo } from 'ws-assets';
 import * as Styled from './styles';
 import Lobby from './Lobby';
 import Session from './Session';
-import Footer from '../../components/Footer';
-import { Routes, SocketEvents } from '../../constants';
-import { useSocket } from '../../context/SocketProvider';
+import Footer from '../../common/Footer';
+import { Routes, SocketEvents } from '../../../helpers/constants';
+import { useSocket } from '../../providers/SocketProvider';
 
 interface ParamTypes {
   id: string;

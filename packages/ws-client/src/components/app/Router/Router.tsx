@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { Routes } from '../../../constants';
+import { Routes } from '../../../helpers/constants';
 
-import RegisterPage from '../../../pages/RegisterPage';
-import LoginPage from '../../../pages/LoginPage';
-import LogoutPage from '../../../pages/LogoutPage';
-import GamePage from '../../../pages/GamePage';
-import HomePage from '../../../pages/HomePage';
+import RegisterPage from '../../pages/RegisterPage';
+import LoginPage from '../../pages/LoginPage';
+import LogoutPage from '../../pages/LogoutPage';
+import GamePage from '../../pages/GamePage';
+import HomePage from '../../pages/HomePage';
 
 const Router = () => {
   return (

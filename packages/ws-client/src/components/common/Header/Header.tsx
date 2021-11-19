@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
 import * as Styled from './styles';
-import { Routes } from '../../constants';
-import { useAuth } from '../../context/AuthProvider';
+import { Routes } from '../../../helpers/constants';
+import { useAuth } from '../../providers/AuthProvider';
 
 const Header = () => {
   const auth = useAuth();
