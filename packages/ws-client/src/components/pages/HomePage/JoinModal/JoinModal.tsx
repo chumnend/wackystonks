@@ -1,7 +1,25 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 
-import * as Styled from './styles';
 import Modal from '../../../common/Modal';
+import Button from '../../../common/Button';
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.h3`
+  text-align: center;
+`;
+
+const InputBar = styled.input`
+  width: 30%;
+  height: 2.75rem;
+  margin: 1.5rem auto;
+  padding: 4px 10px;
+  font-size: 1.2rem;
+`;
 
 interface Props {
   show: boolean;
@@ -19,9 +37,9 @@ const JoinModal = ({ show, close, join }: Props) => {
 
   return (
     <Modal show={show} close={close}>
-      <Styled.JoinModal>
-        <Styled.Header>Enter Game Code</Styled.Header>
-        <Styled.CodeInput
+      <Flex>
+        <Header>Enter Game Code</Header>
+        <InputBar
           type="text"
           placeholder="ex. abcd"
           value={code}
@@ -31,8 +49,8 @@ const JoinModal = ({ show, close, join }: Props) => {
           autoCorrect={'off'}
           autoCapitalize={'none'}
         />
-        <Styled.JoinButton onClick={handleJoin}>Enter</Styled.JoinButton>
-      </Styled.JoinModal>
+        <Button variant="primary" onClick={handleJoin} text="Enter" />
+      </Flex>
     </Modal>
   );
 };

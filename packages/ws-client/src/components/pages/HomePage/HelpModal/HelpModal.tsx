@@ -1,4 +1,3 @@
-import * as Styled from './styles';
 import Modal from '../../../common/Modal';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 const HelpModal = ({ show, close }: Props) => {
   return (
     <Modal show={show} close={close}>
-      <Styled.HelpModal>How To Play</Styled.HelpModal>
+      <h1>How To Play</h1>
     </Modal>
   );
 };
