@@ -55,11 +55,11 @@ const HomePage = () => {
   return (
     <PageWrapper>
       <Banner src={BannerImage} alt="WackStonks Banner" title="A Stonk Simulator Game" />
-      <ButtonGroup direction="horizontal">
+      <ButtonGroup direction="row">
         <Button variant="primary" text="Start" onClick={startGame} />
         <Button variant="primary" text="Join" onClick={() => setModal(MODAL_JOIN)} />
       </ButtonGroup>
-      <ButtonGroup direction="vertical">
+      <ButtonGroup direction="column">
         <Button variant="secondary" text="How to Play" onClick={() => setModal(MODAL_HELP)} />
       </ButtonGroup>
       {currentModal}

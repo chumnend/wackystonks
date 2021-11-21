@@ -2,10 +2,8 @@ import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Game, GameState, PlayerInfo, StonkInfo } from 'ws-assets';
 
-import * as Styled from './styles';
 import Lobby from './Lobby';
 import Session from './Session';
-import Footer from '../../common/Footer';
 import { Routes, SocketEvents } from '../../../helpers/constants';
 import { useSocket } from '../../providers/SocketProvider';
 
@@ -87,12 +85,7 @@ const GamePage = () => {
       content = <p>Something went wrong</p>;
   }
 
-  return (
-    <Styled.GamePage>
-      {content}
-      <Footer />
-    </Styled.GamePage>
-  );
+  return content;
 };
 
 export default GamePage;

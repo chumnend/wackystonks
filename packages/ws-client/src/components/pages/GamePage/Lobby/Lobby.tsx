@@ -1,6 +1,48 @@
+import styled from 'styled-components';
 import { PlayerInfo } from 'ws-assets';
 
-import * as Styled from './styles';
+import ButtonGroup from '../../../common/ButtonGroup';
+import Button from '../../../common/Button';
+import Flex from '../../../common/Flex';
+import PageWrapper from '../../../common/PageWrapper';
+import Footer from '../../../common/Footer';
+
+const InviteLink = styled.span`
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Container = styled.div`
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  background: #eaeaea;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  padding: 1rem;
+`;
+
+const PlayerCards = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PlayerCard = styled.div`
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  padding: 1rem;
+`;
 
 interface Props {
   /** clients socket identifier */
@@ -34,40 +76,37 @@ const Lobby = ({ socketId, code, players, startGame, leaveGame }: Props) => {
   };
 
   const playerList = (
-    <Styled.PlayerCards>
+    <PlayerCards>
       {players.map((p) => (
-        <Styled.PlayerCard key={p.id}>
+        <PlayerCard key={p.id}>
           {p.name} {socketId === p.id && '(You)'}
-        </Styled.PlayerCard>
+        </PlayerCard>
       ))}
-    </Styled.PlayerCards>
+    </PlayerCards>
   );
 
   return (
-    <Styled.Lobby>
-      <Styled.Content>
-        <Styled.BannerContainer>
-          <h2>Room Code: {code}</h2>
-          <Styled.InviteLink onClick={handleCopyLink}>(Click here to copy link)</Styled.InviteLink>
-        </Styled.BannerContainer>
-        <Styled.PlayerContainer>
-          <h3>Players</h3>
-          {playerList}
-        </Styled.PlayerContainer>
-        <Styled.ChatContainer>
-          <h3>Chat</h3>
-          <div>
-            <p>Not Yet Implemented</p>
-          </div>
-        </Styled.ChatContainer>
-        <Styled.ButtonContainer>
-          <Styled.Button disabled={!isHost} onClick={handleStartGame}>
-            Start Game
-          </Styled.Button>
-          <Styled.Button onClick={handleLeaveGame}>Leave Lobby</Styled.Button>
-        </Styled.ButtonContainer>
-      </Styled.Content>
-    </Styled.Lobby>
+    <PageWrapper>
+      <Flex direction="column" alignItems="center">
+        <h2>Room Code: {code}</h2>
+        <InviteLink onClick={handleCopyLink}>(Click here to copy link)</InviteLink>
+      </Flex>
+      <Container>
+        <h3>Players</h3>
+        {playerList}
+      </Container>
+      <Container>
+        <h3>Chat</h3>
+        <div>
+          <p>Not Yet Implemented</p>
+        </div>
+      </Container>
+      <ButtonGroup direction="column">
+        <Button variant="primary" disabled={!isHost} onClick={handleStartGame} text="Start Game" />
+        <Button variant="primary" onClick={handleLeaveGame} text="Leave Lobby" />
+      </ButtonGroup>
+      <Footer />
+    </PageWrapper>
   );
 };
 

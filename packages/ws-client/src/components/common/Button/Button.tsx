@@ -20,6 +20,11 @@ const BaseButton = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+
+  &:disabled {
+    color: grey;
+    cursor: not-allowed;
+  }
 `;
 
 const PrimaryButton = styled(BaseButton)`
@@ -35,16 +40,25 @@ interface Props {
   variant: 'primary' | 'secondary';
   text: string;
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const Button = ({ variant, text, onClick }: Props) => {
+const Button = ({ variant, text, onClick, disabled }: Props) => {
   let content;
   switch (variant) {
     case 'primary':
-      content = <PrimaryButton onClick={onClick}>{text}</PrimaryButton>;
+      content = (
+        <PrimaryButton onClick={onClick} disabled={disabled}>
+          {text}
+        </PrimaryButton>
+      );
       break;
     case 'secondary':
-      content = <SecondaryButton onClick={onClick}>{text}</SecondaryButton>;
+      content = (
+        <SecondaryButton onClick={onClick} disabled={disabled}>
+          {text}
+        </SecondaryButton>
+      );
       break;
     default:
       content = null;
