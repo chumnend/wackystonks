@@ -10,11 +10,7 @@ interface Props {
 }
 
 const Session = ({}: Props) => {
-  return (
-    <div>
-      <span>Session</span>
-    </div>
-  );
+  return null;
 };
 
 export default Session;
