@@ -5,11 +5,17 @@
     "packages/*"
   ],
   "scripts": {
-    "run-client": "yarn workspace ws-client start",
-    "run-server": "yarn workspace ws-server start",
-    "prestart": "yarn workspace ws-assets build",
-    "start": "concurrently --kill-others-on-fail \"yarn run-server\"  \"yarn run-client\"",
-    "build": "yarn workspace ws-assets build && yarn workspace ws-client build && yarn workspace ws-server build"
+    "client": "yarn workspace ws-client serve",
+    "client:dev": "yarn workspace ws-client start",
+    "client:build": "yarn workspace ws-client build",
+    "server": "yarn workspace ws-server start",
+    "server:dev": "yarn workspace ws-server dev",
+    "server:build": "yarn workspace ws-server build",
+    "build-assets": "yarn workspace ws-assets build",
+    "build-all": "yarn build-assets && yarn client:build && yarn server:build",
+    "prestart": "yarn build-all",
+    "start": "concurrently --kill-others-on-fail  \"yarn client\" \"yarn server\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn client:dev\"  \"yarn server:dev\""
   },
   "dependencies": {
     "@changesets/cli": "^2.17.0",
