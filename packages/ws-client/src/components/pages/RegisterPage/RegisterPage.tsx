@@ -2,7 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Loader from '../../common/Loader';
+import Spinner from '../../common/Spinner';
 import { Routes } from '../../../helpers/constants';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -29,7 +29,7 @@ const RegisterPage = () => {
     },
   });
 
-  if (called && loading) return <Loader />;
+  if (called && loading) return <Spinner />;
   if (error) return <p>Error</p>;
 
   const validateForm = (): boolean => {
