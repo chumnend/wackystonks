@@ -10,7 +10,7 @@ const Div = styled.div`
 
 const Title = styled.h3`
   position: absolute;
-  top: 130px;
+  top: 120px;
 `;
 
 interface Props {

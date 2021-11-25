@@ -21,7 +21,7 @@ const Div = styled.div<DivProps>`
 `;
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   width?: string;
   height?: string;
   direction?: 'row' | 'column';

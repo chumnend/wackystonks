@@ -3,6 +3,7 @@ import { PlayerInfo } from 'ws-assets';
 
 import ButtonGroup from '../../../common/ButtonGroup';
 import Button from '../../../common/Button';
+import CardContainer from '../../../common/CardContainer';
 import Flex from '../../../common/Flex';
 import PageWrapper from '../../../common/PageWrapper';
 import Footer from '../../../common/Footer';
@@ -13,16 +14,7 @@ const InviteLink = styled.span`
   }
 `;
 
-const Container = styled.div`
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #eaeaea;
-  background: #eaeaea;
-  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
-  padding: 1rem;
-`;
-
-const PlayerCards = styled.div`
+const PlayerCardGrid = styled.div`
   width: 100%;
   margin: 1rem 0;
   display: grid;
@@ -76,13 +68,13 @@ const Lobby = ({ socketId, code, players, startGame, leaveGame }: Props) => {
   };
 
   const playerList = (
-    <PlayerCards>
+    <PlayerCardGrid>
       {players.map((p) => (
         <PlayerCard key={p.id}>
           {p.name} {socketId === p.id && '(You)'}
         </PlayerCard>
       ))}
-    </PlayerCards>
+    </PlayerCardGrid>
   );
 
   return (
@@ -91,16 +83,16 @@ const Lobby = ({ socketId, code, players, startGame, leaveGame }: Props) => {
         <h2>Room Code: {code}</h2>
         <InviteLink onClick={handleCopyLink}>(Click here to copy link)</InviteLink>
       </Flex>
-      <Container>
+      <CardContainer>
         <h3>Players</h3>
         {playerList}
-      </Container>
-      <Container>
+      </CardContainer>
+      <CardContainer>
         <h3>Chat</h3>
         <div>
           <p>Not Yet Implemented</p>
         </div>
-      </Container>
+      </CardContainer>
       <ButtonGroup direction="column">
         <Button variant="primary" disabled={!isHost} onClick={handleStartGame} text="Start Game" />
         <Button variant="primary" onClick={handleLeaveGame} text="Leave Lobby" />
