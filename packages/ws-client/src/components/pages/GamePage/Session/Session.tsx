@@ -8,6 +8,35 @@ const PageLayout = styled.div`
   min-height: 100vh;
   position: relative;
   display: flex;
+  flex-direction: column;
+`;
+
+const Flex = styled.div`
+  flex: 1 1 36px;
+  display: flex;
+  padding: 1rem 1rem 0 1rem;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  flex: 1 1 auto;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  background: #eaeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeaderContainer = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Grid = styled.div`
+  flex: 1 1 auto;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 2fr 1fr;
@@ -17,7 +46,7 @@ const StonkContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
 `;
 
 const StonkCardContainer = styled.div`
@@ -52,7 +81,7 @@ const PlayerContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
 `;
 
 const PlayerCardContainer = styled.div`
@@ -127,12 +156,23 @@ const Session = ({ stonks, players }: Props) => {
 
   return (
     <PageLayout>
-      <StonkContainer>
-        <StonkCardContainer>{stonkList}</StonkCardContainer>
-      </StonkContainer>
-      <PlayerContainer>
-        <PlayerCardContainer>{playerList}</PlayerCardContainer>
-      </PlayerContainer>
+      <Flex>
+        <Header>
+          <HeaderContainer>
+            <div />
+            <span>##:##</span>
+            <button>Leave</button>
+          </HeaderContainer>
+        </Header>
+      </Flex>
+      <Grid>
+        <StonkContainer>
+          <StonkCardContainer>{stonkList}</StonkCardContainer>
+        </StonkContainer>
+        <PlayerContainer>
+          <PlayerCardContainer>{playerList}</PlayerCardContainer>
+        </PlayerContainer>
+      </Grid>
     </PageLayout>
   );
 };
