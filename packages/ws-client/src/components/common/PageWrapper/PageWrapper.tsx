@@ -26,14 +26,9 @@ const InnerDiv = styled.div`
 
 interface Props {
   children: React.ReactNode;
-  fullWidth?: boolean;
 }
 
-const PageWrapper = ({ children, fullWidth }: Props) => {
-  if (fullWidth) {
-    return <OuterDiv>{children}</OuterDiv>;
-  }
-
+const PageWrapper = ({ children }: Props) => {
   return (
     <OuterDiv>
       <InnerDiv>{children}</InnerDiv>
