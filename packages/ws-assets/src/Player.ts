@@ -1,3 +1,4 @@
+import { StonkInfo, Ticker } from '.';
 import deepClone from './utils/deepClone';
 
 export interface PlayerInfo {
@@ -7,6 +8,8 @@ export interface PlayerInfo {
   name: string;
   /** Details of a player's stonk portfolio */
   portfolio: StonkPortfolio;
+  /** Total value of player's stonk portfolio */
+  netValue: number;
 }
 
 export interface StonkPortfolio {
@@ -26,9 +29,9 @@ interface PlayerMethods {
   /** Add stonks to a player's portfolio */
   addStonkToPortfolio(symbol: string, amount: number): boolean;
   /** Reomve stonks from a player's portfolio */
-  removeStonkToPortfolio(symbol: string, amount: number): boolean;
+  removeStonkFromPortfolio(symbol: string, amount: number): boolean;
   /**Returns Object detailing player information */
-  getPlayerInfo(): PlayerInfo;
+  getPlayerInfo(stonks: StonkInfo[]): PlayerInfo;
 }
 
 class Player implements PlayerProps, PlayerMethods {
@@ -92,7 +95,7 @@ class Player implements PlayerProps, PlayerMethods {
    * @param amount  {number} amount to remove
    * @returns {boolean}
    */
-  removeStonkToPortfolio(symbol: string, amount: number): boolean {
+  removeStonkFromPortfolio(symbol: string, amount: number): boolean {
     if (!(symbol in this._portfolio)) {
       return false;
     }
@@ -101,11 +104,23 @@ class Player implements PlayerProps, PlayerMethods {
     return true;
   }
 
-  getPlayerInfo(): PlayerInfo {
+  /**
+   * Returns player information
+   * @returns {PlayerInfo}
+   */
+  getPlayerInfo(stonks: StonkInfo[]): PlayerInfo {
+    let netValue = 0;
+    for (const stonk of stonks) {
+      if (this._portfolio.hasOwnProperty(stonk.symbol)) {
+        netValue += this._portfolio[stonk.symbol] * stonk.price;
+      }
+    }
+
     return {
       id: this.id,
       name: this.name,
       portfolio: this.portfolio,
+      netValue,
     };
   }
 }

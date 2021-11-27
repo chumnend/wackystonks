@@ -14,10 +14,11 @@ describe('Game', function () {
     expect(game.ticker).to.be.instanceOf(Ticker);
     expect(game.ticker.getStonks()).to.have.length(5);
     expect(game.simulationTimer).to.be.instanceOf(Timer);
+    expect(game.gameTimer).to.be.instanceOf(Timer);
   });
 
   it('expects to create new game with no stonks', function () {
-    const game = new Game('TEST', Game.DEFAULT_TICKER_SIMULATION_INTERVAL, 0);
+    const game = new Game('TEST', Game.DEFAULT_GAME_TIMER_INTERVAL, Game.DEFAULT_TICKER_SIMULATION_INTERVAL, 0);
 
     expect(game.id).to.equal('TEST');
     expect(game.status).to.equal(Game.STATUS_PARTY);
@@ -35,7 +36,7 @@ describe('Game', function () {
     const increment1 = () => counter1++;
     const increment2 = () => counter2++;
 
-    const game = new Game('TEST', 75);
+    const game = new Game('TEST', Game.DEFAULT_GAME_TIMER_INTERVAL, 75);
     game.subscribe(increment1);
     game.subscribe(increment2);
     game.unsubscribe(increment2);
@@ -77,9 +78,10 @@ describe('Game', function () {
   it('expects to return current game state', function () {
     const game = new Game('TEST');
     game.addPlayer('TST', 'Tester');
-    const obj = game.getGameState();
-    expect(game.id).to.equal(obj.id);
-    expect(game.status).to.equal(obj.status);
-    expect(game.players[0].getPlayerInfo()).to.deep.equal(obj.players[0]);
+    const gameState = game.getGameState();
+    expect(game.id).to.equal(gameState.id);
+    expect(game.status).to.equal(gameState.status);
+    expect(game.players[0].getPlayerInfo(game.ticker.getStonks())).to.deep.equal(gameState.players[0]);
+    expect(game.ticker.getStonks()).to.deep.equal(gameState.stonks);
   });
 });
