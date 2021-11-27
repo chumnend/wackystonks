@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.8.0
+
+### Minor Changes
+
+- 9410fbd: setup game start step
+
 ## 0.7.0
 
 ### Minor Changes
