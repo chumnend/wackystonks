@@ -1,5 +1,16 @@
 # ws-server
 
+## 0.5.0
+
+### Minor Changes
+
+- 9410fbd: setup game start step
+
+### Patch Changes
+
+- Updated dependencies [9410fbd]
+  - ws-assets@0.8.0
+
 ## 0.4.0
 
 ### Minor Changes
