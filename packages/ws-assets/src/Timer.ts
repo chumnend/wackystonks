@@ -30,41 +30,12 @@ class Timer implements TimerMethods {
    * @param delay {number} the interval (in milliseconds) to execute the callback
    * @param mode {boolean} If true. timer will repeat after it finishes. Default to false
    */
-  constructor(callback: () => void, delay: number, mode = TimerMode.COUNTDOWN) {
+  constructor(callback: () => void, delay: number, mode: TimerMode) {
     this.callback = callback;
     this.delay = delay;
     this.timeLeft = delay;
     this.paused = true;
     this.mode = mode;
-  }
-
-  /**
-   * Creates interval or timeout timer to execute provided callback function
-   * @param delay the interval (in milliseconds) to execute the callback
-   */
-  private _startTimer(delay: number): void {
-    switch (this.mode) {
-      case TimerMode.COUNTDOWN:
-        this.id = setTimeout(this.callback, delay);
-        break;
-      case TimerMode.LOOPED:
-        this.id = setInterval(this.callback, delay);
-        break;
-    }
-  }
-
-  /**
-   * Stops timer set by _startTimer method
-   */
-  private _stopTimer(): void {
-    switch (this.mode) {
-      case TimerMode.COUNTDOWN:
-        clearTimeout(this.id);
-        break;
-      case TimerMode.LOOPED:
-        clearInterval(this.id);
-        break;
-    }
   }
 
   /**
@@ -105,6 +76,35 @@ class Timer implements TimerMethods {
     this._stopTimer();
     this.timeLeft = this.delay;
     return true;
+  }
+
+  /**
+   * Creates interval or timeout timer to execute provided callback function
+   * @param delay the interval (in milliseconds) to execute the callback
+   */
+  private _startTimer(delay: number): void {
+    switch (this.mode) {
+      case TimerMode.COUNTDOWN:
+        this.id = setTimeout(this.callback, delay);
+        break;
+      case TimerMode.LOOPED:
+        this.id = setInterval(this.callback, delay);
+        break;
+    }
+  }
+
+  /**
+   * Stops timer set by _startTimer method
+   */
+  private _stopTimer(): void {
+    switch (this.mode) {
+      case TimerMode.COUNTDOWN:
+        clearTimeout(this.id);
+        break;
+      case TimerMode.LOOPED:
+        clearInterval(this.id);
+        break;
+    }
   }
 }
 
