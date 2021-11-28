@@ -26,5 +26,7 @@ jobs:
 
       - name: Create Release Pull Request
         uses: changesets/action@master
+        with:
+          title: Bump Package Versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
