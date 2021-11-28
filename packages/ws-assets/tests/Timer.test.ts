@@ -35,7 +35,7 @@ describe('Timer', function () {
 
   it('expects to loop through 3 times', (done) => {
     let counter = 0;
-    const timer = new Timer(() => counter++, 100, true);
+    const timer = new Timer(() => counter++, 100, Timer.LOOPED_TIMER);
     expect(timer.start()).to.be.true;
     setTimeout(() => {
       timer.stop();

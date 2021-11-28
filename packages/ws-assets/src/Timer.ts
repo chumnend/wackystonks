@@ -7,6 +7,11 @@ interface TimerMethods {
   reset(): boolean;
 }
 
+enum TimerMode {
+  COUNTDOWN = 0,
+  LOOPED = 1,
+}
+
 class Timer implements TimerMethods {
   private id: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout>;
   private callback: () => void;
@@ -14,20 +19,23 @@ class Timer implements TimerMethods {
   private startTime: number;
   private timeLeft: number;
   private paused: boolean;
-  private loop: boolean;
+  private mode: TimerMode;
+
+  static COUNTDOWN_TIMER = TimerMode.COUNTDOWN;
+  static LOOPED_TIMER = TimerMode.LOOPED;
 
   /**
    * Create a timer
    * @param callback {Function} Callback function to call after timer delay
    * @param delay {number} the interval (in milliseconds) to execute the callback
-   * @param loop {boolean} If true. timer will repeat after it finishes. Default to false
+   * @param mode {boolean} If true. timer will repeat after it finishes. Default to false
    */
-  constructor(callback: () => void, delay: number, loop = false) {
+  constructor(callback: () => void, delay: number, mode = TimerMode.COUNTDOWN) {
     this.callback = callback;
     this.delay = delay;
     this.timeLeft = delay;
     this.paused = true;
-    this.loop = loop;
+    this.mode = mode;
   }
 
   /**
@@ -35,10 +43,13 @@ class Timer implements TimerMethods {
    * @param delay the interval (in milliseconds) to execute the callback
    */
   private _startTimer(delay: number): void {
-    if (this.loop) {
-      this.id = setInterval(this.callback, delay);
-    } else {
-      this.id = setTimeout(this.callback, delay);
+    switch (this.mode) {
+      case TimerMode.COUNTDOWN:
+        this.id = setTimeout(this.callback, delay);
+        break;
+      case TimerMode.LOOPED:
+        this.id = setInterval(this.callback, delay);
+        break;
     }
   }
 
@@ -46,10 +57,13 @@ class Timer implements TimerMethods {
    * Stops timer set by _startTimer method
    */
   private _stopTimer(): void {
-    if (this.loop) {
-      clearInterval(this.id);
-    } else {
-      clearTimeout(this.id);
+    switch (this.mode) {
+      case TimerMode.COUNTDOWN:
+        clearTimeout(this.id);
+        break;
+      case TimerMode.LOOPED:
+        clearInterval(this.id);
+        break;
     }
   }
 

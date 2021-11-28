@@ -32,18 +32,18 @@ interface GameProps {
 interface GameMethods {
   /** Starts tne stonk ticker simulation */
   start: () => void;
-  /** Stops the stonk tikcer simulation */
+  /** Stops the stonk ticker simulation */
   stop: () => void;
   /** Adds function handler that will be called every ticker interval */
   subscribe: (fn: () => void) => void;
   /** Removes function handler that will be called every ticker interval */
   unsubscribe: (fn: () => void) => void;
-  /** Returns an object detailing current game */
-  getGameState: () => GameState;
   /** Add player to game */
   addPlayer(id: string, name: string): boolean;
   /** Remove player from game */
   removePlayer(id: string): boolean;
+  /** Returns an object detailing current game */
+  getGameState: () => GameState;
 }
 
 class Game implements GameProps, GameMethods {
@@ -57,9 +57,7 @@ class Game implements GameProps, GameMethods {
 
   static DEFAULT_TICKER_SIMULATION_INTERVAL = 5000; // Default simulation timer interval (ms) 5000ms = 5s
   static DEFAULT_TICKER_STONKS_AMOUNT = 5;
-
   static DEFAULT_GAME_TIMER_INTERVAL = 60000; // Default game timer interval (ms) 60000ms = 1 min
-
   static STATUS_PARTY = 'party';
   static STATUS_START = 'start';
   static STATUS_END = 'end';
@@ -79,12 +77,15 @@ class Game implements GameProps, GameMethods {
   ) {
     this._id = id;
     this._status = Game.STATUS_PARTY;
-    this._ticker = new Ticker(id);
-    this.randomizeStonks(numberOfStonks);
-    this._simulationTimer = new Timer(this.tick.bind(this), simulationDelay, true);
-    this._gameTimer = new Timer(() => null, gameDelay, false);
-    this._handlers = [];
     this._players = [];
+    this._ticker = new Ticker(id);
+    this._simulationTimer = new Timer(this.tick.bind(this), simulationDelay, Timer.LOOPED_TIMER);
+    this._gameTimer = new Timer(() => null, gameDelay, Timer.COUNTDOWN_TIMER);
+    this._handlers = [];
+
+    // initilaize ticker stonks
+    this.randomizeStonks(numberOfStonks);
+    this._ticker.simulate();
   }
 
   /**
