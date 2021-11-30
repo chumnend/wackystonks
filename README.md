@@ -31,7 +31,7 @@ TBD
     cp .env.example .env
     ```
 
-5) Use `yarn build` to build all assets needed for the application
+5) Use `yarn build-all` to build all assets needed for the application
 6) Use `yarn start` to run the application
 
 ## Contact
