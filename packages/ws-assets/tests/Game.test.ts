@@ -81,7 +81,7 @@ describe('Game', function () {
     const gameState = game.getGameState();
     expect(game.id).to.equal(gameState.id);
     expect(game.status).to.equal(gameState.status);
-    expect(game.players[0].getPlayerInfo(game.ticker.getStonks())).to.deep.equal(gameState.players[0]);
+    expect(game.players[0].getInfo(game.ticker.getStonks())).to.deep.equal(gameState.players[0]);
     expect(game.ticker.getStonks()).to.deep.equal(gameState.stonks);
   });
 });

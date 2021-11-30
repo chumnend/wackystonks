@@ -22,6 +22,16 @@ describe('Stonk', function () {
     expect(() => new Stonk('Test Stonk', 'FAILURE', 10.0)).to.throw(`"symbol" cannot exceed 4 characters`);
   });
 
+  it('expects to get stonk info', () => {
+    const stonk = new Stonk('Test Stonk', 'TST', 10.0);
+    const stonkInfo = stonk.getInfo();
+
+    expect(stonkInfo.name).to.equal('Test Stonk');
+    expect(stonkInfo.symbol).to.equal('TST');
+    expect(stonkInfo.price).to.equal(10);
+    expect(stonkInfo.previousPrices).to.deep.equal([10]);
+  });
+
   it('expects to modify price of the Stonk', () => {
     const stonk = new Stonk('Test Stonk', 'TST', 10.0);
     expect(stonk.price).to.equal(10);

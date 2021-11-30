@@ -74,12 +74,7 @@ class Ticker implements TickerProps, TickerMethods {
   public getStonks(): StonkInfo[] {
     const stonks = [];
     this.stonks.forEach((stonk) => {
-      stonks.push({
-        name: stonk.name,
-        symbol: stonk.symbol,
-        price: stonk.price,
-        previousPrices: stonk.previousPrices,
-      });
+      stonks.push(stonk.getInfo());
     });
     return stonks;
   }

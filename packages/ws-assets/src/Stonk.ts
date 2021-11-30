@@ -23,6 +23,8 @@ interface StonkProps {
 }
 
 interface StonkMethods {
+  /** Get a stonk's details */
+  getInfo(): StonkInfo;
   /** Modify the value of a stonk */
   modifyPrice(value: number): void;
 }
@@ -89,6 +91,19 @@ class Stonk implements StonkProps, StonkMethods {
    */
   get previousPrices(): number[] {
     return [...this._previousPrices];
+  }
+
+  /**
+   * Returns a stonk's details
+   * @returns {StonkInfo}
+   */
+  public getInfo(): StonkInfo {
+    return {
+      name: this.name,
+      symbol: this.symbol,
+      price: this.price,
+      previousPrices: [...this.previousPrices],
+    };
   }
 
   /**
