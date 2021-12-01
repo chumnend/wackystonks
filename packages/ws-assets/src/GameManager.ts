@@ -25,7 +25,7 @@ class GameManager implements GameManagerMethods {
     let id = generateCode();
 
     /* istanbul ignore next */
-    while (this.getGameById(id)) {
+    while (this._gamesList.find((g) => g.id === id)) {
       id = generateCode();
     }
 
@@ -53,21 +53,13 @@ class GameManager implements GameManagerMethods {
    * @returns {boolean}
    */
   deleteGame(id: string): boolean {
-    const game = this.getGameById(id);
+    const game = this._gamesList.find((g) => g.id === id);
     if (!game) {
       return false;
     }
 
     this._gamesList = this._gamesList.filter((g) => g.id !== id);
     return true;
-  }
-
-  /**
-   * Retrieves a game instance from games list by it's id
-   */
-  private getGameById(id: string): Game {
-    const foundGame = this._gamesList.find((g) => g.id === id);
-    return foundGame;
   }
 }
 

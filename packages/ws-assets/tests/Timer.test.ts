@@ -89,13 +89,13 @@ describe('Timer - Countdown', function () {
 
     setTimeout(() => {
       // Time left should be 75 +/- 1ms
-      expect(timer.checkTime()).to.be.at.least(74).and.to.be.below(77);
+      expect(timer.checkTime()).to.be.at.least(73).and.to.be.below(78);
     }, 25);
 
     setTimeout(() => {
       expect(timer.stop()).to.be.true;
       // Time left should be 50 +/- 1ms
-      expect(timer.checkTime()).to.be.at.least(49).and.to.be.below(52);
+      expect(timer.checkTime()).to.be.at.least(48).and.to.be.below(53);
       expect(timer.start()).to.be.true;
     }, 50);
   });

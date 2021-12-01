@@ -84,4 +84,63 @@ describe('Game', function () {
     expect(game.players[0].getInfo(game.ticker.getStonks())).to.deep.equal(gameState.players[0]);
     expect(game.ticker.getStonks()).to.deep.equal(gameState.stonks);
   });
+
+  it('expects to buy stonk', () => {
+    const game = new Game('TEST');
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.true;
+  });
+
+  it('expects to not buy if player does not exist', () => {
+    const game = new Game('TEST');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.false;
+  });
+
+  it('expects to not buy if stonks does not exist', () => {
+    const game = new Game('TEST', Game.DEFAULT_GAME_TIMER_INTERVAL, Game.DEFAULT_TICKER_SIMULATION_INTERVAL, 0);
+    expect(game.buyStonk('TST', 'RNDO', 1)).to.be.false;
+  });
+
+  it('expects to not buy if player does not have enough funds', () => {
+    const game = new Game('TEST');
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.buyStonk('TST', stonk.symbol, 10000)).to.be.false;
+  });
+
+  it('expects to sell stonk', () => {
+    const game = new Game('TEST');
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.true;
+    expect(game.sellStonk('TST', stonk.symbol, 1)).to.be.true;
+  });
+
+  it('expects to not sell stonk if player does not exist', () => {
+    const game = new Game('TEST');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.sellStonk('TST', stonk.symbol, 1)).to.be.false;
+  });
+
+  it('expects to not sell if stonks does not exist', () => {
+    const game = new Game('TEST', Game.DEFAULT_GAME_TIMER_INTERVAL, Game.DEFAULT_TICKER_SIMULATION_INTERVAL, 0);
+    expect(game.sellStonk('TST', 'RNDO', 1)).to.be.false;
+  });
+
+  it('expects to not sell stonk if player does not own stonk', () => {
+    const game = new Game('TEST');
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.sellStonk('TST', stonk.symbol, 1)).to.be.false;
+  });
+
+  it('expects to not sell stonk if player does not own enough stonk', () => {
+    const game = new Game('TEST');
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.ticker.getStonks()[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.true;
+    expect(game.sellStonk('TST', stonk.symbol, 2)).to.be.false;
+  });
 });

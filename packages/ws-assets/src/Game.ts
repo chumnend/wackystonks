@@ -30,6 +30,8 @@ interface GameProps {
 }
 
 interface GameMethods {
+  /** Returns an object detailing current game */
+  getGameState: () => GameState;
   /** Starts tne stonk ticker simulation */
   start: () => void;
   /** Stops the stonk ticker simulation */
@@ -42,8 +44,10 @@ interface GameMethods {
   addPlayer(id: string, name: string): boolean;
   /** Remove player from game */
   removePlayer(id: string): boolean;
-  /** Returns an object detailing current game */
-  getGameState: () => GameState;
+  /** Initiate stonk purchase for a player */
+  buyStonk(playerId: string, symbol: string, amount: number): boolean;
+  /** Initiate stonk sell for a player */
+  sellStonk(playerId: string, symbol: string, amount: number): boolean;
 }
 
 class Game implements GameProps, GameMethods {
@@ -137,6 +141,22 @@ class Game implements GameProps, GameMethods {
   }
 
   /**
+   * Returns current game state
+   * @returns {GameState}
+   */
+  getGameState(): GameState {
+    const stonks = this.ticker.getStonks();
+    const players = this.players.map((p) => p.getInfo(stonks));
+
+    return {
+      id: this.id,
+      status: this.status,
+      players,
+      stonks,
+    };
+  }
+
+  /**
    * Start the simulation timer
    */
   start(): void {
@@ -181,7 +201,7 @@ class Game implements GameProps, GameMethods {
    * @returns {boolean}
    */
   addPlayer(id: string, name: string): boolean {
-    const exists = this.checkForPlayer(id);
+    const exists = this._players.find((p) => p.id === id);
     if (exists) {
       return false;
     }
@@ -197,7 +217,7 @@ class Game implements GameProps, GameMethods {
    * @returns {boolean}
    */
   removePlayer(id: string): boolean {
-    const exists = this.checkForPlayer(id);
+    const exists = this._players.find((p) => p.id === id);
     if (!exists) {
       return false;
     }
@@ -206,20 +226,24 @@ class Game implements GameProps, GameMethods {
     return true;
   }
 
-  /**
-   * Returns current game state
-   * @returns {GameState}
-   */
-  getGameState(): GameState {
-    const stonks = this.ticker.getStonks();
-    const players = this.players.map((p) => p.getInfo(stonks));
+  /** Initiate stonk purchase for a player */
+  buyStonk(playerId: string, symbol: string, amount: number): boolean {
+    const stonkInfo = this._ticker.findStonk(symbol);
+    const player = this._players.find((p) => p.id === playerId);
+    if (!stonkInfo || !player) {
+      return false;
+    }
+    return player.buyStonk(stonkInfo, amount);
+  }
 
-    return {
-      id: this.id,
-      status: this.status,
-      players,
-      stonks,
-    };
+  /** Initiate stonk sell for a player */
+  sellStonk(playerId: string, symbol: string, amount: number): boolean {
+    const stonkInfo = this._ticker.findStonk(symbol);
+    const player = this._players.find((p) => p.id === playerId);
+    if (!stonkInfo || !player) {
+      return false;
+    }
+    return player.sellStonk(stonkInfo, amount);
   }
 
   /**
@@ -244,14 +268,6 @@ class Game implements GameProps, GameMethods {
     this._handlers.forEach((item) => {
       item();
     });
-  }
-
-  /**
-   * Checks if player already exists
-   */
-  private checkForPlayer(id: string): boolean {
-    const found = this._players.find((p) => p.id === id);
-    return found ? true : false;
   }
 }
 

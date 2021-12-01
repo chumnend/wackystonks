@@ -32,8 +32,24 @@ describe('Player', function () {
 
     expect(player.buyStonk(stonk, 10)).to.be.true;
     expect(player.funds).to.equal(0);
-    console.log(player.portfolio);
     expect(player.portfolio['TST']).to.equal(10);
+
+    const playerInfo = player.getInfo([stonk.getInfo()]);
+    expect(playerInfo.netValue).to.equal(100);
+  });
+
+  it('expects to purchase a stonk that is already owned', () => {
+    const player = new Player('TSTR-123', 'Chester Tester', 200);
+    const stonk = new Stonk('Test', 'TST', 10);
+
+    expect(player.buyStonk(stonk, 10)).to.be.true;
+    expect(player.funds).to.equal(100);
+    expect(player.buyStonk(stonk, 10)).to.be.true;
+    expect(player.funds).to.equal(0);
+    expect(player.portfolio['TST']).to.equal(20);
+
+    const playerInfo = player.getInfo([stonk.getInfo()]);
+    expect(playerInfo.netValue).to.equal(200);
   });
 
   it('expects to not purchase a stonk if not enough funds', () => {
@@ -49,6 +65,9 @@ describe('Player', function () {
 
     expect(player.buyStonk(stonk, 10)).to.be.true;
     expect(player.sellStonk(stonk, 10)).to.be.true;
+
+    const playerInfo = player.getInfo([stonk.getInfo()]);
+    expect(playerInfo.netValue).to.equal(10000);
   });
 
   it('expects to not sell a stonk, if player does not own a stonk', () => {
