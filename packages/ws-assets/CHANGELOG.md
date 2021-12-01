@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.10.0
+
+### Minor Changes
+
+- add buy and sell functions
+
 ## 0.9.0
 
 ### Minor Changes

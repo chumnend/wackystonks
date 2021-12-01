@@ -1,5 +1,12 @@
 # ws-client
 
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - ws-assets@0.10.0
+
 ## 0.5.1
 
 ### Patch Changes
