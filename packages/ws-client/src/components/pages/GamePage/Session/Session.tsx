@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis } from 'recharts';
 import styled from 'styled-components';
 import { PlayerInfo, StonkInfo } from 'ws-assets';
@@ -114,9 +115,39 @@ interface Props {
   stonks: StonkInfo[];
   /** array of player details */
   players: PlayerInfo[];
+  /** buy a stonk */
+  buyStonk: (symbol: string, amount: number) => void;
+  /** sell a stonk */
+  sellStonk: (symbol: string, amount: number) => void;
 }
 
-const Session = ({ stonks, players }: Props) => {
+interface Quantity {
+  [key: string]: number;
+}
+
+const Session = ({ stonks, players, buyStonk, sellStonk }: Props) => {
+  const [quantity, setQuantity] = useState<Quantity>({});
+
+  useEffect(() => {
+    const initialQuantity: Quantity = {};
+    for (const stonk of stonks) {
+      initialQuantity[stonk.symbol] = 0;
+    }
+    setQuantity(initialQuantity);
+  }, []);
+
+  const handleBuy = (symbol: string) => {
+    buyStonk(symbol, quantity[symbol]);
+    const updatedQuantity = { ...quantity, [symbol]: 0 };
+    setQuantity(updatedQuantity);
+  };
+
+  const handleSell = (symbol: string) => {
+    sellStonk(symbol, quantity[symbol]);
+    const updatedQuantity = { ...quantity, [symbol]: 0 };
+    setQuantity(updatedQuantity);
+  };
+
   const stonkList = stonks.map((stonk) => {
     const data = stonk.previousPrices.map((price) => ({
       time: new Date(Date.now()).toUTCString(),
@@ -131,9 +162,18 @@ const Session = ({ stonks, players }: Props) => {
           </span>
           <span>
             {stonk.price}
-            <input type="text" />
-            <button>Buy</button>
-            <button>Sell</button>
+            <input
+              type="number"
+              min={0}
+              max={99}
+              value={quantity[stonk.symbol]}
+              onChange={(e) => {
+                const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
+                setQuantity(updatedQuantity);
+              }}
+            />
+            <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
+            <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
           </span>
         </StonkCardHeader>
         <ResponsiveContainer height={200}>

@@ -45,6 +45,14 @@ const GamePage = () => {
     history.push(Routes.HOME_ROUTE);
   };
 
+  const buyStonk = (symbol: string, amount: number) => {
+    console.log(`buying ${amount} shares of ${symbol}`);
+  };
+
+  const sellStonk = (symbol: string, amount: number) => {
+    console.log(`selling ${amount} shares of ${symbol}`);
+  };
+
   const addSocketListeners = () => {
     socket.on(SocketEvents.PLAYERS_UPDATE, (game: GameState) => {
       setPlayers(game.players);
@@ -87,7 +95,9 @@ const GamePage = () => {
       );
       break;
     case Game.STATUS_START:
-      content = <Session socketId={socket.id} stonks={stonks} players={players} />;
+      content = (
+        <Session socketId={socket.id} stonks={stonks} players={players} buyStonk={buyStonk} sellStonk={sellStonk} />
+      );
       break;
     case Game.STATUS_END:
     default:
