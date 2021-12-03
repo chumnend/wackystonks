@@ -3,7 +3,7 @@ import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketServer, Socket } from 'socket.io';
 import { GameManager } from 'ws-assets';
 
-import * as SocketEvents from './socketEvents';
+import { SocketEvents } from './constants';
 
 const wackyStonks = new GameManager();
 
