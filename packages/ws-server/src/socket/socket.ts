@@ -114,13 +114,6 @@ const createSocketServer = (app: Application): HTTPServer => {
     });
 
     /**
-     * Called by client when player is changing thier name.
-     */
-    socket.on(SocketEvents.RENAME_PLAYER, () => {
-      console.log('NOT YET IMPLMENTED');
-    });
-
-    /**
      * Called by client when host wishes to end the game room. Should recieve game id.
      */
     socket.on(SocketEvents.DELETE_GAME, (recv) => {
@@ -137,6 +130,92 @@ const createSocketServer = (app: Application): HTTPServer => {
 
       socket.to(id).emit(SocketEvents.GAME_ENDED);
       io.in(id).socketsLeave(id);
+    });
+
+    /**
+     * Called by client when player is changing thier name.
+     */
+    socket.on(SocketEvents.RENAME_PLAYER, () => {
+      console.log('NOT YET IMPLMENTED');
+      return;
+    });
+
+    /**
+     * Called by client when they are buying a stonk. Should recieve game id, player id, stonk symbol and amount.
+     */
+    socket.on(SocketEvents.BUY_STONK, (recv, cb) => {
+      if (recv.gameId === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without game id');
+        return;
+      }
+
+      if (recv.playerId === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without player id');
+        return;
+      }
+
+      if (recv.symbol === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without stonk symbol');
+        return;
+      }
+
+      if (recv.amount === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without stonk amount');
+        return;
+      }
+
+      if (!cb) {
+        console.log(SocketEvents.FIND_GAME, 'called without callback');
+        return;
+      }
+
+      const { gameId, playerId, symbol, amount } = recv;
+      const game = wackyStonks.findGame(gameId);
+      if (game) {
+        const success = game.buyStonk(playerId, symbol, amount);
+        cb(success);
+        return;
+      }
+      cb();
+    });
+
+    /**
+     * Called by client when they are buying a stonk. Should recieve game id, player id, stonk symbol and amount.
+     */
+    socket.on(SocketEvents.SELL_STONK, (recv, cb) => {
+      if (recv.gameId === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without game id');
+        return;
+      }
+
+      if (recv.playerId === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without player id');
+        return;
+      }
+
+      if (recv.symbol === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without stonk symbol');
+        return;
+      }
+
+      if (recv.amount === undefined) {
+        console.log(SocketEvents.BUY_STONK, 'called without stonk amount');
+        return;
+      }
+
+      if (!cb) {
+        console.log(SocketEvents.FIND_GAME, 'called without callback');
+        return;
+      }
+
+      const { gameId, playerId, symbol, amount } = recv;
+      const game = wackyStonks.findGame(gameId);
+      if (game) {
+        const success = game.sellStonk(playerId, symbol, amount);
+        cb(success);
+        return;
+      }
+      cb();
     });
   });
 
