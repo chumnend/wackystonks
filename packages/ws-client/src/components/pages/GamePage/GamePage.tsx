@@ -47,10 +47,16 @@ const GamePage = () => {
 
   const buyStonk = (symbol: string, amount: number) => {
     console.log(`buying ${amount} shares of ${symbol}`);
+    socket.emit(SocketEvents.BUY_STONK, { id: params.id, symbol, amount }, (success: boolean) => {
+      console.log(success);
+    });
   };
 
   const sellStonk = (symbol: string, amount: number) => {
     console.log(`selling ${amount} shares of ${symbol}`);
+    socket.emit(SocketEvents.SELL_STONK, { id: params.id, symbol, amount }, (success: boolean) => {
+      console.log(success);
+    });
   };
 
   const addSocketListeners = () => {

@@ -141,16 +141,11 @@ const createSocketServer = (app: Application): HTTPServer => {
     });
 
     /**
-     * Called by client when they are buying a stonk. Should recieve game id, player id, stonk symbol and amount.
+     * Called by client when they are buying a stonk. Should recieve game id, stonk symbol and amount.
      */
     socket.on(SocketEvents.BUY_STONK, (recv, cb) => {
-      if (recv.gameId === undefined) {
+      if (recv.id === undefined) {
         console.log(SocketEvents.BUY_STONK, 'called without game id');
-        return;
-      }
-
-      if (recv.playerId === undefined) {
-        console.log(SocketEvents.BUY_STONK, 'called without player id');
         return;
       }
 
@@ -165,14 +160,14 @@ const createSocketServer = (app: Application): HTTPServer => {
       }
 
       if (!cb) {
-        console.log(SocketEvents.FIND_GAME, 'called without callback');
+        console.log(SocketEvents.BUY_STONK, 'called without callback');
         return;
       }
 
-      const { gameId, playerId, symbol, amount } = recv;
-      const game = wackyStonks.findGame(gameId);
+      const { id, symbol, amount } = recv;
+      const game = wackyStonks.findGame(id);
       if (game) {
-        const success = game.buyStonk(playerId, symbol, amount);
+        const success = game.buyStonk(socket.id, symbol, amount);
         cb(success);
         return;
       }
@@ -180,42 +175,37 @@ const createSocketServer = (app: Application): HTTPServer => {
     });
 
     /**
-     * Called by client when they are buying a stonk. Should recieve game id, player id, stonk symbol and amount.
+     * Called by client when they are buying a stonk. Should recieve game id, stonk symbol and amount.
      */
     socket.on(SocketEvents.SELL_STONK, (recv, cb) => {
-      if (recv.gameId === undefined) {
-        console.log(SocketEvents.BUY_STONK, 'called without game id');
-        return;
-      }
-
-      if (recv.playerId === undefined) {
-        console.log(SocketEvents.BUY_STONK, 'called without player id');
+      if (recv.id === undefined) {
+        console.log(SocketEvents.SELL_STONK, 'called without game id');
         return;
       }
 
       if (recv.symbol === undefined) {
-        console.log(SocketEvents.BUY_STONK, 'called without stonk symbol');
+        console.log(SocketEvents.SELL_STONK, 'called without stonk symbol');
         return;
       }
 
       if (recv.amount === undefined) {
-        console.log(SocketEvents.BUY_STONK, 'called without stonk amount');
+        console.log(SocketEvents.SELL_STONK, 'called without stonk amount');
         return;
       }
 
       if (!cb) {
-        console.log(SocketEvents.FIND_GAME, 'called without callback');
+        console.log(SocketEvents.SELL_STONK, 'called without callback');
         return;
       }
 
-      const { gameId, playerId, symbol, amount } = recv;
-      const game = wackyStonks.findGame(gameId);
+      const { id, symbol, amount } = recv;
+      const game = wackyStonks.findGame(id);
       if (game) {
-        const success = game.sellStonk(playerId, symbol, amount);
+        const success = game.sellStonk(socket.id, symbol, amount);
         cb(success);
         return;
       }
-      cb();
+      cb(false);
     });
   });
 
