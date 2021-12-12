@@ -7,7 +7,6 @@ const expect = chai.expect;
 describe('Ticker', function () {
   it('expects Ticker to be properly created', () => {
     const ticker = new Ticker('Test Ticker');
-
     expect(ticker.name).equal('Test Ticker');
     expect(ticker.getStonks()).to.have.length(0);
   });
@@ -44,6 +43,21 @@ describe('Ticker', function () {
     expect(ticker.getStonks()[0]).to.have.property('symbol', 'TST');
     expect(ticker.getStonks()[0]).to.have.property('price', 1);
     expect(ticker.getStonks()[0]).to.have.deep.property('previousPrices', [1]);
+  });
+
+  it('expects to find an added stonk', () => {
+    const ticker = new Ticker('Test Ticker');
+    const stonk = new Stonk('Test Stonk', 'TST', 1);
+    ticker.addStonk(stonk);
+    expect(ticker.findStonk('TST')).to.have.property('name', 'Test Stonk');
+    expect(ticker.findStonk('TST')).to.have.property('symbol', 'TST');
+    expect(ticker.findStonk('TST')).to.have.property('price', 1);
+    expect(ticker.findStonk('TST')).to.have.deep.property('previousPrices', [1]);
+  });
+
+  it('expects to not find a stonk', () => {
+    const ticker = new Ticker('Test Ticker');
+    expect(ticker.findStonk('NIL')).to.be.null;
   });
 
   it('expects simulate to modify all the prices of the ticker', () => {

@@ -30,20 +30,24 @@ interface GameProps {
 }
 
 interface GameMethods {
+  /** Returns an object detailing current game */
+  getGameState: () => GameState;
   /** Starts tne stonk ticker simulation */
   start: () => void;
-  /** Stops the stonk tikcer simulation */
+  /** Stops the stonk ticker simulation */
   stop: () => void;
   /** Adds function handler that will be called every ticker interval */
   subscribe: (fn: () => void) => void;
   /** Removes function handler that will be called every ticker interval */
   unsubscribe: (fn: () => void) => void;
-  /** Returns an object detailing current game */
-  getGameState: () => GameState;
   /** Add player to game */
   addPlayer(id: string, name: string): boolean;
   /** Remove player from game */
   removePlayer(id: string): boolean;
+  /** Initiate stonk purchase for a player */
+  buyStonk(playerId: string, symbol: string, amount: number): boolean;
+  /** Initiate stonk sell for a player */
+  sellStonk(playerId: string, symbol: string, amount: number): boolean;
 }
 
 class Game implements GameProps, GameMethods {
@@ -57,9 +61,7 @@ class Game implements GameProps, GameMethods {
 
   static DEFAULT_TICKER_SIMULATION_INTERVAL = 5000; // Default simulation timer interval (ms) 5000ms = 5s
   static DEFAULT_TICKER_STONKS_AMOUNT = 5;
-
   static DEFAULT_GAME_TIMER_INTERVAL = 60000; // Default game timer interval (ms) 60000ms = 1 min
-
   static STATUS_PARTY = 'party';
   static STATUS_START = 'start';
   static STATUS_END = 'end';
@@ -79,12 +81,15 @@ class Game implements GameProps, GameMethods {
   ) {
     this._id = id;
     this._status = Game.STATUS_PARTY;
-    this._ticker = new Ticker(id);
-    this.randomizeStonks(numberOfStonks);
-    this._simulationTimer = new Timer(this.tick.bind(this), simulationDelay, true);
-    this._gameTimer = new Timer(() => null, gameDelay, false);
-    this._handlers = [];
     this._players = [];
+    this._ticker = new Ticker(id);
+    this._simulationTimer = new Timer(this.tick.bind(this), simulationDelay, Timer.LOOPED_TIMER);
+    this._gameTimer = new Timer(() => null, gameDelay, Timer.COUNTDOWN_TIMER);
+    this._handlers = [];
+
+    // initilaize ticker stonks
+    this.randomizeStonks(numberOfStonks);
+    this._ticker.simulate();
   }
 
   /**
@@ -136,6 +141,22 @@ class Game implements GameProps, GameMethods {
   }
 
   /**
+   * Returns current game state
+   * @returns {GameState}
+   */
+  getGameState(): GameState {
+    const stonks = this.ticker.getStonks();
+    const players = this.players.map((p) => p.getInfo(stonks));
+
+    return {
+      id: this.id,
+      status: this.status,
+      players,
+      stonks,
+    };
+  }
+
+  /**
    * Start the simulation timer
    */
   start(): void {
@@ -180,7 +201,7 @@ class Game implements GameProps, GameMethods {
    * @returns {boolean}
    */
   addPlayer(id: string, name: string): boolean {
-    const exists = this.checkForPlayer(id);
+    const exists = this._players.find((p) => p.id === id);
     if (exists) {
       return false;
     }
@@ -196,7 +217,7 @@ class Game implements GameProps, GameMethods {
    * @returns {boolean}
    */
   removePlayer(id: string): boolean {
-    const exists = this.checkForPlayer(id);
+    const exists = this._players.find((p) => p.id === id);
     if (!exists) {
       return false;
     }
@@ -205,20 +226,24 @@ class Game implements GameProps, GameMethods {
     return true;
   }
 
-  /**
-   * Returns current game state
-   * @returns {GameState}
-   */
-  getGameState(): GameState {
-    const stonks = this.ticker.getStonks();
-    const players = this.players.map((p) => p.getPlayerInfo(stonks));
+  /** Initiate stonk purchase for a player */
+  buyStonk(playerId: string, symbol: string, amount: number): boolean {
+    const stonkInfo = this._ticker.findStonk(symbol);
+    const player = this._players.find((p) => p.id === playerId);
+    if (!stonkInfo || !player) {
+      return false;
+    }
+    return player.buyStonk(stonkInfo, amount);
+  }
 
-    return {
-      id: this.id,
-      status: this.status,
-      players,
-      stonks,
-    };
+  /** Initiate stonk sell for a player */
+  sellStonk(playerId: string, symbol: string, amount: number): boolean {
+    const stonkInfo = this._ticker.findStonk(symbol);
+    const player = this._players.find((p) => p.id === playerId);
+    if (!stonkInfo || !player) {
+      return false;
+    }
+    return player.sellStonk(stonkInfo, amount);
   }
 
   /**
@@ -243,14 +268,6 @@ class Game implements GameProps, GameMethods {
     this._handlers.forEach((item) => {
       item();
     });
-  }
-
-  /**
-   * Checks if player already exists
-   */
-  private checkForPlayer(id: string): boolean {
-    const found = this._players.find((p) => p.id === id);
-    return found ? true : false;
   }
 }
 

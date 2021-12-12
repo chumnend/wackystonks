@@ -9,12 +9,14 @@ interface TickerProps {
 }
 
 interface TickerMethods {
+  /** Get array of stonk properties in the ticker */
+  getStonks(): StonkInfo[];
   /** Create new sonk and add it to a ticker */
   createStonk(name: string, symbol: string, initialPrice: number): boolean;
   /** Add a stonk to this ticker */
   addStonk(stonk: Stonk): boolean;
-  /** Get array of stonk properties in the ticker */
-  getStonks(): StonkInfo[];
+  /** Retrieve a stonk by it's ticker symbol */
+  findStonk(symbol: string): StonkInfo | null;
   /** Randomly modifies the values of stonks in the ticker */
   simulate(): void;
 }
@@ -38,6 +40,18 @@ class Ticker implements TickerProps, TickerMethods {
 
   get stonks(): Stonk[] {
     return this._stonks;
+  }
+
+  /**
+   * Get an array representation of all the stonks in this ticker
+   * @returns {StonkProps[]}
+   */
+  public getStonks(): StonkInfo[] {
+    const stonks = [];
+    this.stonks.forEach((stonk) => {
+      stonks.push(stonk.getInfo());
+    });
+    return stonks;
   }
 
   /**
@@ -67,21 +81,12 @@ class Ticker implements TickerProps, TickerMethods {
     return true;
   }
 
-  /**
-   * Get an array representation of all the stonks in this ticker
-   * @returns {StonkProps[]}
-   */
-  public getStonks(): StonkInfo[] {
-    const stonks = [];
-    this.stonks.forEach((stonk) => {
-      stonks.push({
-        name: stonk.name,
-        symbol: stonk.symbol,
-        price: stonk.price,
-        previousPrices: stonk.previousPrices,
-      });
-    });
-    return stonks;
+  public findStonk(symbol: string): StonkInfo | null {
+    const stonk = this._stonks.find((s) => s.symbol === symbol);
+    if (!stonk) {
+      return null;
+    }
+    return stonk.getInfo();
   }
 
   /**

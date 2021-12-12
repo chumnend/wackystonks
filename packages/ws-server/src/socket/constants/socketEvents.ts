@@ -8,6 +8,8 @@ export const JOIN_GAME = 'join-game';
 export const LEAVE_GAME = 'leave-game';
 export const START_GAME = 'start-game';
 export const RENAME_PLAYER = 'rename-player';
+export const BUY_STONK = 'buy-stonk';
+export const SELL_STONK = 'sell-stonk';
 
 // emitters
 export const PLAYERS_UPDATE = 'players-update';
