@@ -1,5 +1,16 @@
 # ws-server
 
+## 0.6.0
+
+### Minor Changes
+
+- 141110d: added buy/sell functions
+
+### Patch Changes
+
+- Updated dependencies [141110d]
+  - ws-assets@0.11.0
+
 ## 0.5.2
 
 ### Patch Changes
