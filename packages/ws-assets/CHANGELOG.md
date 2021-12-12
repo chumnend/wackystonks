@@ -1,5 +1,11 @@
 # ws-assets
 
+## 0.11.0
+
+### Minor Changes
+
+- 141110d: added buy/sell functions
+
 ## 0.10.0
 
 ### Minor Changes

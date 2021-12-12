@@ -1,6 +1,6 @@
 {
   "name": "ws-client",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -46,7 +46,7 @@
     "styled-components": "^5.3.1",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1",
-    "ws-assets": "^0.10.0"
+    "ws-assets": "^0.11.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
