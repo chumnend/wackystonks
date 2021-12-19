@@ -1,4 +1,4 @@
-import { IGame } from './game';
+import { IGame, GameConfiguration } from './game';
 import { ITimer, TimerMode } from './timer';
 
-export { IGame, ITimer, TimerMode };
+export { IGame, GameConfiguration, ITimer, TimerMode };
