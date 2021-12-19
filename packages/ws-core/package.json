@@ -11,8 +11,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "./node_modules/.bin/_mocha -r ts-node/register tests/**/*.test.ts",
-    "coverage": "nyc yarn run test",
+    "test": "nyc ./node_modules/.bin/_mocha -r ts-node/register tests/**/*.test.ts",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix && ./node_modules/.bin/prettier --write ./src"
   },
