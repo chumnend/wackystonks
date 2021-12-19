@@ -1,4 +1,6 @@
-class Game {
+import { IGame } from '../types';
+
+class Game implements IGame {
   private _id: string;
   private _status: string;
 
