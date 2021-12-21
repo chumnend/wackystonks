@@ -48,6 +48,7 @@ class Player implements IPlayer {
 
   /**
    * Set player's fund amount
+   * @param {number} value
    */
   set funds(value: number) {
     this._funds = value;
