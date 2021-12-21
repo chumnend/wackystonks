@@ -1,3 +1,9 @@
+export type GameConfiguration = {
+  tickTimerDelay: number;
+  prepTimerDelay: number;
+  gameTimerDelay: number;
+};
+
 export interface IGame {
   /** An indentifier used to represent a game */
   id: string;
@@ -10,9 +16,3 @@ export interface IGame {
   /** Set callback to trigger on clock tick */
   subscribeToTick(callback: () => void): void;
 }
-
-export type GameConfiguration = {
-  tickTimerDelay: number;
-  prepTimerDelay: number;
-  gameTimerDelay: number;
-};

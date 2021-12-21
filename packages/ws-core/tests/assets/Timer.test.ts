@@ -76,7 +76,7 @@ describe('Timer - Countdown', function () {
     setTimeout(() => {
       expect(count).to.equal(1);
       done();
-    }, 150);
+    }, 160);
   });
 
   it('expects checkTime to return time left on timer', function (done) {
