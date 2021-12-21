@@ -1,5 +1,5 @@
-import { IGame, GameConfiguration } from './game';
-import { ITimer, TimerMode } from './timer';
-import { IPlayer, Portfolio } from './player';
+import { IGame, GameConfiguration } from './Game.types';
+import { ITimer, TimerMode } from './Timer.types';
+import { IPlayer, Portfolio } from './Player.types';
 
 export { IGame, GameConfiguration, ITimer, TimerMode, IPlayer, Portfolio };

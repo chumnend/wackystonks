@@ -1,3 +1,3 @@
-import { Game, Timer, Player } from './assets';
+import { Game } from './assets';
 
-export { Game, Timer, Player };
+export { Game };

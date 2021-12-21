@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 
-import { Player } from '../../src';
+import { Player } from '../../src/assets';
 
 const expect = chai.expect;
 

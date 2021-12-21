@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 
-import { Timer } from '../../src';
+import { Timer } from '../../src/assets';
 
 const expect = chai.expect;
 
