@@ -1,8 +1,10 @@
 export type GameConfiguration = {
   tickTimerDelay: number;
+  simulationDelay: number;
   prepTimerDelay: number;
   gameTimerDelay: number;
   initialFunds: number;
+  numberOfStonks: number;
 };
 
 export interface IGame {
@@ -11,13 +13,15 @@ export interface IGame {
   /** Current status of the game */
   status: string;
   /** Starts the game */
-  start(): void;
+  startGame(): void;
   /** Stops the game */
-  stop(): void;
-  /** Set callback to trigger on clock tick */
-  subscribeToTick(callback: () => void): boolean;
+  stopGame(): void;
   /** Add a new player to the game */
   addPlayer(id: string, name: string): boolean;
   /** Remove an existing player */
   removePlayer(id: string): boolean;
+  /** Set callback to trigger on clock tick event */
+  listenForTickEvent(callback: () => void): boolean;
+  /** Set callback to trigger on simulation event */
+  listenForSimulationEvent(callback: () => void): boolean;
 }

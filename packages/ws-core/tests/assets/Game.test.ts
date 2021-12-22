@@ -7,26 +7,29 @@ const expect = chai.expect;
 
 const testConfig: GameConfiguration = {
   tickTimerDelay: 100,
+  simulationDelay: 100,
   prepTimerDelay: 500,
   gameTimerDelay: 500,
   initialFunds: 1000,
+  numberOfStonks: 1,
 };
 
 describe('Game', function () {
   it('expects to create new game instance', function () {
-    const game = new Game('Test');
+    const game = new Game('Test', testConfig);
 
     expect(game.id).to.equal('Test');
     expect(game.status).to.equal(Game.STATUS_WAITING);
     expect(game.players).to.deep.equal([]);
+    expect(game.stonks).to.have.length(1);
   });
 
   it('expects to stop the game', function () {
     this.timeout(1000);
 
     const game = new Game('Test', testConfig);
-    game.start();
-    game.stop();
+    game.startGame();
+    game.stopGame();
 
     expect(game.status).to.equal(Game.STATUS_STOPPED);
   });
@@ -35,7 +38,7 @@ describe('Game', function () {
     this.timeout(3000);
 
     const game = new Game('Test', testConfig);
-    game.start();
+    game.startGame();
 
     setTimeout(() => {
       expect(game.status).to.equal(Game.STATUS_PREPARING);
@@ -49,20 +52,6 @@ describe('Game', function () {
       expect(game.status).to.equal(Game.STATUS_STOPPED);
       done();
     }, 1100);
-  });
-
-  it('expects to subscribe to each tick', function (done) {
-    this.timeout(3000);
-
-    let ticks = 0;
-    const game = new Game('Test', testConfig);
-    game.subscribeToTick(() => ticks++);
-    game.start();
-
-    setTimeout(() => {
-      expect(ticks).to.equal(9);
-      done();
-    }, 1000);
   });
 
   it('expects to add player to the game', function () {
@@ -88,5 +77,41 @@ describe('Game', function () {
   it('expects to not remove a player that does not exist', function () {
     const game = new Game('TEST', testConfig);
     expect(game.removePlayer('1234')).to.be.false;
+  });
+
+  it('expects to subscribe to each tick event', function (done) {
+    this.timeout(3000);
+
+    let counter = 0;
+    const increment = () => counter++;
+
+    const game = new Game('Test', testConfig);
+    game.listenForTickEvent(increment);
+    game.startGame();
+
+    setTimeout(() => {
+      expect(counter).to.equal(9);
+      done();
+    }, 1000);
+  });
+
+  it('expects to subsribe to each simulation event', function (done) {
+    this.timeout(3000);
+
+    let counter = 0;
+    const increment = () => counter++;
+
+    const game = new Game('TEST', testConfig);
+    const initialStonk = game.stonks[0];
+    game.listenForSimulationEvent(increment);
+    game.startGame();
+
+    setTimeout(() => {
+      game.stopGame();
+      expect(counter).to.equal(1);
+      const finalStonk = game.stonks[1];
+      expect(initialStonk).to.not.deep.equal(finalStonk);
+      done();
+    }, 650);
   });
 });
