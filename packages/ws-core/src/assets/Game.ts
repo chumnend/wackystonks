@@ -128,14 +128,102 @@ class Game implements IGame {
     return true;
   }
 
+  /**
+   * Initiate stonk purchase for a player
+   * @param {string} playerId
+   * @param {string} symbol
+   * @param {number} amount
+   * @returns {boolean} true if successful
+   */
+  buyStonk(playerId: string, symbol: string, amount: number): boolean {
+    // find player
+    const player = this._findPlayer(playerId);
+    if (!player) {
+      return false;
+    }
+
+    // find stonk
+    const stonk = this._findStonk(symbol);
+    if (!stonk) {
+      return false;
+    }
+
+    // check if enough funds to purchase stonk
+    const fundsNeeded = stonk.price * amount;
+    if (player.funds < fundsNeeded) {
+      return false;
+    }
+
+    // adjust player funds and add stonk to portfolio
+    player.funds -= fundsNeeded;
+    player.addToPortfolio(stonk.symbol, amount);
+    return true;
+  }
+
+  /**
+   * Initiate stonk sell for a player
+   * @param {string} playerId
+   * @param {string} symbol
+   * @param {number} amount
+   * @returns {boolean} true if successful
+   */
+  sellStonk(playerId: string, symbol: string, amount: number): boolean {
+    // find player
+    const player = this._findPlayer(playerId);
+    if (!player) {
+      return false;
+    }
+
+    // find stonk
+    const stonk = this._findStonk(symbol);
+    if (!stonk) {
+      return false;
+    }
+
+    // check if stonk in portfolio and if there is enough to sell
+    if (!(stonk.symbol in player.portfolio) || player.portfolio[stonk.symbol] < amount) {
+      return false;
+    }
+    // add funds and remove stonks from portfolio
+    player.funds += stonk.price * amount;
+    player.removeFromPortfolio(stonk.symbol, amount);
+    return true;
+  }
+
+  /**
+   * Pass callback to be called when tick event triggers
+   * @param {() => void} callback
+   * @returns {boolean} true if successful
+   */
   listenForTickEvent(callback: () => void): boolean {
     this._tickHandlers.push(callback);
     return true;
   }
 
+  /**
+   * Pass callback to be called when simulation event triggers
+   * @param {() => void} callback
+   * @returns {boolean} true if successful
+   */
   listenForSimulationEvent(callback: () => void): boolean {
     this._simulationHandlers.push(callback);
     return true;
+  }
+
+  /**
+   * Find a player by id
+   * @param {string} id
+   */
+  private _findPlayer(id: string): Player {
+    return this._players.find((player) => player.id === id);
+  }
+
+  /**
+   * Find a stonk by symbol
+   * @param {string} symbol
+   */
+  private _findStonk(symbol: string): Stonk {
+    return this._stonks.find((stonk) => stonk.symbol === symbol);
   }
 
   /**

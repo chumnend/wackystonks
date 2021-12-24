@@ -20,6 +20,10 @@ export interface IGame {
   addPlayer(id: string, name: string): boolean;
   /** Remove an existing player */
   removePlayer(id: string): boolean;
+  /** Initiate stonk purchase for a player */
+  buyStonk(playerId: string, symbol: string, amount: number): boolean;
+  /** Initiate stonk sell for a player */
+  sellStonk(playerId: string, symbol: string, amount: number): boolean;
   /** Set callback to trigger on clock tick event */
   listenForTickEvent(callback: () => void): boolean;
   /** Set callback to trigger on simulation event */

@@ -79,6 +79,67 @@ describe('Game', function () {
     expect(game.removePlayer('1234')).to.be.false;
   });
 
+  it('expects to buy stonk', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.stonks[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.true;
+  });
+
+  it('expects to not buy if player does not exist', () => {
+    const game = new Game('TEST', testConfig);
+    const stonk = game.stonks[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.false;
+  });
+
+  it('expects to not buy if stonk does not exist', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    expect(game.buyStonk('TST', 'RNDO', 1)).to.be.false;
+  });
+
+  it('expects to not buy if player does not have enough funds', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.stonks[0];
+    expect(game.buyStonk('TST', stonk.symbol, 10000)).to.be.false;
+  });
+
+  it('expects to sell stonk', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.stonks[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.true;
+    expect(game.sellStonk('TST', stonk.symbol, 1)).to.be.true;
+  });
+
+  it('expects to not sell stonk if player does not exist', () => {
+    const game = new Game('TEST', testConfig);
+    const stonk = game.stonks[0];
+    expect(game.sellStonk('TST', stonk.symbol, 1)).to.be.false;
+  });
+
+  it('expects to not sell if stonk does not exist', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    expect(game.sellStonk('TST', 'RNDO', 1)).to.be.false;
+  });
+
+  it('expects to not sell stonk if player does not own stonk', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.stonks[0];
+    expect(game.sellStonk('TST', stonk.symbol, 1)).to.be.false;
+  });
+
+  it('expects to not sell stonk if player does not own enough stonk', () => {
+    const game = new Game('TEST', testConfig);
+    game.addPlayer('TST', 'Tester');
+    const stonk = game.stonks[0];
+    expect(game.buyStonk('TST', stonk.symbol, 1)).to.be.true;
+    expect(game.sellStonk('TST', stonk.symbol, 2)).to.be.false;
+  });
+
   it('expects to subscribe to each tick event', function (done) {
     this.timeout(3000);
 
