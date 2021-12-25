@@ -46,7 +46,6 @@ class Game implements IGame {
     this._simulationHandlers = [];
     this._prepTimer = new Timer(this._playStep.bind(this), config.prepTimerDelay, TimerMode.COUNTDOWN);
     this._gameTimer = new Timer(this._stopStep.bind(this), config.gameTimerDelay, TimerMode.COUNTDOWN);
-
     this._players = [];
     this._stonks = [];
     this._randomizeStonks();

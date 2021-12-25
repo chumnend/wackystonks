@@ -1,3 +1,5 @@
+import { IPlayer, IStonk } from './';
+
 export type GameConfiguration = {
   tickTimerDelay: number;
   simulationDelay: number;
@@ -12,6 +14,10 @@ export interface IGame {
   id: string;
   /** Current status of the game */
   status: string;
+  /** An array of players in a game */
+  players: IPlayer[];
+  /** An array of stonks in a game */
+  stonks: IStonk[];
   /** Starts the game */
   startGame(): void;
   /** Stops the game */
