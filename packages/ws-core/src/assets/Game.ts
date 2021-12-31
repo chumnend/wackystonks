@@ -20,7 +20,9 @@ class Game implements IGame {
   private _simulationTimer: Timer;
   private _simulationHandlers: (() => void)[];
   private _prepTimer: Timer;
+  private _prepHandlers: (() => void)[];
   private _gameTimer: ITimer;
+  private _gameHandlers: (() => void)[];
   private _players: Player[];
   private _stonks: Stonk[];
 
@@ -45,7 +47,9 @@ class Game implements IGame {
     this._simulationTimer = new Timer(this._simulationEvent.bind(this), config.simulationDelay, TimerMode.LOOPED);
     this._simulationHandlers = [];
     this._prepTimer = new Timer(this._playStep.bind(this), config.prepTimerDelay, TimerMode.COUNTDOWN);
+    this._prepHandlers = [];
     this._gameTimer = new Timer(this._stopStep.bind(this), config.gameTimerDelay, TimerMode.COUNTDOWN);
+    this._gameHandlers = [];
     this._players = [];
     this._stonks = [];
     this._randomizeStonks();
@@ -210,6 +214,26 @@ class Game implements IGame {
   }
 
   /**
+   * Set callback to trigger on preperation timer event
+   * @param {() => void} callback
+   * @returns {boolean} true if successful
+   */
+  listenForPrepEvent(callback: () => void): boolean {
+    this._prepHandlers.push(callback);
+    return true;
+  }
+
+  /**
+   * Set callback to trigger on game timer event
+   * @param {() => void} callback
+   * @returns {boolean} true if successful
+   */
+  listenForGameEvent(callback: () => void): boolean {
+    this._gameHandlers.push(callback);
+    return true;
+  }
+
+  /**
    * Find a player by id
    * @param {string} id
    */
@@ -265,18 +289,31 @@ class Game implements IGame {
   }
 
   private _prepStep(): void {
+    // update status and start preperation timers
     this._status = Game.STATUS_PREPARING;
     this._tickTimer.start();
     this._prepTimer.start();
   }
 
   private _playStep(): void {
+    // updates all prep listeners that preperation step is complete
+    this._prepHandlers.forEach((cb) => {
+      cb();
+    });
+
+    // update status and start game realted timers
     this._status = Game.STATUS_PLAYING;
     this._gameTimer.start();
     this._simulationTimer.start();
   }
 
   private _stopStep(): void {
+    // update all game timer listeners that the game has ended
+    this._gameHandlers.forEach((cb) => {
+      cb();
+    });
+
+    // update status and stop all timers
     this._status = Game.STATUS_STOPPED;
     this._tickTimer.reset();
     this._prepTimer.reset();

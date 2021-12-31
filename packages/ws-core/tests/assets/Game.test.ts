@@ -35,7 +35,7 @@ describe('Game', function () {
   });
 
   it('expects to change game status from waiting to stopped', function (done) {
-    this.timeout(3000);
+    this.timeout(1500);
 
     const game = new Game('Test', testConfiguration);
     game.startGame();
@@ -141,7 +141,7 @@ describe('Game', function () {
   });
 
   it('expects to subscribe to each tick event', function (done) {
-    this.timeout(3000);
+    this.timeout(1500);
 
     let counter = 0;
     const increment = () => counter++;
@@ -156,8 +156,8 @@ describe('Game', function () {
     }, 1000);
   });
 
-  it('expects to subsribe to each simulation event', function (done) {
-    this.timeout(3000);
+  it('expects to subscribe to each simulation timer event', function (done) {
+    this.timeout(1000);
 
     let counter = 0;
     const increment = () => counter++;
@@ -174,5 +174,39 @@ describe('Game', function () {
       expect(initialStonk).to.not.deep.equal(finalStonk);
       done();
     }, 650);
+  });
+
+  it('expects to subscribe to each prep timer event', function (done) {
+    this.timeout(1000);
+
+    let counter = 0;
+    const increment = () => counter++;
+
+    const game = new Game('TEST', testConfiguration);
+    game.listenForPrepEvent(increment);
+    game.startGame();
+
+    setTimeout(() => {
+      game.stopGame();
+      expect(counter).to.equal(1);
+      done();
+    }, 520);
+  });
+
+  it('expects to subscribe to each game timer event', function (done) {
+    this.timeout(1500);
+
+    let counter = 0;
+    const increment = () => counter++;
+
+    const game = new Game('TEST', testConfiguration);
+    game.listenForGameEvent(increment);
+    game.startGame();
+
+    setTimeout(() => {
+      game.stopGame();
+      expect(counter).to.equal(1);
+      done();
+    }, 500);
   });
 });

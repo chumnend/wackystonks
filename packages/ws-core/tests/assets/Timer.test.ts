@@ -54,29 +54,29 @@ describe('Timer - Countdown', function () {
   });
 
   it('expects reset to restart timer from initial delay', function (done) {
-    this.timeout(200);
+    this.timeout(500);
 
     let count = 0;
     const timerFn = () => count++;
-    const timer = new Timer(timerFn, 100, Timer.COUNTDOWN);
+    const timer = new Timer(timerFn, 250, Timer.COUNTDOWN);
     expect(timer.start()).to.be.true;
 
-    // restart and resume the timer after 30 ms
+    // restart and resume the timer after 100 ms
     setTimeout(() => {
       expect(timer.reset()).to.be.true;
       expect(timer.start()).to.be.true;
-    }, 30);
+    }, 100);
 
-    // after 100ms count should still be 0
+    // after 250ms count should still be 0
     setTimeout(() => {
       expect(count).to.equal(0);
-    }, 100);
+    }, 250);
 
     // after 150ms, count should be 1 as timer completed
     setTimeout(() => {
       expect(count).to.equal(1);
       done();
-    }, 160);
+    }, 350);
   });
 
   it('expects checkTime to return time left on timer', function (done) {

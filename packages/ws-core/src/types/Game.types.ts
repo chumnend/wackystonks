@@ -34,4 +34,8 @@ export interface IGame {
   listenForTickEvent(callback: () => void): boolean;
   /** Set callback to trigger on simulation event */
   listenForSimulationEvent(callback: () => void): boolean;
+  /** Set callback to trigger on preperation timer event */
+  listenForPrepEvent(callback: () => void): boolean;
+  /** Set callback to trigger on game timer event */
+  listenForGameEvent(callback: () => void): boolean;
 }
