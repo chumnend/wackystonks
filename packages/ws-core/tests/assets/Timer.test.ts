@@ -4,6 +4,12 @@ import { Timer } from '../../src/assets';
 
 const expect = chai.expect;
 
+/**
+ * PLEASE NOTE THE FOLLOWING
+ * The Timer tests can be FLAKY, as such please make sure
+ * to rerun tests to see if test continues to fail. In the
+ * future these tests will need to be improved.
+ */
 describe('Timer - Countdown', function () {
   it('expects to call done after 100ms', function (done) {
     this.timeout(200);

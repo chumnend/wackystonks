@@ -1,8 +1,8 @@
 import { Player, Timer, Stonk } from './';
-import { IGame, GameConfiguration, ITimer, TimerMode } from '../types';
+import { IGame, ConfigurationType, GameType, PlayerType, StonkType, ITimer, TimerMode } from '../types';
 import { round } from '../utils';
 
-const defaultGameConfiguration: GameConfiguration = {
+const defaultGameConfiguration: ConfigurationType = {
   tickTimerDelay: 1000, // 1 second
   simulationDelay: 2000, // 2 second
   prepTimerDelay: 5000, // 5 seconds
@@ -14,7 +14,7 @@ const defaultGameConfiguration: GameConfiguration = {
 class Game implements IGame {
   private _id: string;
   private _status: string;
-  private _config: GameConfiguration;
+  private _config: ConfigurationType;
   private _tickTimer: ITimer;
   private _tickHandlers: (() => void)[];
   private _simulationTimer: Timer;
@@ -88,6 +88,36 @@ class Game implements IGame {
   }
 
   /**
+   * Returns game information
+   * @return {GameType}
+   */
+  public gameState(): GameType {
+    // load all players information
+    const players: PlayerType[] = this.players.map((player) => ({
+      id: player.id,
+      name: player.name,
+      portfolio: player.portfolio,
+      funds: player.funds,
+      netValue: this._calculateNetValue(player),
+    }));
+
+    // load all stonks information
+    const stonks: StonkType[] = this.stonks.map((stonk) => ({
+      name: stonk.name,
+      symbol: stonk.symbol,
+      price: stonk.price,
+      previousPrices: [...stonk.previousPrices],
+    }));
+
+    return {
+      id: this.id,
+      status: this.status,
+      players,
+      stonks,
+    };
+  }
+
+  /**
    * Start the simulation timer
    */
   public startGame(): void {
@@ -112,8 +142,8 @@ class Game implements IGame {
     if (exists) {
       return false;
     }
-    const newPlayer = new Player(id, name, this._config.initialFunds);
-    this._players.push(newPlayer);
+    const player = new Player(id, name, this._config.initialFunds);
+    this._players.push(player);
     return true;
   }
 
@@ -239,6 +269,21 @@ class Game implements IGame {
    */
   private _findPlayer(id: string): Player {
     return this._players.find((player) => player.id === id);
+  }
+
+  /**
+   * Calculates the net value of a player based on funds and stonks in portfolio
+   * @param player {Player} the player to calculate net value for
+   * @returns {number} the nert value of the player
+   */
+  private _calculateNetValue(player: Player): number {
+    let netValue = player.funds;
+    /* istanbul ignore next */
+    for (const symbol in player.portfolio) {
+      const stonk = this._stonks.find((stonk) => stonk.symbol === symbol);
+      netValue += stonk.price * player.portfolio[symbol];
+    }
+    return netValue;
   }
 
   /**

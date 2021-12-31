@@ -1,4 +1,4 @@
-export type Portfolio = {
+export type PortfolioType = {
   [key: string]: number;
 };
 
@@ -8,7 +8,7 @@ export interface IPlayer {
   /** Name of a player */
   name: string;
   /** Details of a player's stonk portfolio */
-  portfolio: Portfolio;
+  portfolio: PortfolioType;
   /** The amount of mony a player has */
   funds: number;
   /** Add an amount of stonk to portfolio */

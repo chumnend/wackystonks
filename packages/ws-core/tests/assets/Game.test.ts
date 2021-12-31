@@ -1,11 +1,11 @@
 import * as chai from 'chai';
 
 import { Game, Player } from '../../src/assets';
-import { GameConfiguration } from '../../src/types';
+import { ConfigurationType } from '../../src/types';
 
 const expect = chai.expect;
 
-const testConfiguration: GameConfiguration = {
+const testConfiguration: ConfigurationType = {
   tickTimerDelay: 100,
   simulationDelay: 100,
   prepTimerDelay: 500,
@@ -208,5 +208,27 @@ describe('Game', function () {
       expect(counter).to.equal(1);
       done();
     }, 500);
+  });
+
+  it('expects to get game information', function () {
+    const game = new Game('Test', testConfiguration);
+    game.addPlayer('TST', 'Tester');
+
+    const state = game.gameState();
+    expect(state.id).to.equal('Test');
+    expect(state.status).to.equal(Game.STATUS_WAITING);
+    expect(state.players[0]).to.deep.equal({
+      id: 'TST',
+      name: 'Tester',
+      portfolio: {},
+      funds: 1000,
+      netValue: 1000,
+    });
+    expect(state.stonks[0]).to.deep.equal({
+      name: game.stonks[0].name,
+      symbol: game.stonks[0].symbol,
+      price: game.stonks[0].price,
+      previousPrices: game.stonks[0].previousPrices,
+    });
   });
 });

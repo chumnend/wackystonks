@@ -1,10 +1,10 @@
-import { IPlayer, Portfolio } from '../types';
+import { IPlayer, PortfolioType } from '../types';
 import deepClone from '../utils/deepClone';
 
 class Player implements IPlayer {
   private _id: string;
   private _name: string;
-  private _portfolio: Portfolio;
+  private _portfolio: PortfolioType;
   private _funds: number;
 
   constructor(id: string, name: string, funds: number) {
@@ -32,9 +32,9 @@ class Player implements IPlayer {
 
   /**
    * Get players stonk details
-   * @returns {Portfolio}
+   * @returns {PortfolioType}
    */
-  get portfolio(): Portfolio {
+  get portfolio(): PortfolioType {
     return deepClone(this._portfolio);
   }
 

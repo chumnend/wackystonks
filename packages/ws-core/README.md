@@ -9,6 +9,12 @@ package is written using Typescript.
 
 3) Run formatter and linter using ```yarn lint:fix```
 
+## What is in this Package?
+1) ***Game*** (class) - used to run the WackyStonks game 
+2) ***Manager*** (class) - can be used to handle multiple running games of WackyStonks
+3) The following types that can accessed through a ***Game*** instance: ***GameType***, ***PlayerType***, ***StonkType***, ***PortfolioType***
+
+
 ## Contact
 Nicholas Chumney - [nicholas.chumney@outlook.com](nicholas.chumney@outlook.com) 
 

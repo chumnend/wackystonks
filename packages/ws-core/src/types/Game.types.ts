@@ -1,12 +1,34 @@
-import { IPlayer, IStonk } from './';
+import { IPlayer, IStonk, PortfolioType } from './';
 
-export type GameConfiguration = {
+export type ConfigurationType = {
   tickTimerDelay: number;
   simulationDelay: number;
   prepTimerDelay: number;
   gameTimerDelay: number;
   initialFunds: number;
   numberOfStonks: number;
+};
+
+export type PlayerType = {
+  id: string;
+  name: string;
+  portfolio: PortfolioType;
+  funds: number;
+  netValue: number;
+};
+
+export type StonkType = {
+  name: string;
+  symbol: string;
+  price: number;
+  previousPrices: number[];
+};
+
+export type GameType = {
+  id: string;
+  status: string;
+  players: PlayerType[];
+  stonks: StonkType[];
 };
 
 export interface IGame {
@@ -18,6 +40,8 @@ export interface IGame {
   players: IPlayer[];
   /** An array of stonks in a game */
   stonks: IStonk[];
+  /** Returns game information */
+  gameState(): GameType;
   /** Starts the game */
   startGame(): void;
   /** Stops the game */
