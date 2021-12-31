@@ -28,5 +28,6 @@ jobs:
         uses: changesets/action@master
         with:
           title: Bump Package Versions
+          commit: bumped package versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
