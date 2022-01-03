@@ -12,10 +12,11 @@
             "*": [
                 "node_modules/*"
             ]
-        }
+        },
+        "types": ["mocha", "node"]
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*",
     ],
     "exclude": [
         "./tests/",
