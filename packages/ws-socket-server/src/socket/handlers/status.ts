@@ -1,5 +1,3 @@
-const checkStatus = (cb: (arg: string) => void) => {
+export const checkStatus = (cb: (arg: string) => void) => {
   cb('OK');
 };
-
-export default checkStatus;

@@ -1,3 +1,3 @@
-import checkStatus from './status';
+import { checkStatus } from './status';
 
 export { checkStatus };
