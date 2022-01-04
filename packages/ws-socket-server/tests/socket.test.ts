@@ -17,5 +17,13 @@ describe('socket', () => {
 
   after(() => {
     clientSocket.close();
+    app.close();
+  });
+
+  it('expects to get ok', (done) => {
+    clientSocket.emit('ws:status', (arg: string) => {
+      expect(arg).to.equal('OK');
+      done();
+    });
   });
 });

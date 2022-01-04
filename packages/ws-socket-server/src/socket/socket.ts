@@ -11,10 +11,8 @@ const createSocketServer = (app: Application): HTTPServer => {
   });
 
   io.on('connection', (socket: Socket) => {
-    console.log('client connected');
-
-    socket.on('disconnect', () => {
-      console.log('client disconnectd');
+    socket.on('ws:status', (cb) => {
+      cb('OK');
     });
   });
 
