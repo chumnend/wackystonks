@@ -1,6 +1,6 @@
 // listeners
 export const CONNECTION = 'connection';
-export const STATUS_CHECK = 'ws:status';
+export const CHECK_STATUS = 'ws:status';
 export const CREATE_GAME = 'ws:create-game';
 export const FIND_GAME = 'ws:find-game';
 export const JOIN_GAME = 'ws:join-game';
@@ -13,3 +13,4 @@ export const SELL_STONK = 'ws:sell-stonk';
 export const STATUS_UPDATE = 'status-update';
 export const PLAYERS_UPDATE = 'players-update';
 export const STONKS_UPDATE = 'stonks-update';
+export const TICK_UPDATE = 'tick-update';
