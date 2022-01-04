@@ -2,6 +2,9 @@ import { Application } from 'express';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketServer, Socket } from 'socket.io';
 
+import { SocketEvents } from './constants';
+import { checkStatus } from './handlers';
+
 const createSocketServer = (app: Application): HTTPServer => {
   const server = createServer(app);
   const io = new SocketServer(server, {
@@ -10,10 +13,8 @@ const createSocketServer = (app: Application): HTTPServer => {
     },
   });
 
-  io.on('connection', (socket: Socket) => {
-    socket.on('ws:status', (cb) => {
-      cb('OK');
-    });
+  io.on(SocketEvents.CONNECTION, (socket: Socket) => {
+    socket.on(SocketEvents.STATUS_CHECK, checkStatus);
   });
 
   return server;

@@ -5,7 +5,7 @@ import app from '../src/app';
 
 const expect = chai.expect;
 
-describe('socket', () => {
+describe('Socket', () => {
   let clientSocket: Socket;
 
   before((done) => {
