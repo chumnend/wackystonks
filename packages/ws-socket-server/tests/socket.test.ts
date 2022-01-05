@@ -1,5 +1,6 @@
 import chai from 'chai';
 import { Socket, io } from 'socket.io-client';
+import { GameType } from 'ws-core';
 
 import app from '../src/app';
 import { SocketEvents } from '../src/socket/constants';
@@ -21,7 +22,7 @@ describe('Socket', () => {
     app.close();
   });
 
-  describe('ws:status', () => {
+  describe(SocketEvents.CHECK_STATUS, () => {
     it('expects to get ok', (done) => {
       clientSocket.emit(SocketEvents.CHECK_STATUS, (message: string) => {
         expect(message).to.equal('OK');
@@ -30,7 +31,7 @@ describe('Socket', () => {
     });
   });
 
-  describe('ws:create-game', () => {
+  describe(SocketEvents.CREATE_GAME, () => {
     it('expects to create a game', (done) => {
       clientSocket.emit(SocketEvents.CREATE_GAME, (gameId: string) => {
         expect(gameId).to.be.string;
@@ -38,9 +39,34 @@ describe('Socket', () => {
       });
     });
 
-    it('expects nothing to happen if no callback is passed', (done) => {
+    it('expects to do nothing if no callback is passed', (done) => {
       clientSocket.emit(SocketEvents.CREATE_GAME);
       done();
+    });
+  });
+
+  describe(SocketEvents.FIND_GAME, () => {
+    it('expects to find a game', (done) => {
+      clientSocket.emit(SocketEvents.CREATE_GAME, (gameId: string) => {
+        clientSocket.emit(SocketEvents.FIND_GAME, { id: gameId }, (state: GameType) => {
+          expect(state).to.exist;
+          done();
+        });
+      });
+    });
+
+    it('expects to not find a game', (done) => {
+      clientSocket.emit(SocketEvents.FIND_GAME, { id: 'TEST' }, (state: GameType) => {
+        expect(state).to.be.null;
+        done();
+      });
+    });
+
+    it('expects to do nothing if no callback is passed', (done) => {
+      clientSocket.emit(SocketEvents.CREATE_GAME, (gameId: string) => {
+        clientSocket.emit(SocketEvents.FIND_GAME, { id: gameId }, null);
+        done();
+      });
     });
   });
 });

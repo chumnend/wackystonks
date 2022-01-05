@@ -1,4 +1,4 @@
-import { Manager } from 'ws-core';
+import { GameType, Manager } from 'ws-core';
 import { Server as SocketServer } from 'socket.io';
 
 import { SocketEvents } from '../constants';
@@ -7,7 +7,6 @@ const WackyStonks = new Manager();
 
 export const createGame = (io: SocketServer, cb: (gameId: string) => void) => {
   if (!cb) {
-    console.log(SocketEvents.CREATE_GAME, 'called without callback');
     return;
   }
 
@@ -35,4 +34,14 @@ export const createGame = (io: SocketServer, cb: (gameId: string) => void) => {
     io.in(game.id).emit(SocketEvents.STATUS_UPDATE, game.gameState());
   });
   cb(game.id);
+};
+
+export const findGame = (io: SocketServer, recv: { id: string }, cb: (state: GameType) => void) => {
+  if (recv.id === undefined || !cb) {
+    return;
+  }
+
+  const { id } = recv;
+  const game = WackyStonks.findGame(id);
+  cb(game?.gameState());
 };

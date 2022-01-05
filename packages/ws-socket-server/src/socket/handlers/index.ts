@@ -1,4 +1,4 @@
 import { checkStatus } from './status';
-import { createGame } from './ws';
+import { createGame, findGame } from './ws';
 
-export { checkStatus, createGame };
+export { checkStatus, createGame, findGame };
