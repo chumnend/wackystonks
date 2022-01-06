@@ -79,6 +79,13 @@ describe('Socket', () => {
         });
       });
     });
+
+    it('expects to be unable to start a game', (done) => {
+      clientSocket.emit(SocketEvents.START_GAME, { gameId: 'TST' }, (success: boolean) => {
+        expect(success).to.be.false;
+        done();
+      });
+    });
   });
 
   describe(SocketEvents.LEAVE_GAME, () => {
@@ -98,6 +105,13 @@ describe('Socket', () => {
             });
           },
         );
+      });
+    });
+
+    it('expects to not be able to leave a game', (done) => {
+      clientSocket.emit(SocketEvents.LEAVE_GAME, { gameId: 'TST', playerId: 'TSTR' }, (success: boolean) => {
+        expect(success).to.be.false;
+        done();
       });
     });
   });
@@ -125,6 +139,17 @@ describe('Socket', () => {
           },
         );
       });
+    });
+
+    it('expects to not be able to buy a stonk', (done) => {
+      clientSocket.emit(
+        SocketEvents.BUY_STONK,
+        { gameId: 'TST', playerId: 'TSTR', symbol: 'TST', amount: 1 },
+        (success: boolean) => {
+          expect(success).to.be.false;
+          done();
+        },
+      );
     });
   });
 
@@ -157,6 +182,17 @@ describe('Socket', () => {
           },
         );
       });
+    });
+
+    it('expects to not be able to sell a stonk', (done) => {
+      clientSocket.emit(
+        SocketEvents.SELL_STONK,
+        { gameId: 'TST', playerId: 'TSTR', symbol: 'TST', amount: 1 },
+        (success: boolean) => {
+          expect(success).to.be.false;
+          done();
+        },
+      );
     });
   });
 });

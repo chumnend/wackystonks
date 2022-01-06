@@ -19,10 +19,9 @@ export const createGame = (
   cb: (gameId: string) => void,
 ): void => {
   if (!cb) {
+    /* istanbul ignore next */
     return;
   }
-
-  // create game
   const game = WackyStonks.createGame();
 
   // setup listener events
@@ -30,17 +29,14 @@ export const createGame = (
     /* istanbul ignore next */
     io.in(game.id).emit(SocketEvents.STATUS_UPDATE, game.gameState());
   });
-
   game.listenForSimulationEvent(() => {
     /* istanbul ignore next */
     io.in(game.id).emit(SocketEvents.STONKS_UPDATE, game.gameState());
   });
-
   game.listenForTickEvent(() => {
     /* istanbul ignore next */
     io.in(game.id).emit(SocketEvents.TICK_UPDATE, game.gameState());
   });
-
   game.listenForGameEvent(() => {
     /* istanbul ignore next */
     io.in(game.id).emit(SocketEvents.STATUS_UPDATE, game.gameState());
@@ -62,6 +58,7 @@ export const findGame = (
   cb: (state: GameType) => void,
 ): void => {
   if (recv === undefined || !cb) {
+    /* istanbul ignore next */
     return;
   }
   const { gameId } = recv;
@@ -87,6 +84,7 @@ export const joinGame = (
   cb: (state: GameType) => void,
 ): void => {
   if (recv === undefined || !cb) {
+    /* istanbul ignore next */
     return;
   }
   const { gameId, playerId, playerName } = recv;
@@ -115,6 +113,7 @@ export const startGame = (
   cb: (success: boolean) => void,
 ): void => {
   if (recv === undefined || !cb) {
+    /* istanbul ignore next */
     return;
   }
   const { gameId } = recv;
@@ -146,6 +145,7 @@ export const leaveGame = (
   cb: (success: boolean) => void,
 ): void => {
   if (recv === undefined || !cb) {
+    /* istanbul ignore next */
     return;
   }
   const { gameId, playerId } = recv;
@@ -180,6 +180,7 @@ export const buyStonks = (
   cb: (success: boolean) => void,
 ): void => {
   if (recv === undefined || !cb) {
+    /* istanbul ignore next */
     return;
   }
   const { gameId, playerId, symbol, amount } = recv;
@@ -213,6 +214,7 @@ export const sellStonks = (
   cb: (success: boolean) => void,
 ): void => {
   if (recv === undefined || !cb) {
+    /* istanbul ignore next */
     return;
   }
   const { gameId, playerId, symbol, amount } = recv;
