@@ -1,4 +1,4 @@
-import { checkStatus } from './status';
-import { createGame, findGame } from './ws';
+import * as defaultHandlers from './default';
+import * as wackyStonksHandlers from './ws';
 
-export { checkStatus, createGame, findGame };
+export { defaultHandlers, wackyStonksHandlers };
