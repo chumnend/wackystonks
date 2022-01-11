@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 
-import App from './App';
+import Router from './Router';
 
-describe('<App />', () => {
+describe('<Router />', () => {
   it('expects to render', () => {
-    render(<App />);
+    render(<Router />);
   });
 });
