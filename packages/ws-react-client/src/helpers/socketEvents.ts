@@ -1,16 +1,16 @@
-// socket listeners
-export const PLAYERS_UPDATE = 'players-update';
+// listeners
 export const STATUS_UPDATE = 'status-update';
+export const PLAYERS_UPDATE = 'players-update';
 export const STONKS_UPDATE = 'stonks-update';
-export const GAME_ENDED = 'game-ended';
+export const TICK_UPDATE = 'tick-update';
 
-// socket emitters
-export const CREATE_GAME = 'create-game';
-export const FIND_GAME = 'find-game';
-export const DELETE_GAME = 'delete-game';
-export const JOIN_GAME = 'join-game';
-export const LEAVE_GAME = 'leave-game';
-export const START_GAME = 'start-game';
-export const RENAME_PLAYER = 'rename-player';
-export const BUY_STONK = 'buy-stonk';
-export const SELL_STONK = 'sell-stonk';
+// emitters
+export const CONNECTION = 'connection';
+export const CHECK_STATUS = 'ws:status';
+export const CREATE_GAME = 'ws:create-game';
+export const FIND_GAME = 'ws:find-game';
+export const JOIN_GAME = 'ws:join-game';
+export const START_GAME = 'ws:start-game';
+export const LEAVE_GAME = 'ws:leave-game';
+export const BUY_STONK = 'ws:buy-stonk';
+export const SELL_STONK = 'ws:sell-stonk';
