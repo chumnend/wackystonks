@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import HomePage from '../HomePage';
-import { HOME_ROUTE } from '../../helpers/routes';
+import HomePage from '../../pages/HomePage';
+import { HOME_ROUTE } from '../../../helpers/routes';
 
 const Router = () => {
   return (

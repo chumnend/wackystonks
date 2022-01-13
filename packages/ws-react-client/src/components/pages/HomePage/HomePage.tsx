@@ -3,18 +3,18 @@ import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { GameType } from 'ws-core';
 
-import Banner from '../Banner';
-import BannerImage from '../../assets/WackyStonks.png';
-import Button from '../Button';
-import ButtonGroup from '../ButtonGroup';
-import Footer from '../Footer';
-import HelpModal from '../HelpModal';
-import JoinModal from '../JoinModal';
-import PageWrapper from '../PageWrapper';
-import { useSocket } from '../SocketProvider';
+import Banner from '../../common/Banner';
+import BannerImage from '../../../assets/WackyStonks.png';
+import Button from '../../common/Button';
+import ButtonGroup from '../../common/ButtonGroup';
+import Footer from '../../common/Footer';
+import HelpModal from './HelpModal';
+import JoinModal from './JoinModal';
+import PageWrapper from '../../common/PageWrapper';
+import { useSocket } from '../../providers/SocketProvider';
 
-import * as SocketEvents from '../../helpers/socketEvents';
-import * as Routes from '../../helpers/routes';
+import * as SocketEvents from '../../../helpers/socketEvents';
+import * as Routes from '../../../helpers/routes';
 
 const MODAL_NONE = 0;
 const MODAL_HELP = 1;

@@ -1,4 +1,4 @@
-import Modal from '../Modal';
+import Modal from '../../../common/Modal';
 
 interface Props {
   show: boolean;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SocketProvider from '../SocketProvider';
+import SocketProvider from '../../providers/SocketProvider';
 
 interface Props {
   children: React.ReactNode;

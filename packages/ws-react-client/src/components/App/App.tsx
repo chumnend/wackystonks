@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
-import Router from '../Router';
-import AppProviders from '../AppProviders';
+import AppProviders from './AppProviders';
+import Router from './Router';
 
 const GlobalStyle = createGlobalStyle`
     * {

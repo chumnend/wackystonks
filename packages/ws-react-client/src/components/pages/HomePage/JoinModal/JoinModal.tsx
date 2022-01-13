@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import Modal from '../Modal';
-import Button from '../Button';
+import Modal from '../../../common/Modal';
+import Button from '../../../common/Button';
 
 const Flex = styled.div`
   display: flex;
