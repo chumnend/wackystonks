@@ -1,4 +1,5 @@
 import Modal from '../../../common/Modal';
+import Flex from '../../../common/Flex';
 
 interface Props {
   show: boolean;
@@ -8,7 +9,9 @@ interface Props {
 const HelpModal = ({ show, close }: Props) => {
   return (
     <Modal show={show} close={close}>
-      <h1>How To Play</h1>
+      <Flex direction="column" alignItems="center">
+        <h3>How To Play</h3>
+      </Flex>
     </Modal>
   );
 };

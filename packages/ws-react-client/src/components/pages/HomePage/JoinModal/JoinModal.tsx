@@ -1,33 +1,8 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 
 import Modal from '../../../common/Modal';
 import Button from '../../../common/Button';
-
-const Flex = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Header = styled.h3`
-  text-align: center;
-`;
-
-const NameInput = styled.input`
-  width: 60%;
-  height: 2.75rem;
-  margin: 1.5rem auto 0.25em;
-  padding: 4px 10px;
-  font-size: 1.2rem;
-`;
-
-const CodeInput = styled.input`
-  width: 30%;
-  height: 2.75rem;
-  margin: 0.25rem auto 1.5rem;
-  padding: 4px 10px;
-  font-size: 1.2rem;
-`;
+import Flex from '../../../common/Flex';
 
 interface Props {
   show: boolean;
@@ -40,28 +15,31 @@ const JoinModal = ({ show, close, join }: Props) => {
   const [name, setName] = useState('');
 
   const handleJoin = () => {
+    if (name.length === 0 || code.length < 4) {
+      return;
+    }
     join(code, name);
     close();
   };
 
   return (
     <Modal show={show} close={close}>
-      <Flex>
-        <Header>Join A Game</Header>
-        <NameInput
+      <Flex direction="column" alignItems="center">
+        <h3>Join A Game</h3>
+        <input
           type="text"
-          placeholder="Enter desired name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          placeholder="Enter desired name"
           autoComplete={'off'}
           autoCorrect={'off'}
           autoCapitalize={'none'}
         />
-        <CodeInput
+        <input
           type="text"
-          placeholder="ex. abcd"
           value={code}
           onChange={(e) => setCode(e.target.value)}
+          placeholder="ex. abcd"
           maxLength={4}
           autoComplete={'off'}
           autoCorrect={'off'}

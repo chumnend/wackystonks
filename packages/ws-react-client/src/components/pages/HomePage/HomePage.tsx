@@ -15,17 +15,19 @@ import { useSocket } from '../../providers/SocketProvider';
 
 import * as SocketEvents from '../../../helpers/socketEvents';
 import * as Routes from '../../../helpers/routes';
+import StartModal from './StartModal';
 
 const MODAL_NONE = 0;
 const MODAL_HELP = 1;
 const MODAL_JOIN = 2;
+const MODAL_START = 3;
 
 const HomePage = () => {
   const [modal, setModal] = useState(0);
   const history = useHistory();
   const socket = useSocket();
 
-  const startGame = () => {
+  const startGame = (name: string) => {
     socket.emit(SocketEvents.CREATE_GAME, {}, (gameId: string) => {
       history.push(Routes.WITH_GAME_ROUTE(gameId));
     });
@@ -55,13 +57,32 @@ const HomePage = () => {
     );
   };
 
+  const openHelpModal = () => {
+    setModal(MODAL_HELP);
+  };
+
+  const openJoinModal = () => {
+    setModal(MODAL_JOIN);
+  };
+
+  const openStartModal = () => {
+    setModal(MODAL_START);
+  };
+
+  const closeModal = () => {
+    setModal(MODAL_NONE);
+  };
+
   let currentModal = null;
   switch (modal) {
-    case 1:
-      currentModal = <HelpModal show={modal === MODAL_HELP} close={() => setModal(MODAL_NONE)} />;
+    case MODAL_HELP:
+      currentModal = <HelpModal show={modal === MODAL_HELP} close={closeModal} />;
       break;
-    case 2:
-      currentModal = <JoinModal show={modal === MODAL_JOIN} close={() => setModal(MODAL_NONE)} join={joinGame} />;
+    case MODAL_JOIN:
+      currentModal = <JoinModal show={modal === MODAL_JOIN} close={closeModal} join={joinGame} />;
+      break;
+    case MODAL_START:
+      currentModal = <StartModal show={modal === MODAL_START} close={closeModal} start={startGame} />;
       break;
     default:
       currentModal = null;
@@ -71,11 +92,11 @@ const HomePage = () => {
     <PageWrapper>
       <Banner src={BannerImage} alt="WackStonks Banner" title="A Stonk Simulator Game" />
       <ButtonGroup direction="row">
-        <Button variant="primary" text="Start" onClick={startGame} />
-        <Button variant="primary" text="Join" onClick={() => setModal(MODAL_JOIN)} />
+        <Button variant="primary" text="Start" onClick={openStartModal} />
+        <Button variant="primary" text="Join" onClick={openJoinModal} />
       </ButtonGroup>
       <ButtonGroup direction="column">
-        <Button variant="secondary" text="How to Play" onClick={() => setModal(MODAL_HELP)} />
+        <Button variant="secondary" text="How to Play" onClick={openHelpModal} />
       </ButtonGroup>
       {currentModal}
       <Footer />
