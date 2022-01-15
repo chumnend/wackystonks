@@ -45,7 +45,10 @@ const JoinModal = ({ show, close, join }: Props) => {
           autoCorrect={'off'}
           autoCapitalize={'none'}
         />
-        <Button variant="primary" onClick={handleJoin} text="Enter" />
+        <Flex justifyContent="center" alignItems="center">
+          <Button variant="primary" onClick={handleJoin} text="Join" />
+          <Button variant="primary" onClick={close} text="Back" />
+        </Flex>
       </Flex>
     </Modal>
   );

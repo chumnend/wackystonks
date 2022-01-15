@@ -1,13 +1,15 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import HomePage from '../../pages/HomePage';
-import { HOME_ROUTE } from '../../../helpers/routes';
+import GamePage from '../../pages/GamePage';
+import * as Routes from '../../../helpers/routes';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={HOME_ROUTE} component={HomePage} />
+        <Route path={Routes.GAME_ROUTE} component={GamePage} />
+        <Route path={Routes.HOME_ROUTE} component={HomePage} />
       </Switch>
     </BrowserRouter>
   );

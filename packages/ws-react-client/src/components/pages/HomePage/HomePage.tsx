@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { GameType } from 'ws-core';
 
 import Banner from '../../common/Banner';
@@ -13,6 +12,7 @@ import JoinModal from './JoinModal';
 import PageWrapper from '../../common/PageWrapper';
 import { useSocket } from '../../providers/SocketProvider';
 
+import { createPlayerInfo, clearPlayerInfo } from '../../../helpers/playerInfo';
 import * as SocketEvents from '../../../helpers/socketEvents';
 import * as Routes from '../../../helpers/routes';
 import StartModal from './StartModal';
@@ -27,18 +27,19 @@ const HomePage = () => {
   const history = useHistory();
   const socket = useSocket();
 
+  useEffect(() => {
+    clearPlayerInfo();
+  }, []);
+
   const startGame = (name: string) => {
+    createPlayerInfo(name);
     socket.emit(SocketEvents.CREATE_GAME, {}, (gameId: string) => {
       history.push(Routes.WITH_GAME_ROUTE(gameId));
     });
   };
 
   const joinGame = (code: string, name: string) => {
-    const uuid = uuidv4();
-
-    localStorage.setItem('playerId', uuid);
-    localStorage.setItem('playerName', name);
-
+    const uuid = createPlayerInfo(name);
     socket.emit(
       SocketEvents.FIND_GAME,
       {
@@ -92,7 +93,7 @@ const HomePage = () => {
     <PageWrapper>
       <Banner src={BannerImage} alt="WackStonks Banner" title="A Stonk Simulator Game" />
       <ButtonGroup direction="row">
-        <Button variant="primary" text="Start" onClick={openStartModal} />
+        <Button variant="primary" text="Create" onClick={openStartModal} />
         <Button variant="primary" text="Join" onClick={openJoinModal} />
       </ButtonGroup>
       <ButtonGroup direction="column">

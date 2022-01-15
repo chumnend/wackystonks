@@ -37,7 +37,7 @@ const StartModal = ({ show, close, start }: Props) => {
           />
         </label>
         <Flex justifyContent="center" alignItems="center">
-          <Button variant="primary" onClick={handleStart} text="Enter" />
+          <Button variant="primary" onClick={handleStart} text="Create" />
           <Button variant="primary" onClick={close} text="Back" />
         </Flex>
       </Flex>
