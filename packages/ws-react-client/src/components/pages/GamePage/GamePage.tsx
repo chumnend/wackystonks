@@ -5,6 +5,9 @@ import { Game, GameType, PlayerType, StonkType } from 'ws-core';
 import Error from './Error';
 import Loading from './Loading';
 import Lobby from './Lobby';
+import Preparation from './Preparation';
+import Session from './Session';
+import EndScreen from './EndScreen';
 import { useSocket } from '../../providers/SocketProvider';
 import { getPlayerInfo } from '../../../helpers/playerInfo';
 import * as SocketEvents from '../../../helpers/socketEvents';
@@ -94,6 +97,15 @@ const GamePage = () => {
       content = (
         <Lobby socketId={socket.id} code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />
       );
+      break;
+    case Game.STATUS_PREPARING:
+      content = <Preparation />;
+      break;
+    case Game.STATUS_PLAYING:
+      content = <Session />;
+      break;
+    case Game.STATUS_STOPPED:
+      content = <EndScreen />;
       break;
     default:
       content = <Error />;
