@@ -341,29 +341,29 @@ class Game implements IGame {
   }
 
   private _playStep(): void {
-    // updates all prep listeners that preperation step is complete
-    this._prepHandlers.forEach((cb) => {
-      cb();
-    });
-
     // update status and start game realted timers
     this._status = Game.STATUS_PLAYING;
     this._gameTimer.start();
     this._simulationTimer.start();
+
+    // updates all prep listeners that preperation step is complete
+    this._prepHandlers.forEach((cb) => {
+      cb();
+    });
   }
 
   private _stopStep(): void {
-    // update all game timer listeners that the game has ended
-    this._gameHandlers.forEach((cb) => {
-      cb();
-    });
-
     // update status and stop all timers
     this._status = Game.STATUS_STOPPED;
     this._tickTimer.reset();
     this._prepTimer.reset();
     this._gameTimer.reset();
     this._simulationTimer.reset();
+
+    // update all game timer listeners that the game has ended
+    this._gameHandlers.forEach((cb) => {
+      cb();
+    });
   }
 }
 
