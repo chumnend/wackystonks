@@ -1,5 +1,11 @@
 # ws-core
 
+## 1.1.1
+
+### Patch Changes
+
+- 027132e: fix: callbacks now called after game status changes
+
 ## 1.1.0
 
 ### Minor Changes
