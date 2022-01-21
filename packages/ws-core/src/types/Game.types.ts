@@ -54,12 +54,6 @@ export interface IGame {
   buyStonk(playerId: string, symbol: string, amount: number): boolean;
   /** Initiate stonk sell for a player */
   sellStonk(playerId: string, symbol: string, amount: number): boolean;
-  /** Set callback to trigger on clock tick event */
-  listenForTickEvent(callback: () => void): boolean;
-  /** Set callback to trigger on simulation event */
-  listenForSimulationEvent(callback: () => void): boolean;
-  /** Set callback to trigger on preperation timer event */
-  listenForPrepEvent(callback: () => void): boolean;
-  /** Set callback to trigger on game timer event */
-  listenForGameEvent(callback: () => void): boolean;
+  /** Set callback to trigger on game events */
+  listenForGameEvents(callback: () => void);
 }

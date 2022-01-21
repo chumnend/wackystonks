@@ -16,15 +16,12 @@ class Game implements IGame {
   private _status: string;
   private _config: ConfigurationType;
   private _tickTimer: ITimer;
-  private _tickHandlers: (() => void)[];
   private _simulationTimer: Timer;
-  private _simulationHandlers: (() => void)[];
   private _prepTimer: Timer;
-  private _prepHandlers: (() => void)[];
   private _gameTimer: ITimer;
-  private _gameHandlers: (() => void)[];
   private _players: Player[];
   private _stonks: Stonk[];
+  private _handlers: (() => void)[];
 
   /*
     Game Flow:  WAITING --> PREPARING --> PLAYING --> STOPPED
@@ -43,16 +40,13 @@ class Game implements IGame {
     this._status = Game.STATUS_WAITING;
     this._config = config;
     this._tickTimer = new Timer(this._tickEvent.bind(this), config.tickTimerDelay, TimerMode.LOOPED);
-    this._tickHandlers = [];
     this._simulationTimer = new Timer(this._simulationEvent.bind(this), config.simulationDelay, TimerMode.LOOPED);
-    this._simulationHandlers = [];
     this._prepTimer = new Timer(this._playStep.bind(this), config.prepTimerDelay, TimerMode.COUNTDOWN);
-    this._prepHandlers = [];
     this._gameTimer = new Timer(this._stopStep.bind(this), config.gameTimerDelay, TimerMode.COUNTDOWN);
-    this._gameHandlers = [];
     this._players = [];
     this._stonks = [];
     this._randomizeStonks();
+    this._handlers = [];
   }
 
   /**
@@ -224,42 +218,12 @@ class Game implements IGame {
   }
 
   /**
-   * Pass callback to be called when tick event triggers
-   * @param {() => void} callback
+   * Pass callback to be called on each game event trigger
+   * @param {(event: string) => void} callback
    * @returns {boolean} true if successful
    */
-  listenForTickEvent(callback: () => void): boolean {
-    this._tickHandlers.push(callback);
-    return true;
-  }
-
-  /**
-   * Pass callback to be called when simulation event triggers
-   * @param {() => void} callback
-   * @returns {boolean} true if successful
-   */
-  listenForSimulationEvent(callback: () => void): boolean {
-    this._simulationHandlers.push(callback);
-    return true;
-  }
-
-  /**
-   * Set callback to trigger on preperation timer event
-   * @param {() => void} callback
-   * @returns {boolean} true if successful
-   */
-  listenForPrepEvent(callback: () => void): boolean {
-    this._prepHandlers.push(callback);
-    return true;
-  }
-
-  /**
-   * Set callback to trigger on game timer event
-   * @param {() => void} callback
-   * @returns {boolean} true if successful
-   */
-  listenForGameEvent(callback: () => void): boolean {
-    this._gameHandlers.push(callback);
+  listenForGameEvents(callback: () => void): boolean {
+    this._handlers.push(callback);
     return true;
   }
 
@@ -320,17 +284,19 @@ class Game implements IGame {
     });
   }
 
-  private _tickEvent(): void {
-    this._tickHandlers.forEach((cb) => {
+  private _update(): void {
+    this._handlers.forEach((cb) => {
       cb();
     });
   }
 
+  private _tickEvent(): void {
+    this._update();
+  }
+
   private _simulationEvent(): void {
     this._simulate();
-    this._simulationHandlers.forEach((cb) => {
-      cb();
-    });
+    this._update();
   }
 
   private _prepStep(): void {
@@ -345,11 +311,7 @@ class Game implements IGame {
     this._status = Game.STATUS_PLAYING;
     this._gameTimer.start();
     this._simulationTimer.start();
-
-    // updates all prep listeners that preperation step is complete
-    this._prepHandlers.forEach((cb) => {
-      cb();
-    });
+    this._update();
   }
 
   private _stopStep(): void {
@@ -359,11 +321,7 @@ class Game implements IGame {
     this._prepTimer.reset();
     this._gameTimer.reset();
     this._simulationTimer.reset();
-
-    // update all game timer listeners that the game has ended
-    this._gameHandlers.forEach((cb) => {
-      cb();
-    });
+    this._update();
   }
 }
 
