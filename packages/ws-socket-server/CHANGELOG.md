@@ -1,5 +1,12 @@
 # ws-socket-server
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [70cfa2e]
+  - ws-core@2.0.0
+
 ## 1.0.1
 
 ### Patch Changes
