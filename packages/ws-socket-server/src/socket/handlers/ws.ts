@@ -24,23 +24,11 @@ export const createGame = (
   }
   const game = WackyStonks.createGame();
 
-  // setup listener events
-  game.listenForPrepEvent(() => {
-    /* istanbul ignore next */
-    io.in(game.id).emit(SocketEvents.STATUS_UPDATE, game.gameState());
+  // setup event listener
+  game.listenForGameEvents(() => {
+    io.in(game.id).emit(SocketEvents.GAME_UPDATE, game.gameState());
   });
-  game.listenForSimulationEvent(() => {
-    /* istanbul ignore next */
-    io.in(game.id).emit(SocketEvents.STONKS_UPDATE, game.gameState());
-  });
-  game.listenForTickEvent(() => {
-    /* istanbul ignore next */
-    io.in(game.id).emit(SocketEvents.TICK_UPDATE, game.gameState());
-  });
-  game.listenForGameEvent(() => {
-    /* istanbul ignore next */
-    io.in(game.id).emit(SocketEvents.STATUS_UPDATE, game.gameState());
-  });
+
   cb(game.id);
 };
 

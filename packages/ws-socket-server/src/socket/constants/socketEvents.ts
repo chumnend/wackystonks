@@ -12,5 +12,4 @@ export const SELL_STONK = 'ws:sell-stonk';
 // emitters
 export const STATUS_UPDATE = 'status-update';
 export const PLAYERS_UPDATE = 'players-update';
-export const STONKS_UPDATE = 'stonks-update';
-export const TICK_UPDATE = 'tick-update';
+export const GAME_UPDATE = 'game-update';
