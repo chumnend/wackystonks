@@ -140,74 +140,20 @@ describe('Game', function () {
     expect(game.sellStonk('TST', stonk.symbol, 2)).to.be.false;
   });
 
-  it('expects to subscribe to each tick event', function (done) {
+  it('expects to subscribe to each game event', function (done) {
     this.timeout(1500);
 
     let counter = 0;
     const increment = () => counter++;
 
     const game = new Game('Test', testConfiguration);
-    game.listenForTickEvent(increment);
+    game.listenForGameEvents(increment);
     game.startGame();
 
     setTimeout(() => {
-      expect(counter).to.equal(9);
+      expect(counter).to.equal(14); // 9 tick events + 1 start event + 4 simulation events
       done();
     }, 1000);
-  });
-
-  it('expects to subscribe to each simulation timer event', function (done) {
-    this.timeout(1000);
-
-    let counter = 0;
-    const increment = () => counter++;
-
-    const game = new Game('TEST', testConfiguration);
-    const initialStonk = game.stonks[0];
-    game.listenForSimulationEvent(increment);
-    game.startGame();
-
-    setTimeout(() => {
-      game.stopGame();
-      expect(counter).to.equal(1);
-      const finalStonk = game.stonks[1];
-      expect(initialStonk).to.not.deep.equal(finalStonk);
-      done();
-    }, 650);
-  });
-
-  it('expects to subscribe to each prep timer event', function (done) {
-    this.timeout(1000);
-
-    let counter = 0;
-    const increment = () => counter++;
-
-    const game = new Game('TEST', testConfiguration);
-    game.listenForPrepEvent(increment);
-    game.startGame();
-
-    setTimeout(() => {
-      game.stopGame();
-      expect(counter).to.equal(1);
-      done();
-    }, 520);
-  });
-
-  it('expects to subscribe to each game timer event', function (done) {
-    this.timeout(1500);
-
-    let counter = 0;
-    const increment = () => counter++;
-
-    const game = new Game('TEST', testConfiguration);
-    game.listenForGameEvent(increment);
-    game.startGame();
-
-    setTimeout(() => {
-      game.stopGame();
-      expect(counter).to.equal(1);
-      done();
-    }, 500);
   });
 
   it('expects to get game information', function () {
