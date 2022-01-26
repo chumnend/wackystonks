@@ -1,5 +1,11 @@
 # ws-socket-server
 
+## 1.1.0
+
+### Minor Changes
+
+- 2cccee3: updated how socket server talks to wackystonks instance
+
 ## 1.0.2
 
 ### Patch Changes
