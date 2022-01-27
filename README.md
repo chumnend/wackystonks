@@ -15,24 +15,23 @@ TBD
 
     ```git clone https://github.com/chumnend/wackystonks.git```
 
-2) Install project dependencies
+2) Install dependencies (NOTE: If it acts to install a version of react-router-dom, choose 5.3.0). 
 
-     ```yarn install```
+     ```yarn```
 
-3) Go to the `ws-client` package. Copy the `.env.example` file and rename the  rename the copy to `.env`. Make to provide values to all empty fields.
+3) Go to the `ws-react-client` package. Copy the `.env.example` file and rename the  rename the copy to `.env`. Make to provide values to all empty fields.
     ```
     cd packages/ws-client
     cp .env.example .env
     ```
 
-4) Go to the `ws-server` package. Copy the `.env.example` file and rename the  rename the copy to `.env`. Make to provide values to all empty fields.
+4) Go to the `ws-socket-server` package. Copy the `.env.example` file and rename the  rename the copy to `.env`. Make to provide values to all empty fields.
     ```
     cd packages/ws-server
     cp .env.example .env
     ```
 
-5) Use `yarn build-all` to build all assets needed for the application
-6) Use `yarn start` to run the application
+6) Use `yarn start` to run the application. It will compile all the js files and run the client and server.
 
 ## Contact
 Nicholas Chumney - [nicholas.chumney@outlook.com](nicholas.chumney@outlook.com) 
