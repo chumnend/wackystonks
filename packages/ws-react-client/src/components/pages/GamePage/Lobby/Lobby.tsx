@@ -7,6 +7,7 @@ import CardContainer from '../../../common/CardContainer';
 import Flex from '../../../common/Flex';
 import PageWrapper from '../../../common/PageWrapper';
 import Footer from '../../../common/Footer';
+import { getPlayerInfo } from '../../../../helpers/playerInfo';
 
 const InviteLink = styled.span`
   &:hover {
@@ -37,8 +38,6 @@ const PlayerCard = styled.div`
 `;
 
 interface Props {
-  /** clients socket identifier */
-  socketId: string;
   /** game identifier  */
   code: string;
   /** array of player details */
@@ -49,7 +48,9 @@ interface Props {
   leaveGame: () => void;
 }
 
-const Lobby = ({ socketId, code, players, startGame, leaveGame }: Props) => {
+const Lobby = ({ code, players, startGame, leaveGame }: Props) => {
+  const [playerId] = getPlayerInfo();
+
   const handleCopyLink = () => {
     const inviteUrl = process.env.REACT_APP_CLIENT_URI + '/' + code;
     navigator.clipboard.writeText(inviteUrl);
@@ -64,14 +65,14 @@ const Lobby = ({ socketId, code, players, startGame, leaveGame }: Props) => {
   };
 
   const isHost = () => {
-    return socketId === players[0].id;
+    return playerId === players[0].id;
   };
 
   const playerList = (
     <PlayerCardGrid>
       {players.map((p) => (
         <PlayerCard key={p.id}>
-          {p.name} {socketId === p.id && '(You)'}
+          {p.name} {playerId === p.id && '(You)'}
         </PlayerCard>
       ))}
     </PlayerCardGrid>

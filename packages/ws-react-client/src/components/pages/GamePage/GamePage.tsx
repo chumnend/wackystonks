@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Game, GameType, PlayerType, StonkType } from 'ws-core';
 
@@ -25,10 +25,10 @@ const GamePage = () => {
   const history = useHistory();
   const params = useParams<ParamsType>();
   const socket = useSocket();
+  const [playerId, playerName] = getPlayerInfo();
 
-  const joinGame = () => {
+  const joinGame = useCallback(() => {
     setLoading(true);
-    const [playerId, playerName] = getPlayerInfo();
     socket.emit(SocketEvents.JOIN_GAME, { gameId: params.id, playerId, playerName }, (game: GameType) => {
       if (!game) {
         // TODO: Handle faliure to find game better
@@ -40,24 +40,24 @@ const GamePage = () => {
       setStonks(game.stonks);
       setLoading(false);
     });
-  };
+  }, [history, params.id, socket, playerId, playerName]);
 
-  const leaveGame = () => {
-    const [playerId, _] = getPlayerInfo();
+  const leaveGame = useCallback(() => {
+    const [playerId] = getPlayerInfo();
     socket.emit(SocketEvents.LEAVE_GAME, { gameId: params.id, playerId });
     history.push(Routes.HOME_ROUTE);
-  };
+  }, [history, params.id, socket]);
 
-  const startGame = () => {
+  const startGame = useCallback(() => {
     socket.emit(SocketEvents.START_GAME, { gameId: params.id }, (success: boolean) => {
       if (!success) {
         // TODO: Handle error better
         alert('Unable to start game');
       }
     });
-  };
+  }, [params.id, socket]);
 
-  const addSocketListeners = () => {
+  const addSocketListeners = useCallback(() => {
     socket.on(SocketEvents.PLAYERS_UPDATE, (game: GameType) => {
       setPlayers(game.players);
     });
@@ -66,16 +66,18 @@ const GamePage = () => {
       setStatus(game.status);
     });
 
-    socket.on(SocketEvents.STONKS_UPDATE, (game: GameType) => {
+    socket.on(SocketEvents.GAME_UPDATE, (game: GameType) => {
+      setStatus(game.status);
+      setPlayers(game.players);
       setStonks(game.stonks);
     });
-  };
+  }, [socket]);
 
-  const removeSocketListeners = () => {
+  const removeSocketListeners = useCallback(() => {
     socket.off(SocketEvents.PLAYERS_UPDATE);
     socket.off(SocketEvents.STATUS_UPDATE);
-    socket.off(SocketEvents.STONKS_UPDATE);
-  };
+    socket.off(SocketEvents.GAME_UPDATE);
+  }, [socket]);
 
   useEffect(() => {
     joinGame();
@@ -85,7 +87,7 @@ const GamePage = () => {
       leaveGame();
       removeSocketListeners();
     };
-  }, []);
+  }, [joinGame, leaveGame, addSocketListeners, removeSocketListeners]);
 
   if (loading) {
     return <Loading />;
@@ -94,15 +96,15 @@ const GamePage = () => {
   let content;
   switch (status) {
     case Game.STATUS_WAITING:
-      content = (
-        <Lobby socketId={socket.id} code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />
-      );
+      content = <Lobby code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />;
       break;
     case Game.STATUS_PREPARING:
       content = <Preparation />;
       break;
     case Game.STATUS_PLAYING:
-      content = <Session />;
+      content = (
+        <Session code={params.id} players={players} stonks={stonks} startGame={startGame} leaveGame={leaveGame} />
+      );
       break;
     case Game.STATUS_STOPPED:
       content = <EndScreen />;

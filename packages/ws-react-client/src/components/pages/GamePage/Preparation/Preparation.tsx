@@ -1,8 +1,10 @@
+import PageWrapper from '../../../common/PageWrapper';
+
 const Preparation = () => {
   return (
-    <>
-      <h1>Preparation</h1>
-    </>
+    <PageWrapper>
+      <h2>Preparing...</h2>
+    </PageWrapper>
   );
 };
 

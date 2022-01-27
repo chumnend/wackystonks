@@ -1,9 +1,3 @@
-// listeners
-export const STATUS_UPDATE = 'status-update';
-export const PLAYERS_UPDATE = 'players-update';
-export const STONKS_UPDATE = 'stonks-update';
-export const TICK_UPDATE = 'tick-update';
-
 // emitters
 export const CONNECTION = 'connection';
 export const CHECK_STATUS = 'ws:status';
@@ -14,3 +8,8 @@ export const START_GAME = 'ws:start-game';
 export const LEAVE_GAME = 'ws:leave-game';
 export const BUY_STONK = 'ws:buy-stonk';
 export const SELL_STONK = 'ws:sell-stonk';
+
+// listeners
+export const STATUS_UPDATE = 'status-update';
+export const PLAYERS_UPDATE = 'players-update';
+export const GAME_UPDATE = 'game-update';

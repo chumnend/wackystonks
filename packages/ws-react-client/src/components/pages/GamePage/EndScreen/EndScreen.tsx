@@ -1,8 +1,10 @@
+import PageWrapper from '../../../common/PageWrapper';
+
 const EndScreen = () => {
   return (
-    <>
-      <h1>EndScreen</h1>
-    </>
+    <PageWrapper>
+      <h2>Game Over</h2>
+    </PageWrapper>
   );
 };
 
