@@ -15,7 +15,7 @@ TBD
 
     ```git clone https://github.com/chumnend/wackystonks.git```
 
-2) Install dependencies (NOTE: If it acts to install a version of react-router-dom, choose 5.3.0). 
+2) Install dependencies (NOTE: If it acts to install a version of react-router-dom, choose 5.2.0). 
 
      ```yarn```
 
