@@ -108,6 +108,7 @@ class Game implements IGame {
       status: this.status,
       players,
       stonks,
+      timeLeft: this._checkTime(),
     };
   }
 
@@ -322,6 +323,18 @@ class Game implements IGame {
     this._gameTimer.reset();
     this._simulationTimer.reset();
     this._update();
+  }
+
+  private _checkTime(): number {
+    switch (this._status) {
+      case Game.STATUS_PREPARING:
+        return this._prepTimer.checkTime();
+      case Game.STATUS_PLAYING:
+        return this._gameTimer.checkTime();
+      default:
+        // in other status mode the game will not be running therefore return 0
+        return 0;
+    }
   }
 }
 
