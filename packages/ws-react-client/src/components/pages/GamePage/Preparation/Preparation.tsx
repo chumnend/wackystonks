@@ -1,9 +1,16 @@
 import PageWrapper from '../../../common/PageWrapper';
+import TimeDisplay from '../../../common/TimeDisplay';
 
-const Preparation = () => {
+interface Props {
+  /** Time left on game timer */
+  timer: number;
+}
+
+const Preparation = ({ timer }: Props) => {
   return (
     <PageWrapper>
-      <h2>Preparing...</h2>
+      <TimeDisplay value={timer} />
+      <h2>Get Ready!</h2>
     </PageWrapper>
   );
 };

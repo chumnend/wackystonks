@@ -29,6 +29,7 @@ export type GameType = {
   status: string;
   players: PlayerType[];
   stonks: StonkType[];
+  timeLeft: number;
 };
 
 export interface IGame {

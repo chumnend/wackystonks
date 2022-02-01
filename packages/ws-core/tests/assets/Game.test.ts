@@ -176,5 +176,32 @@ describe('Game', function () {
       price: game.stonks[0].price,
       previousPrices: game.stonks[0].previousPrices,
     });
+    expect(state.timeLeft).to.equal(0);
+  });
+
+  it('expects to ', function (done) {
+    this.timeout(1500);
+
+    const game = new Game('Test', testConfiguration);
+    game.startGame();
+
+    setTimeout(() => {
+      expect(game.status).to.equal(Game.STATUS_PREPARING);
+      const state = game.gameState();
+      expect(state.timeLeft).to.be.at.least(395).and.to.be.below(405);
+    }, 100);
+
+    setTimeout(() => {
+      expect(game.status).to.equal(Game.STATUS_PLAYING);
+      const state = game.gameState();
+      expect(state.timeLeft).to.be.at.least(395).and.to.be.below(405);
+    }, 600);
+
+    setTimeout(() => {
+      expect(game.status).to.equal(Game.STATUS_STOPPED);
+      const state = game.gameState();
+      expect(state.timeLeft).to.equal(0);
+      done();
+    }, 1100);
   });
 });

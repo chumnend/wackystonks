@@ -22,6 +22,7 @@ const GamePage = () => {
   const [players, setPlayers] = useState<PlayerType[]>([]);
   const [stonks, setStonks] = useState<StonkType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState<number>(0);
   const history = useHistory();
   const params = useParams<ParamsType>();
   const socket = useSocket();
@@ -54,6 +55,7 @@ const GamePage = () => {
         // TODO: Handle error better
         alert('Unable to start game');
       }
+      setTimer(5); // TODO: On this needs to be populated using game state
     });
   }, [params.id, socket]);
 
@@ -70,6 +72,7 @@ const GamePage = () => {
       setStatus(game.status);
       setPlayers(game.players);
       setStonks(game.stonks);
+      setTimer(Math.round(game.timeLeft / 1000)); // convert ms to s
     });
   }, [socket]);
 
@@ -99,7 +102,7 @@ const GamePage = () => {
       content = <Lobby code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />;
       break;
     case Game.STATUS_PREPARING:
-      content = <Preparation />;
+      content = <Preparation timer={timer} />;
       break;
     case Game.STATUS_PLAYING:
       content = (
