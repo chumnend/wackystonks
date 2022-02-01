@@ -1,5 +1,11 @@
 # ws-core
 
+## 2.1.0
+
+### Minor Changes
+
+- 8e664e7: added timer display
+
 ## 2.0.0
 
 ### Major Changes
