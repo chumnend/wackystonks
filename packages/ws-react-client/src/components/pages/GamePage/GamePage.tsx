@@ -45,8 +45,11 @@ const GamePage = () => {
 
   const leaveGame = useCallback(() => {
     const [playerId] = getPlayerInfo();
-    socket.emit(SocketEvents.LEAVE_GAME, { gameId: params.id, playerId });
-    history.push(Routes.HOME_ROUTE);
+    socket.emit(SocketEvents.LEAVE_GAME, { gameId: params.id, playerId }, (success: boolean) => {
+      if (success) {
+        history.push(Routes.HOME_ROUTE);
+      }
+    });
   }, [history, params.id, socket]);
 
   const startGame = useCallback(() => {

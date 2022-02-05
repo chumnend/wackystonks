@@ -4,6 +4,9 @@ import { Server as SocketServer, Socket } from 'socket.io';
 import { SocketEvents } from '../constants';
 
 const WackyStonks = new Manager();
+setInterval(() => {
+  WackyStonks.deleteEmptyGames();
+}, 10000);
 
 /**
  * Creates a new Wacky Stonks game instance
@@ -140,8 +143,8 @@ export const leaveGame = (
   const game = WackyStonks.findGame(gameId);
   if (game) {
     game.removePlayer(playerId);
-    socket.leave(playerId);
-    socket.to(playerId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    socket.to(gameId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    socket.leave(gameId);
     cb(true);
   } else {
     // game does not exist
@@ -209,7 +212,7 @@ export const sellStonks = (
   const game = WackyStonks.findGame(gameId);
   if (game) {
     game.sellStonk(playerId, symbol, amount);
-    socket.to(playerId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    io.in(playerId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
     cb(true);
   } else {
     // game does not exist
