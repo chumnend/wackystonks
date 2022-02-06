@@ -19,6 +19,7 @@ class Game implements IGame {
   private _simulationTimer: Timer;
   private _prepTimer: Timer;
   private _gameTimer: ITimer;
+  private _host: string;
   private _players: Player[];
   private _stonks: Stonk[];
   private _handlers: (() => void)[];
@@ -43,6 +44,7 @@ class Game implements IGame {
     this._simulationTimer = new Timer(this._simulationEvent.bind(this), config.simulationDelay, TimerMode.LOOPED);
     this._prepTimer = new Timer(this._playStep.bind(this), config.prepTimerDelay, TimerMode.COUNTDOWN);
     this._gameTimer = new Timer(this._stopStep.bind(this), config.gameTimerDelay, TimerMode.COUNTDOWN);
+    this._host = '';
     this._players = [];
     this._stonks = [];
     this._randomizeStonks();
@@ -63,6 +65,14 @@ class Game implements IGame {
    */
   public get status(): string {
     return this._status;
+  }
+
+  /**
+   * Returns host id
+   * @return {string}
+   */
+  get host(): string {
+    return this._host;
   }
 
   /**
@@ -139,6 +149,7 @@ class Game implements IGame {
     }
     const player = new Player(id, name, this._config.initialFunds);
     this._players.push(player);
+    this._setHost(); // set game host
     return true;
   }
 
@@ -153,6 +164,7 @@ class Game implements IGame {
       return false;
     }
     this._players = this._players.filter((player) => player.id !== id);
+    this._setHost(); // set new host if previous host left
     return true;
   }
 
@@ -234,6 +246,17 @@ class Game implements IGame {
    */
   private _findPlayer(id: string): Player {
     return this._players.find((player) => player.id === id);
+  }
+
+  /**
+   * Sets the host for the game
+   */
+  private _setHost(): void {
+    if (this._players.length) {
+      this._host = this._players[0].id;
+    } else {
+      this._host = '';
+    }
   }
 
   /**

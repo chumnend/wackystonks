@@ -36,4 +36,14 @@ describe('Manager', function () {
     const manager = new Manager();
     expect(manager.deleteGame('1234')).to.be.false;
   });
+
+  it('expects to delete empty games', function () {
+    const manager = new Manager();
+    const game1 = manager.createGame();
+    const game2 = manager.createGame();
+    game1.addPlayer('test-id', 'test-name');
+    manager.deleteEmptyGames();
+    expect(manager.findGame(game1.id)).to.be.deep.equal(game1);
+    expect(manager.findGame(game2.id)).to.be.null;
+  });
 });

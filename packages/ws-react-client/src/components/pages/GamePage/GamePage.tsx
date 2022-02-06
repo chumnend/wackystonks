@@ -45,8 +45,11 @@ const GamePage = () => {
 
   const leaveGame = useCallback(() => {
     const [playerId] = getPlayerInfo();
-    socket.emit(SocketEvents.LEAVE_GAME, { gameId: params.id, playerId });
-    history.push(Routes.HOME_ROUTE);
+    socket.emit(SocketEvents.LEAVE_GAME, { gameId: params.id, playerId }, (success: boolean) => {
+      if (success) {
+        history.push(Routes.HOME_ROUTE);
+      }
+    });
   }, [history, params.id, socket]);
 
   const startGame = useCallback(() => {
@@ -59,26 +62,25 @@ const GamePage = () => {
     });
   }, [params.id, socket]);
 
+  const updateGame = useCallback((game: GameType) => {
+    setStatus(game.status);
+    setPlayers(game.players);
+    setStonks(game.stonks);
+    setTimer(Math.round(game.timeLeft / 1000)); // convert ms to s
+  }, []);
+
   const addSocketListeners = useCallback(() => {
-    socket.on(SocketEvents.PLAYERS_UPDATE, (game: GameType) => {
-      setPlayers(game.players);
-    });
-
-    socket.on(SocketEvents.STATUS_UPDATE, (game: GameType) => {
-      setStatus(game.status);
-    });
-
     socket.on(SocketEvents.GAME_UPDATE, (game: GameType) => {
-      setStatus(game.status);
-      setPlayers(game.players);
-      setStonks(game.stonks);
-      setTimer(Math.round(game.timeLeft / 1000)); // convert ms to s
+      updateGame(game);
     });
-  }, [socket]);
+
+    socket.on(SocketEvents.HOST_LEFT, () => {
+      alert('Host left the game :('); // TODO: Replace with alerts
+      leaveGame();
+    });
+  }, [socket, updateGame, leaveGame]);
 
   const removeSocketListeners = useCallback(() => {
-    socket.off(SocketEvents.PLAYERS_UPDATE);
-    socket.off(SocketEvents.STATUS_UPDATE);
     socket.off(SocketEvents.GAME_UPDATE);
   }, [socket]);
 

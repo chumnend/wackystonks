@@ -20,6 +20,7 @@ describe('Game', function () {
 
     expect(game.id).to.equal('Test');
     expect(game.status).to.equal(Game.STATUS_WAITING);
+    expect(game.host).to.equal('');
     expect(game.players).to.deep.equal([]);
     expect(game.stonks).to.have.length(1);
   });
@@ -57,6 +58,7 @@ describe('Game', function () {
   it('expects to add player to the game', function () {
     const game = new Game('Test', testConfiguration);
     expect(game.addPlayer('1234', 'player')).to.be.true;
+    expect(game.host).to.equal('1234');
     expect(game.players.length).to.equal(1);
     expect(game.players[0]).to.deep.equal(new Player('1234', 'player', 1000));
   });
@@ -67,10 +69,23 @@ describe('Game', function () {
     expect(game.addPlayer('1234', 'player')).to.be.false;
   });
 
+  it('expects to add multiple player to the game', function () {
+    const game = new Game('Test', testConfiguration);
+    expect(game.addPlayer('1234', 'player1')).to.be.true;
+    expect(game.addPlayer('5678', 'player2')).to.be.true;
+    expect(game.addPlayer('9123', 'player3')).to.be.true;
+    expect(game.host).to.equal('1234');
+    expect(game.players.length).to.equal(3);
+    expect(game.players[0]).to.deep.equal(new Player('1234', 'player1', 1000));
+    expect(game.players[1]).to.deep.equal(new Player('5678', 'player2', 1000));
+    expect(game.players[2]).to.deep.equal(new Player('9123', 'player3', 1000));
+  });
+
   it('expects to remove a player', function () {
     const game = new Game('TEST', testConfiguration);
     game.addPlayer('1234', 'player');
     expect(game.removePlayer('1234')).to.be.true;
+    expect(game.host).to.equal('');
     expect(game.players.length).to.equal(0);
   });
 

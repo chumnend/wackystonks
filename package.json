@@ -12,7 +12,8 @@
     "client:start": "yarn workspace ws-react-client serve",
     "client:dev": "yarn workspace ws-react-client start",
     "server:start": "yarn workspace ws-socket-server start",
-    "server:dev": "yarn workspace ws-socket-server dev"
+    "server:dev": "yarn workspace ws-socket-server dev",
+    "clean": "rm -rf `find . -type d -name node_modules` && rm -rf `find . -type d -name dist`"
   },
   "dependencies": {
     "@changesets/cli": "^2.17.0",

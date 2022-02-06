@@ -53,6 +53,14 @@ class Manager implements IManager {
     this._gamesList = this._gamesList.filter((g) => g.id !== id);
     return true;
   }
+
+  deleteEmptyGames(): void {
+    for (const game of this._gamesList) {
+      if (game.players.length === 0) {
+        this.deleteGame(game.id);
+      }
+    }
+  }
 }
 
 export default Manager;

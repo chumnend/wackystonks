@@ -10,6 +10,5 @@ export const BUY_STONK = 'ws:buy-stonk';
 export const SELL_STONK = 'ws:sell-stonk';
 
 // listeners
-export const STATUS_UPDATE = 'status-update';
-export const PLAYERS_UPDATE = 'players-update';
 export const GAME_UPDATE = 'game-update';
+export const HOST_LEFT = 'host-left';

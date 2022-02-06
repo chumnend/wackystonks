@@ -1,10 +1,12 @@
 import { IGame } from './';
 
 export interface IManager {
-  /** Create a Game instance and store it in with GameManager instance */
+  /** Creates a new game instance */
   createGame: () => IGame;
-  /** Find a Game instance with the GameManager instance */
+  /** Find a game instance by id */
   findGame(id: string): IGame | null;
-  /** Remove a Game instance from GameManager instance */
+  /** Delete a game instance by id */
   deleteGame(id: string): boolean;
+  /** Monitors all games and remove empty game instances */
+  deleteEmptyGames(): void;
 }
