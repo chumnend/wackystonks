@@ -5,6 +5,7 @@ import { SocketEvents } from '../constants';
 
 const WackyStonks = new Manager();
 setInterval(() => {
+  /* istanbul ignore next */
   WackyStonks.deleteEmptyGames();
 }, 10000);
 
@@ -29,6 +30,7 @@ export const createGame = (
 
   // setup event listener
   game.listenForGameEvents(() => {
+    /* istanbul ignore next */
     io.in(game.id).emit(SocketEvents.GAME_UPDATE, game.gameState());
   });
 
@@ -83,7 +85,7 @@ export const joinGame = (
   if (game) {
     game.addPlayer(playerId, playerName);
     socket.join(gameId);
-    socket.to(gameId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    socket.to(gameId).emit(SocketEvents.GAME_UPDATE, game.gameState());
   }
   cb(game?.gameState());
 };
@@ -111,7 +113,7 @@ export const startGame = (
   const game = WackyStonks.findGame(gameId);
   if (game) {
     game.startGame();
-    io.in(gameId).emit(SocketEvents.STATUS_UPDATE, game.gameState());
+    io.in(gameId).emit(SocketEvents.GAME_UPDATE, game.gameState());
     cb(true);
   } else {
     // game does not exist
@@ -142,8 +144,11 @@ export const leaveGame = (
   const { gameId, playerId } = recv;
   const game = WackyStonks.findGame(gameId);
   if (game) {
+    if (playerId === game.host) {
+      socket.to(gameId).emit(SocketEvents.HOST_LEFT);
+    }
     game.removePlayer(playerId);
-    socket.to(gameId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    socket.to(gameId).emit(SocketEvents.GAME_UPDATE, game.gameState());
     socket.leave(gameId);
     cb(true);
   } else {
@@ -178,7 +183,7 @@ export const buyStonks = (
   const game = WackyStonks.findGame(gameId);
   if (game) {
     game.buyStonk(playerId, symbol, amount);
-    io.in(playerId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    io.in(playerId).emit(SocketEvents.GAME_UPDATE, game.gameState());
     cb(true);
   } else {
     // game does not exist
@@ -212,7 +217,7 @@ export const sellStonks = (
   const game = WackyStonks.findGame(gameId);
   if (game) {
     game.sellStonk(playerId, symbol, amount);
-    io.in(playerId).emit(SocketEvents.PLAYERS_UPDATE, game.gameState());
+    io.in(playerId).emit(SocketEvents.GAME_UPDATE, game.gameState());
     cb(true);
   } else {
     // game does not exist
