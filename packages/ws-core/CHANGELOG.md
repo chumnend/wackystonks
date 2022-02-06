@@ -1,5 +1,11 @@
 # ws-core
 
+## 2.2.0
+
+### Minor Changes
+
+- e6496b1: delete games when players leave
+
 ## 2.1.0
 
 ### Minor Changes
