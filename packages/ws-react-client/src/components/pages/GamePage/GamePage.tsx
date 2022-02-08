@@ -26,10 +26,10 @@ const GamePage = () => {
   const history = useHistory();
   const params = useParams<ParamsType>();
   const socket = useSocket();
-  const [playerId, playerName] = getPlayerInfo();
 
   const joinGame = useCallback(() => {
     setLoading(true);
+    const [playerId, playerName] = getPlayerInfo();
     socket.emit(SocketEvents.JOIN_GAME, { gameId: params.id, playerId, playerName }, (game: GameType) => {
       if (!game) {
         // TODO: Handle faliure to find game better
@@ -41,7 +41,7 @@ const GamePage = () => {
       setStonks(game.stonks);
       setLoading(false);
     });
-  }, [history, params.id, socket, playerId, playerName]);
+  }, [history, params.id, socket]);
 
   const leaveGame = useCallback(() => {
     const [playerId] = getPlayerInfo();
