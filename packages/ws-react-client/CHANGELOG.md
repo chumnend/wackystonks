@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.4.0
+
+### Minor Changes
+
+- d9ebbe0: set player name when joining from link
+
 ## 0.3.0
 
 ### Minor Changes
