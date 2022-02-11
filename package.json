@@ -5,18 +5,27 @@
     "packages/*"
   ],
   "scripts": {
-    "prestart": "yarn build:core",
+    "preinstall": "yarn build:core",
     "start": "concurrently --kill-others-on-fail \"yarn client:start\" \"yarn server:start\"",
-    "dev": "concurrently --kill-others-on-fail \"yarn client:dev\" \"yarn server:dev\"",
-    "build:core": "yarn workspace ws-core build",
     "client:start": "yarn workspace ws-react-client serve",
-    "client:dev": "yarn workspace ws-react-client start",
     "server:start": "yarn workspace ws-socket-server start",
+    "dev": "concurrently --kill-others-on-fail \"yarn client:dev\" \"yarn server:dev\"",
+    "client:dev": "yarn workspace ws-react-client start",
     "server:dev": "yarn workspace ws-socket-server dev",
-    "clean": "rm -rf `find . -type d -name node_modules` && rm -rf `find . -type d -name dist`"
+    "lint": "yarn lint:core && yarn lint:client && yarn lint:server",
+    "lint:core": "yarn workspace ws-core lint:fix",
+    "lint:client": "yarn workspace ws-react-client lint:fix",
+    "lint:server": "yarn workspace ws-socket-server lint:fix",
+    "build:core": "yarn workspace ws-core build",
+    "clean": "yarn clean:core && yarn clean:client && yarn clean:server",
+    "clean:core": "yarn workspace ws-core clean",
+    "clean:client": "yarn workspace ws-react-client clean",
+    "clean:server": "yarn workspace ws-socket-server clean",
+    "rebuild": "yarn clean && yarn"
   },
   "dependencies": {
     "@changesets/cli": "^2.17.0",
-    "concurrently": "^6.2.0"
+    "concurrently": "^6.2.0",
+    "husky": "^7.0.4"
   }
 }
