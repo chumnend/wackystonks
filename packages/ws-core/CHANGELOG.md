@@ -1,5 +1,11 @@
 # ws-core
 
+## 2.3.0
+
+### Minor Changes
+
+- 865e1e5: updated yarn scripts
+
 ## 2.2.0
 
 ### Minor Changes

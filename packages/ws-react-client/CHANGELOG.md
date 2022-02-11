@@ -1,5 +1,16 @@
 # ws-react-client
 
+## 0.5.0
+
+### Minor Changes
+
+- 865e1e5: updated yarn scripts
+
+### Patch Changes
+
+- Updated dependencies [865e1e5]
+  - ws-core@2.3.0
+
 ## 0.4.0
 
 ### Minor Changes
