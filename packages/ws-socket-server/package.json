@@ -1,6 +1,6 @@
 {
   "name": "ws-socket-server",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Socket express server logic",
   "main": "dist/index.js",
   "author": "Nicholas Chumney",
@@ -21,7 +21,7 @@
     "express": "^4.17.2",
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0",
-    "ws-core": "^2.2.0"
+    "ws-core": "^2.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.0",
