@@ -39,7 +39,8 @@
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix && ./node_modules/.bin/prettier --write ./src",
-    "serve": "yarn build && node server.js"
+    "serve": "yarn build && node server.js",
+    "clean": "rm -rf node_modules && rm -rf build"
   },
   "browserslist": {
     "production": [
