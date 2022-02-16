@@ -7,21 +7,22 @@ parameters:
     default: true
 
   # A parameter per package
-  ws-server:
+  ws-core:
+    type: boolean
+    default: false
+
+  ws-react-client:
+    type: boolean
+    default: false
+
+  ws-socket-server:
     type: boolean
     default: false
 
 executors:
   node:
     docker:
-      - image: circleci/node:12.18.4
-      - image: circleci/postgres:9.6.2-alpine
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circledb
+      - image: circleci/node:16.11.0
 
 jobs:
   trigger-workflows:
@@ -53,9 +54,6 @@ jobs:
       - run: yarn lint
       - run:
           name: Start Test
-          environment:
-            DB_URL: "postgres://root@localhost:5432/circledb"
-            DB_TEST_URL: "postgres://root@localhost:5432/circledb"
           command: yarn test
       - persist_to_workspace:
           root: ~/project
@@ -72,9 +70,23 @@ workflows:
       - trigger-workflows
 
   # Workflows defined for each package.
-  ws-server:
-    when: << pipeline.parameters.ws-server >>
+  ws-core:
+    when:  << pipeline.parameters.ws-core >>
     jobs:
       - build:
-          name: ws-server-build
-          package_name: ws-server
+          name: ws-core-build
+          package_name: ws-core
+
+  ws-react-client:
+    when:  << pipeline.parameters.ws-react-client >>
+    jobs:
+      - build:
+          name: ws-react-client-build
+          package_name: ws-react-client
+
+  ws-socket-server:
+    when: << pipeline.parameters.ws-socket-server >>
+    jobs:
+      - build:
+          name: ws-socket-server-build
+          package_name: ws-socket-server
