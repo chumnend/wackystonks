@@ -1,5 +1,11 @@
 # ws-socket-server
 
+## 1.3.1
+
+### Patch Changes
+
+- 2d13dd0: fixed server tests and bumped up code coverage
+
 ## 1.3.0
 
 ### Minor Changes
