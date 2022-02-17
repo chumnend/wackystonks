@@ -10,14 +10,14 @@ const expect = chai.expect;
 describe('Socket', () => {
   let clientSocket: Socket;
 
-  before((done) => {
+  beforeEach((done) => {
     app.listen(3001, () => {
       clientSocket = io('http://localhost:3001');
       clientSocket.on('connect', done);
     });
   });
 
-  after(() => {
+  afterEach(() => {
     clientSocket.close();
     app.close();
   });
@@ -49,6 +49,13 @@ describe('Socket', () => {
         });
       });
     });
+
+    it('expects not to find a game', (done) => {
+      clientSocket.emit(SocketEvents.FIND_GAME, { gameId: 'test_id' }, (state: GameType) => {
+        expect(state).to.be.null;
+        done();
+      });
+    });
   });
 
   describe(SocketEvents.JOIN_GAME, () => {
@@ -67,6 +74,17 @@ describe('Socket', () => {
           },
         );
       });
+    });
+
+    it('expects not to find a game', (done) => {
+      clientSocket.emit(
+        SocketEvents.JOIN_GAME,
+        { gameId: 'test_id', playerId: 'TSTR', playerName: 'Tester' },
+        (state: GameType) => {
+          expect(state).to.be.null;
+          done();
+        },
+      );
     });
   });
 
