@@ -10,14 +10,14 @@ const expect = chai.expect;
 describe('Socket', () => {
   let clientSocket: Socket;
 
-  beforeEach((done) => {
+  before((done) => {
     app.listen(3001, () => {
       clientSocket = io('http://localhost:3001');
       clientSocket.on('connect', done);
     });
   });
 
-  afterEach(() => {
+  after(() => {
     clientSocket.close();
     app.close();
   });

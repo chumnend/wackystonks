@@ -10,7 +10,7 @@
     "prestart": "yarn build",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "test": "nyc ./node_modules/.bin/_mocha -r ts-node/register tests/**/*.test.ts",
+    "test": "nyc ./node_modules/.bin/_mocha -r ts-node/register tests/**/*.test.ts --exit",
     "lint": "./node_modules/.bin/eslint ./src",
     "lint:fix": "./node_modules/.bin/eslint ./src --fix && ./node_modules/.bin/prettier --write ./src",
     "clean": "rm -rf node_modules && rm -rf dist"
