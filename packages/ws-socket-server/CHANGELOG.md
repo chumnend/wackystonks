@@ -1,5 +1,16 @@
 # ws-socket-server
 
+## 1.4.0
+
+### Minor Changes
+
+- d0d0719: added monitoring in server for active games
+
+### Patch Changes
+
+- Updated dependencies [d0d0719]
+  - ws-core@2.4.0
+
 ## 1.3.1
 
 ### Patch Changes
