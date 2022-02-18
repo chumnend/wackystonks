@@ -4,9 +4,24 @@ import { Server as SocketServer, Socket } from 'socket.io';
 import { SocketEvents } from '../constants';
 
 const WackyStonks = new Manager();
+
+/* istanbul ignore next */
+const showActiveGames = () => {
+  const games = WackyStonks.listGames();
+  if (games.length !== 0) {
+    console.log('====== ACTIVE GAMES ======');
+    for (const game of games) {
+      console.log(`Game ID: ${game.id} | Game Status: ${game.status} | Number of players: ${game.players.length}`);
+    }
+  } else {
+    console.log('No active games found');
+  }
+};
+
+/* istanbul ignore next */
 setInterval(() => {
-  /* istanbul ignore next */
   WackyStonks.deleteEmptyGames();
+  showActiveGames();
 }, 10000);
 
 /**
