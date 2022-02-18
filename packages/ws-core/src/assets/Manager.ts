@@ -26,6 +26,10 @@ class Manager implements IManager {
     return game;
   }
 
+  listGames(): Game[] {
+    return [...this._gamesList];
+  }
+
   /**
    * Search game list for a game by id
    * @param id {string} Identifier of game to find

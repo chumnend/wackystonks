@@ -11,6 +11,13 @@ describe('Manager', function () {
     expect(game).to.be.instanceOf(Game);
   });
 
+  it('expects to get list of games', function () {
+    const manager = new Manager();
+    manager.createGame();
+    manager.createGame();
+    expect(manager.listGames()).to.have.length(2);
+  });
+
   it('expects to find created game instance', function () {
     const manager = new Manager();
     const game = manager.createGame();
