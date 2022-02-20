@@ -1,5 +1,11 @@
 # ws-core
 
+## 2.4.0
+
+### Minor Changes
+
+- d0d0719: added monitoring in server for active games
+
 ## 2.3.0
 
 ### Minor Changes
