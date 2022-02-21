@@ -1,24 +1,7 @@
 import React from 'react';
-import styled, { CSSProperties } from 'styled-components';
+import { CSSProperties } from 'styled-components';
 
-interface DivProps {
-  readonly direction: string;
-  readonly justifyContent: string;
-  readonly alignItems: string;
-  readonly gap: string;
-  readonly width: string;
-  readonly height: string;
-}
-
-const Div = styled.div<DivProps>`
-  display: flex;
-  width: ${(props) => props.width};
-  height ${(props) => props.height};
-  flex-direction: ${(props) => props.direction};
-  justify-content: ${(props) => props.justifyContent};
-  align-items: ${(props) => props.alignItems};
-  gap: ${(props) => props.gap};
-`;
+import { Div } from './styles';
 
 interface Props {
   children?: React.ReactNode;
