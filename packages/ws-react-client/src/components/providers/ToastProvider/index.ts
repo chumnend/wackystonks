@@ -1,4 +1,5 @@
-import { ToastContext } from './ToastProvider';
+import { useToast } from './ToastProvider';
 
 export { default } from './ToastProvider';
-export { ToastContext };
+
+export { useToast };

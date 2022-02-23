@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import ToastList from './ToastList';
 
@@ -7,6 +7,7 @@ interface ContextState {
 }
 
 export const ToastContext = React.createContext({} as ContextState);
+export const useToast = () => useContext(ToastContext);
 
 export interface IMessage {
   id: number;
