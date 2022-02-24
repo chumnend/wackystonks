@@ -15,10 +15,11 @@ export interface IMessage {
 }
 
 interface Props {
+  position?: string;
   children: React.ReactNode;
 }
 
-const ToastProvider = ({ children }: Props) => {
+const ToastProvider = ({ children, position = 'topright' }: Props) => {
   const [id, setId] = useState<number>(1);
   const [messages, setMessages] = useState<IMessage[]>([]);
 
@@ -48,7 +49,7 @@ const ToastProvider = ({ children }: Props) => {
 
   return (
     <ToastContext.Provider value={toastValues}>
-      <ToastList messages={messages} deleteMessage={deleteMessage} />
+      <ToastList messages={messages} deleteMessage={deleteMessage} position={position} />
       {children}
     </ToastContext.Provider>
   );
