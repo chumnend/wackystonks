@@ -9,6 +9,7 @@ import Preparation from './Preparation';
 import Session from './Session';
 import EndScreen from './EndScreen';
 import { useSocket } from '../../providers/SocketProvider';
+import { useToast } from '../../providers/ToastProvider';
 import { getPlayerInfo } from '../../../helpers/playerInfo';
 import * as SocketEvents from '../../../helpers/socketEvents';
 import * as Routes from '../../../helpers/routes';
@@ -26,13 +27,14 @@ const GamePage = () => {
   const history = useHistory();
   const params = useParams<ParamsType>();
   const socket = useSocket();
+  const { addMessage } = useToast();
 
   const joinGame = useCallback(() => {
     setLoading(true);
     const [playerId, playerName] = getPlayerInfo();
     socket.emit(SocketEvents.JOIN_GAME, { gameId: params.id, playerId, playerName }, (game: GameType) => {
       if (!game) {
-        // TODO: Handle faliure to find game better
+        addMessage(`Unable to find game: ${params.id}`);
         history.push(Routes.HOME_ROUTE);
         return;
       }
@@ -41,7 +43,7 @@ const GamePage = () => {
       setStonks(game.stonks);
       setLoading(false);
     });
-  }, [history, params.id, socket]);
+  }, [history, params.id, socket, addMessage]);
 
   const leaveGame = useCallback(() => {
     const [playerId] = getPlayerInfo();
@@ -55,12 +57,11 @@ const GamePage = () => {
   const startGame = useCallback(() => {
     socket.emit(SocketEvents.START_GAME, { gameId: params.id }, (success: boolean) => {
       if (!success) {
-        // TODO: Handle error better
-        alert('Unable to start game');
+        addMessage(`Unable to start game: ${params.id}`);
       }
       setTimer(5); // TODO: On this needs to be populated using game state
     });
-  }, [params.id, socket]);
+  }, [params.id, socket, addMessage]);
 
   const updateGame = useCallback((game: GameType) => {
     setStatus(game.status);
@@ -75,10 +76,10 @@ const GamePage = () => {
     });
 
     socket.on(SocketEvents.HOST_LEFT, () => {
-      alert('Host left the game :('); // TODO: Replace with alerts
+      addMessage('Host has left the game');
       leaveGame();
     });
-  }, [socket, updateGame, leaveGame]);
+  }, [socket, updateGame, leaveGame, addMessage]);
 
   const removeSocketListeners = useCallback(() => {
     socket.off(SocketEvents.GAME_UPDATE);

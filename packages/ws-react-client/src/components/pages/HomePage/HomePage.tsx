@@ -11,6 +11,7 @@ import HelpModal from './HelpModal';
 import JoinModal from './JoinModal';
 import PageWrapper from '../../common/PageWrapper';
 import { useSocket } from '../../providers/SocketProvider';
+import { useToast } from '../../providers/ToastProvider';
 
 import { createPlayerInfo, clearPlayerInfo } from '../../../helpers/playerInfo';
 import * as SocketEvents from '../../../helpers/socketEvents';
@@ -26,6 +27,7 @@ const HomePage = () => {
   const [modal, setModal] = useState(0);
   const history = useHistory();
   const socket = useSocket();
+  const { addMessage } = useToast();
 
   useEffect(() => {
     clearPlayerInfo();
@@ -49,8 +51,7 @@ const HomePage = () => {
       },
       (state: GameType) => {
         if (!state) {
-          // TODO: Handle this error better
-          alert('Game not found');
+          addMessage(`Game not found: ${code}`);
           return;
         }
         history.push(Routes.WITH_GAME_ROUTE(state.id));
