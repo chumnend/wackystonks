@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.6.0
+
+### Minor Changes
+
+- 683e347: added toasts
+
 ## 0.5.0
 
 ### Minor Changes
