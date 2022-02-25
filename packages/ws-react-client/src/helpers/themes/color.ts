@@ -2,6 +2,7 @@ export const color = {
   black: '#292f36',
   white: '#fff',
   grey: '#c2c2c2',
+  darkgrey: '#999',
   lightblue: '#64b5f6',
   lightred: '#ff8484',
 
@@ -10,7 +11,7 @@ export const color = {
       return;
     }
 
-    hex = hex.substr(1);
+    hex = hex.substring(1);
     if (hex.length === 3) {
       hex
         .split('')

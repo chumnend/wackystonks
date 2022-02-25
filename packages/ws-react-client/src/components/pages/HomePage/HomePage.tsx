@@ -30,7 +30,6 @@ const HomePage = () => {
   const { addMessage } = useToast();
 
   useEffect(() => {
-    addMessage('Testing...');
     clearPlayerInfo();
   }, []);
 

@@ -1,15 +1,23 @@
 import styled from 'styled-components';
 
-import { color, device } from '../../../../helpers/themes';
+import { color } from '../../../../helpers/themes';
 
 export const Container = styled.div`
-  width: 80%;
+  background: ${color.grey};
   margin: 8px auto;
-  background: ${color.white};
-  border-radius: 5px;
-  @media all and (min-width: ${device.md}) {
-    width: 400px;
-    margin: 8px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  pointer-events: auto;
+  width: 300px;
+  max-height: 250px;
+  box-shadow: 0 0 10px ${color.darkgrey};
+  color: ${color.black};
+  opacity: 0.9;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
   }
 `;
 
@@ -19,23 +27,29 @@ export const Header = styled.div`
 `;
 
 export const CloseButton = styled.button`
-  background: none;
+  position: relative;
+  right: 0.3em;
+  top: 0.3em;
+  float: right;
+  font-weight: 700;
+  color: ${color.black};
+  outline: none;
   border: none;
-  padding-top: 5px;
-  padding-right: 5px;
-  cursor: pointer;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.8;
+  line-height: 1;
   font-size: 1.2rem;
-  @media all and (min-width: ${device.md}) {
-    font-size: 1.5rem;
-  }
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
 `;
 
 export const Message = styled.p`
   text-align: center;
   padding: 0.6rem;
-  font-size: 1.2rem;
-  @media all and (min-width: ${device.md}) {
-    padding: 1rem;
-    font-size: 1.5rem;
-  }
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
