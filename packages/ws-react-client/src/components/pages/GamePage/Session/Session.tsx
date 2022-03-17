@@ -1,6 +1,6 @@
 import { PlayerType, StonkType } from 'ws-core';
 
-import PageWrapper from '../../../common/PageWrapper';
+import { Layout, TimeArea, GameArea, ScoreArea } from './styles';
 
 interface Props {
   /** game identifier  */
@@ -17,9 +17,17 @@ interface Props {
 
 const Session = ({ code }: Props) => {
   return (
-    <PageWrapper>
-      <h2>Now Playing: {code}</h2>
-    </PageWrapper>
+    <Layout>
+      <TimeArea>
+        <h2>TIME</h2>
+      </TimeArea>
+      <GameArea>
+        <h2>Now Playing: {code}</h2>
+      </GameArea>
+      <ScoreArea>
+        <h2>SCORE</h2>
+      </ScoreArea>
+    </Layout>
   );
 };
 
