@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { GameType } from 'ws-core';
 
 import Banner from '../../common/Banner';
-import BannerImage from '../../../assets/WackyStonks.png';
+import BannerImage from '../../../helpers/assets/WackyStonks.png';
 import Button from '../../common/Button';
 import ButtonGroup from '../../common/ButtonGroup';
 import Footer from '../../common/Footer';
