@@ -1,4 +1,4 @@
-import { Circle, Number } from './styles';
+import * as Styled from './styles';
 
 interface Props {
   /** The amount of time left */
@@ -6,11 +6,7 @@ interface Props {
 }
 
 const TimeDisplay = ({ value }: Props) => {
-  return (
-    <Circle>
-      <Number>{value}</Number>
-    </Circle>
-  );
+  return <Styled.Number>{value}</Styled.Number>;
 };
 
 export default TimeDisplay;

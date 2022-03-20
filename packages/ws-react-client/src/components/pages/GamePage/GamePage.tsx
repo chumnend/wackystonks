@@ -64,8 +64,7 @@ const GamePage = () => {
   }, [params.id, socket, addMessage]);
 
   const updateGame = useCallback((game: GameType) => {
-    // setStatus(game.status);
-    setStatus(Game.STATUS_PLAYING);
+    setStatus(game.status);
     setPlayers(game.players);
     setStonks(game.stonks);
     setTimer(Math.round(game.timeLeft / 1000)); // convert ms to s
@@ -106,11 +105,18 @@ const GamePage = () => {
       content = <Lobby code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />;
       break;
     case Game.STATUS_PREPARING:
-      content = <Preparation timer={timer} />;
+      content = <Preparation timeLeft={timer} />;
       break;
     case Game.STATUS_PLAYING:
       content = (
-        <Session code={params.id} players={players} stonks={stonks} startGame={startGame} leaveGame={leaveGame} />
+        <Session
+          code={params.id}
+          players={players}
+          stonks={stonks}
+          startGame={startGame}
+          leaveGame={leaveGame}
+          timeLeft={timer}
+        />
       );
       break;
     case Game.STATUS_STOPPED:

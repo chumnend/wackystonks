@@ -3,13 +3,13 @@ import TimeDisplay from '../../../common/TimeDisplay';
 
 interface Props {
   /** Time left on game timer */
-  timer: number;
+  timeLeft: number;
 }
 
-const Preparation = ({ timer }: Props) => {
+const Preparation = ({ timeLeft }: Props) => {
   return (
     <PageWrapper>
-      <TimeDisplay value={timer} />
+      <TimeDisplay value={timeLeft} />
       <h2>Get Ready!</h2>
     </PageWrapper>
   );
