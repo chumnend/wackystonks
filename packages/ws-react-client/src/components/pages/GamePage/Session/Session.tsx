@@ -1,6 +1,7 @@
 import { PlayerType, StonkType } from 'ws-core';
 
-import PageWrapper from '../../../common/PageWrapper';
+import TimeDisplay from '../../../common/TimeDisplay';
+import { Layout, TimeArea, GameArea, ScoreArea } from './styles';
 
 interface Props {
   /** game identifier  */
@@ -9,17 +10,27 @@ interface Props {
   players: PlayerType[];
   /** array of stonks */
   stonks: StonkType[];
+  /** Time left on game timer */
+  timeLeft: number;
   /** moves game to next step (host only) */
   startGame: () => void;
   /** removes current user from lobby */
   leaveGame: () => void;
 }
 
-const Session = ({ code }: Props) => {
+const Session = ({ code, timeLeft }: Props) => {
   return (
-    <PageWrapper>
-      <h2>Now Playing: {code}</h2>
-    </PageWrapper>
+    <Layout>
+      <TimeArea>
+        <TimeDisplay value={timeLeft} />
+      </TimeArea>
+      <GameArea>
+        <h2>Now Playing: {code}</h2>
+      </GameArea>
+      <ScoreArea>
+        <h2>SCORE</h2>
+      </ScoreArea>
+    </Layout>
   );
 };
 

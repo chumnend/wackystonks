@@ -105,11 +105,18 @@ const GamePage = () => {
       content = <Lobby code={params.id} players={players} startGame={startGame} leaveGame={leaveGame} />;
       break;
     case Game.STATUS_PREPARING:
-      content = <Preparation timer={timer} />;
+      content = <Preparation timeLeft={timer} />;
       break;
     case Game.STATUS_PLAYING:
       content = (
-        <Session code={params.id} players={players} stonks={stonks} startGame={startGame} leaveGame={leaveGame} />
+        <Session
+          code={params.id}
+          players={players}
+          stonks={stonks}
+          startGame={startGame}
+          leaveGame={leaveGame}
+          timeLeft={timer}
+        />
       );
       break;
     case Game.STATUS_STOPPED:
