@@ -7,7 +7,7 @@ import CardContainer from '../../../common/CardContainer';
 import Flex from '../../../common/Flex';
 import PageWrapper from '../../../common/PageWrapper';
 import Footer from '../../../common/Footer';
-import { getPlayerInfo } from '../../../../helpers/playerInfo';
+import { getPlayerInfo } from '../../../../helpers/utils';
 
 const InviteLink = styled.span`
   &:hover {

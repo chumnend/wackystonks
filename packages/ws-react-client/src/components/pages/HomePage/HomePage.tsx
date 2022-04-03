@@ -9,14 +9,12 @@ import ButtonGroup from '../../common/ButtonGroup';
 import Footer from '../../common/Footer';
 import HelpModal from './HelpModal';
 import JoinModal from './JoinModal';
+import StartModal from './StartModal';
 import PageWrapper from '../../common/PageWrapper';
 import { useSocket } from '../../providers/SocketProvider';
 import { useToast } from '../../providers/ToastProvider';
-
-import { createPlayerInfo, clearPlayerInfo } from '../../../helpers/playerInfo';
-import * as SocketEvents from '../../../helpers/socketEvents';
-import * as Routes from '../../../helpers/routes';
-import StartModal from './StartModal';
+import { createPlayerInfo, clearPlayerInfo } from '../../../helpers/utils';
+import { ROUTES, SOCKET_EVENTS } from '../../../helpers/constants';
 
 const MODAL_NONE = 0;
 const MODAL_HELP = 1;
@@ -35,15 +33,15 @@ const HomePage = () => {
 
   const startGame = (name: string) => {
     createPlayerInfo(name);
-    socket.emit(SocketEvents.CREATE_GAME, {}, (gameId: string) => {
-      history.push(Routes.WITH_GAME_ROUTE(gameId));
+    socket.emit(SOCKET_EVENTS.CREATE_GAME, {}, (gameId: string) => {
+      history.push(ROUTES.WITH_GAME_ROUTE(gameId));
     });
   };
 
   const joinGame = (code: string, name: string) => {
     const uuid = createPlayerInfo(name);
     socket.emit(
-      SocketEvents.FIND_GAME,
+      SOCKET_EVENTS.FIND_GAME,
       {
         gameId: code,
         playerId: uuid,
@@ -54,7 +52,7 @@ const HomePage = () => {
           addMessage(`Game not found: ${code}`);
           return;
         }
-        history.push(Routes.WITH_GAME_ROUTE(state.id));
+        history.push(ROUTES.WITH_GAME_ROUTE(state.id));
       },
     );
   };

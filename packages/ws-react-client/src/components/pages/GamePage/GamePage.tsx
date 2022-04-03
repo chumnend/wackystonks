@@ -10,9 +10,8 @@ import Session from './Session';
 import EndScreen from './EndScreen';
 import { useSocket } from '../../providers/SocketProvider';
 import { useToast } from '../../providers/ToastProvider';
-import { getPlayerInfo } from '../../../helpers/playerInfo';
-import * as SocketEvents from '../../../helpers/socketEvents';
-import * as Routes from '../../../helpers/routes';
+import { getPlayerInfo } from '../../../helpers/utils';
+import { ROUTES, SOCKET_EVENTS } from '../../../helpers/constants';
 
 interface ParamsType {
   id: string;
@@ -32,10 +31,10 @@ const GamePage = () => {
   const joinGame = useCallback(() => {
     setLoading(true);
     const [playerId, playerName] = getPlayerInfo();
-    socket.emit(SocketEvents.JOIN_GAME, { gameId: params.id, playerId, playerName }, (game: GameType) => {
+    socket.emit(SOCKET_EVENTS.JOIN_GAME, { gameId: params.id, playerId, playerName }, (game: GameType) => {
       if (!game) {
         addMessage(`Unable to find game: ${params.id}`);
-        history.push(Routes.HOME_ROUTE);
+        history.push(ROUTES.HOME_ROUTE);
         return;
       }
       setStatus(game.status);
@@ -47,15 +46,15 @@ const GamePage = () => {
 
   const leaveGame = useCallback(() => {
     const [playerId] = getPlayerInfo();
-    socket.emit(SocketEvents.LEAVE_GAME, { gameId: params.id, playerId }, (success: boolean) => {
+    socket.emit(SOCKET_EVENTS.LEAVE_GAME, { gameId: params.id, playerId }, (success: boolean) => {
       if (success) {
-        history.push(Routes.HOME_ROUTE);
+        history.push(ROUTES.HOME_ROUTE);
       }
     });
   }, [history, params.id, socket]);
 
   const startGame = useCallback(() => {
-    socket.emit(SocketEvents.START_GAME, { gameId: params.id }, (success: boolean) => {
+    socket.emit(SOCKET_EVENTS.START_GAME, { gameId: params.id }, (success: boolean) => {
       if (!success) {
         addMessage(`Unable to start game: ${params.id}`);
       }
@@ -71,18 +70,18 @@ const GamePage = () => {
   }, []);
 
   const addSocketListeners = useCallback(() => {
-    socket.on(SocketEvents.GAME_UPDATE, (game: GameType) => {
+    socket.on(SOCKET_EVENTS.GAME_UPDATE, (game: GameType) => {
       updateGame(game);
     });
 
-    socket.on(SocketEvents.HOST_LEFT, () => {
+    socket.on(SOCKET_EVENTS.HOST_LEFT, () => {
       addMessage('Host has left the game');
       leaveGame();
     });
   }, [socket, updateGame, leaveGame, addMessage]);
 
   const removeSocketListeners = useCallback(() => {
-    socket.off(SocketEvents.GAME_UPDATE);
+    socket.off(SOCKET_EVENTS.GAME_UPDATE);
   }, [socket]);
 
   useEffect(() => {

@@ -1,3 +1,7 @@
+/**
+ * Generates a random two word name
+ * @returns {string} the generated name
+ */
 export const generateName = (): string => {
   // Modified from snippet by Thomas Konings
   const name1 = [
