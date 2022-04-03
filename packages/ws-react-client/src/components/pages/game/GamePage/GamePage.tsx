@@ -2,16 +2,16 @@ import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Game, GameType, PlayerType, StonkType } from 'ws-core';
 
-import Error from './Error';
-import Loading from './Loading';
-import Lobby from './Lobby';
-import Preparation from './Preparation';
-import Session from './Session';
-import EndScreen from './EndScreen';
-import { useSocket } from '../../providers/SocketProvider';
-import { useToast } from '../../providers/ToastProvider';
-import { getPlayerInfo } from '../../../helpers/utils';
-import { ROUTES, SOCKET_EVENTS } from '../../../helpers/constants';
+import Error from '../Error';
+import Loading from '../Loading';
+import Lobby from '../Lobby';
+import Preparation from '../Preparation';
+import Session from '../Session';
+import EndScreen from '../EndScreen';
+import { useSocket } from '../../../providers/SocketProvider';
+import { useToast } from '../../../providers/ToastProvider';
+import { getPlayerInfo } from '../../../../helpers/utils';
+import { ROUTES, SOCKET_EVENTS } from '../../../../helpers/constants';
 
 interface ParamsType {
   id: string;

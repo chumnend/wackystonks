@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import HomePage from '../../pages/HomePage';
-import GamePage from '../../pages/GamePage';
+import HomePage from '../../pages/home/HomePage';
+import GamePage from '../../pages/game/GamePage';
 import { ROUTES } from '../../../helpers/constants';
 
 const Router = () => {
