@@ -8,21 +8,19 @@ export const Layout = styled.div`
   padding: 1rem;
   display: grid;
   position: relative;
+  grid-template-rows: 100px auto auto auto;
   grid-template-areas:
     't t t t'
     'g g g g'
     'g g g g'
-    'g g g g'
-    's s s s'
     's s s s';
 
   @media all and (min-width: ${device.md}) {
     display: grid;
     position: relative;
+    grid-template-rows: 100px auto auto auto;
     grid-template-areas:
       't t t t'
-      'g g g s'
-      'g g g s'
       'g g g s'
       'g g g s'
       'g g g s';
@@ -31,6 +29,9 @@ export const Layout = styled.div`
 
 export const TimeArea = styled.div`
   grid-area: t;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const GameArea = styled.div`
