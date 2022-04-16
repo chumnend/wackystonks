@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.7.0
+
+### Minor Changes
+
+- 221e682: added player cards to scorecard
+
 ## 0.6.0
 
 ### Minor Changes
