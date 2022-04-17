@@ -1,3 +1,4 @@
+import { LineChart, Line, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { PlayerType, StonkType } from 'ws-core';
 
 import TimeDisplay from '../../../common/TimeDisplay';
@@ -20,21 +21,48 @@ interface Props {
   leaveGame: () => void;
 }
 
-const Session = ({ code, timeLeft, players }: Props) => {
+const Session = ({ code, timeLeft, players, stonks }: Props) => {
   const renderTimeArea = () => {
     return (
       <TimeArea>
         <TimeDisplay value={timeLeft} />
+        <h2>Now Playing: {code}</h2>
       </TimeArea>
     );
   };
 
   const renderGameArea = () => {
-    return (
-      <GameArea>
-        <h2>Now Playing: {code}</h2>
-      </GameArea>
-    );
+    const charts = stonks.map((stonk) => {
+      const values = [...stonk.previousPrices, stonk.price];
+      const data = values.map((v, idx) => ({
+        pv: v,
+      }));
+
+      return (
+        <Styled.StonkCard key={stonk.symbol}>
+          <Styled.StonkHeader>
+            <span>
+              {stonk.name} ({stonk.symbol})
+            </span>
+            <span>
+              {stonk.price}
+              <input type="number" min={0} max={99} value={0} onChange={() => null} />
+              <button>Buy</button>
+              <button>Sell</button>
+            </span>
+          </Styled.StonkHeader>
+          <ResponsiveContainer width="99%" height={200} aspect={3}>
+            <LineChart data={data}>
+              <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+              <YAxis />
+              <Tooltip />
+            </LineChart>
+          </ResponsiveContainer>
+        </Styled.StonkCard>
+      );
+    });
+
+    return <GameArea>{charts}</GameArea>;
   };
 
   const renderScoreArea = () => {
