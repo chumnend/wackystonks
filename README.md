@@ -8,7 +8,6 @@ TBD
 ### Prerequisites
 - Yarn 2
 - Node
-- PostgreSQL
 
 ### Installation
 1) Clone this repository
@@ -37,8 +36,4 @@ TBD
 Nicholas Chumney - [nicholas.chumney@outlook.com](nicholas.chumney@outlook.com) 
 
 ## Acknowledgments
-- https://www.apollographql.com/docs/apollo-server/getting-started/
-- https://levelup.gitconnected.com/set-up-a-project-using-express-graphql-and-typescript-1fa38ee79886
-- https://www.graphql-tools.com
-- https://www.robinwieruch.de/graphql-apollo-server-tutorial#postgresql-with-sequelize-for-a-graphql-server
-- https://sequelize.org/
+N/A
