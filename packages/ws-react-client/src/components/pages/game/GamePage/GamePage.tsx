@@ -69,6 +69,22 @@ const GamePage = () => {
     setTimer(Math.round(game.timeLeft / 1000)); // convert ms to s
   }, []);
 
+  const buyStonk = (symbol: string, amount: number) => {
+    console.log(`buying ${amount} shares of ${symbol}`);
+    const [playerId] = getPlayerInfo();
+    socket.emit(SOCKET_EVENTS.BUY_STONK, { gameId: params.id, playerId, symbol, amount }, (success: boolean) => {
+      console.log(success);
+    });
+  };
+
+  const sellStonk = (symbol: string, amount: number) => {
+    console.log(`selling ${amount} shares of ${symbol}`);
+    const [playerId] = getPlayerInfo();
+    socket.emit(SOCKET_EVENTS.SELL_STONK, { gameId: params.id, playerId, symbol, amount }, (success: boolean) => {
+      console.log(success);
+    });
+  };
+
   const addSocketListeners = useCallback(() => {
     socket.on(SOCKET_EVENTS.GAME_UPDATE, (game: GameType) => {
       updateGame(game);
@@ -114,6 +130,8 @@ const GamePage = () => {
           stonks={stonks}
           startGame={startGame}
           leaveGame={leaveGame}
+          buyStonk={buyStonk}
+          sellStonk={sellStonk}
           timeLeft={timer}
         />
       );

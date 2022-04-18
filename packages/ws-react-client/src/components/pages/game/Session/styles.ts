@@ -8,7 +8,7 @@ export const Layout = styled.div`
   padding: 1rem;
   display: grid;
   position: relative;
-  grid-template-rows: 100px auto auto auto;
+  grid-template-rows: 100px 320px 320px 320px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     't t t t'
@@ -34,17 +34,14 @@ export const TimeArea = styled.div`
 
 export const GameArea = styled.div`
   grid-area: g;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  overflow: scroll;
 `;
 
 export const StonkCard = styled.div`
   width: 100%;
-  height: 270px;
+  height: 320px;
   background: #fff;
   border-radius: 10px;
-  padding: 10px 1.5rem;
 `;
 
 export const StonkHeader = styled.div`
