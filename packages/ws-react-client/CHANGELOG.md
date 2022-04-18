@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.8.0
+
+### Minor Changes
+
+- a18d8e6: setup stonk tickers
+
 ## 0.7.0
 
 ### Minor Changes
