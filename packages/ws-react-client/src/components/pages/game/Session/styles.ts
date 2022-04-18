@@ -8,17 +8,15 @@ export const Layout = styled.div`
   padding: 1rem;
   display: grid;
   position: relative;
-  grid-template-rows: 100px auto auto auto;
+  grid-template-rows: 100px 320px 320px 320px;
+  grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     't t t t'
+    's s s s'
     'g g g g'
-    'g g g g'
-    's s s s';
+    'g g g g';
 
   @media all and (min-width: ${device.md}) {
-    display: grid;
-    position: relative;
-    grid-template-rows: 100px auto auto auto;
     grid-template-areas:
       't t t t'
       'g g g s'
@@ -30,12 +28,28 @@ export const Layout = styled.div`
 export const TimeArea = styled.div`
   grid-area: t;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
 export const GameArea = styled.div`
   grid-area: g;
+  overflow: scroll;
+`;
+
+export const StonkCard = styled.div`
+  width: 100%;
+  height: 320px;
+  background: #fff;
+  border-radius: 10px;
+`;
+
+export const StonkHeader = styled.div`
+  height: 50px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const ScoreArea = styled.div`
