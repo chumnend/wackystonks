@@ -30,10 +30,9 @@ TBD
     cp .env.example .env
     ```
 
-6) Use `yarn start` to run the application. It will compile all the js files and run the client and server. If developing, you can use `yarn dev`
+6) Use `yarn start` to run the application. It will compile all the js files and run the client and server. 
+
+7) If developing, you can use `yarn dev` to spin up in development mode.
 
 ## Contact
 Nicholas Chumney - [nicholas.chumney@outlook.com](nicholas.chumney@outlook.com) 
-
-## Acknowledgments
-N/A
