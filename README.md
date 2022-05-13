@@ -1,15 +1,17 @@
 # Wacky Stonks: Stock Simulator
+
+## About this project
 A multiplayer stock market simulator
 
-## Demo
+### Demo
 TBD
 
-## Getting Started
-### Prerequisites
-- Yarn 2
+### Built With
+- Typescript
 - Node
-
-### Installation
+- React
+- 
+## Getting Started
 1) Clone this repository
 
     ```git clone https://github.com/chumnend/wackystonks.git```
