@@ -1,7 +1,9 @@
 # Wacky Stonks: Stock Simulator
 
 ## About this project
-A multiplayer stock market simulator
+A multiplayer stock market simulator.
+
+STATUS: On Hiatus
 
 ### Demo
 TBD
@@ -10,7 +12,8 @@ TBD
 - Typescript
 - Node
 - React
-- 
+- Yarn
+
 ## Getting Started
 1) Clone this repository
 
@@ -34,7 +37,7 @@ TBD
 
 6) Use `yarn start` to run the application. It will compile all the js files and run the client and server. 
 
-7) If developing, you can use `yarn dev` to spin up in development mode.
+7) If developing, you can use `yarn dev` to spin up in development mode. (NOTE: Run `yarn build:core` first if step 6 was skipped or `ws-core` will not be found)
 
 ## Contact
 Nicholas Chumney - [nicholas.chumney@outlook.com](nicholas.chumney@outlook.com) 
