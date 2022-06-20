@@ -117,3 +117,7 @@ dist/
 
 # misc
 .DS_Store
+
+# npm/yarn configuration
+.yarnrc
+.npmrc
