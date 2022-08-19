@@ -1,5 +1,5 @@
 import { IPlayer, PortfolioType } from '../types';
-import deepClone from '../utils/deepClone';
+import { deepClone } from '../utils';
 
 class Player implements IPlayer {
   private _id: string;
