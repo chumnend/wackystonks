@@ -115,6 +115,7 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
       <ScoreArea>
         <Styled.PlayerCard>
           <p>{playerName} (YOU)</p>
+          <p>Cash: ${currentPlayer?.funds}</p>
           <p>Net: ${currentPlayer?.netValue}</p>
         </Styled.PlayerCard>
         {otherPlayers.map((player) => (

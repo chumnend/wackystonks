@@ -189,13 +189,13 @@ class Game implements IGame {
     }
 
     // check if enough funds to purchase stonk
-    const fundsNeeded = stonk.price * amount;
+    const fundsNeeded = round(stonk.price * amount, 2);
     if (player.funds < fundsNeeded) {
       return false;
     }
 
     // adjust player funds and add stonk to portfolio
-    player.funds -= fundsNeeded;
+    player.funds = round(player.funds - fundsNeeded, 2);
     player.addToPortfolio(stonk.symbol, amount);
     return true;
   }
@@ -271,7 +271,7 @@ class Game implements IGame {
       const stonk = this._stonks.find((stonk) => stonk.symbol === symbol);
       netValue += stonk.price * player.portfolio[symbol];
     }
-    return netValue;
+    return round(netValue, 2);
   }
 
   /**

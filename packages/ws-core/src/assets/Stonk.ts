@@ -1,5 +1,5 @@
 import { IStonk } from '../types';
-import round from '../utils/round';
+import { round } from '../utils';
 
 class Stonk implements IStonk {
   private _name: string;
