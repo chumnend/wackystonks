@@ -1,5 +1,11 @@
 # ws-core
 
+## 2.5.0
+
+### Minor Changes
+
+- 0c2af8f: add total cash to session
+
 ## 2.4.0
 
 ### Minor Changes
