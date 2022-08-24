@@ -1,5 +1,16 @@
 # ws-react-client
 
+## 0.9.0
+
+### Minor Changes
+
+- 0c2af8f: add total cash to session
+
+### Patch Changes
+
+- Updated dependencies [0c2af8f]
+  - ws-core@2.5.0
+
 ## 0.8.0
 
 ### Minor Changes
