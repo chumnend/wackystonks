@@ -1,5 +1,11 @@
 # ws-socket-server
 
+## 1.5.0
+
+### Minor Changes
+
+- 7e98ca1: removed unused config variables
+
 ## 1.4.0
 
 ### Minor Changes
