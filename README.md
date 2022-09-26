@@ -23,9 +23,10 @@ git clone https://github.com/chumnend/wackystonks.git
 yarn
 ```
 
-3) Go to the `ws-react-client` package. Copy the `.env.example` file and rename the  rename the copy to `.env`. Make to provide values to all empty fields.
+3) Go to the `ws-react-client` package. Copy the `.env.example` file and rename the  rename the copy to `.env`, also copy the `.npmrc.example` and rename the copy to `.npmrc`. Make to provide values to all empty fields.
 ```
 cd packages/ws-client
+cp .npmrc.example .npmrc
 cp .env.example .env
 ```
 
