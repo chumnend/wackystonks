@@ -21,14 +21,6 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Generate .npmrc File
-        run: |
-          touch .npmrc
-          echo "registry=https://registry.yarnpkg.com/" > .npmrc
-          echo "@chumnend:registry=https://npm.pkg.github.com" > .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
-          echo "always-auth=true" >> .npmrc
-
       - name: Install Dependencies
         run: yarn
 
