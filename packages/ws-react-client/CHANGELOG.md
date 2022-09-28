@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.10.0
+
+### Minor Changes
+
+- a530b5a: add component-library as dependency
+
 ## 0.9.0
 
 ### Minor Changes
