@@ -26,7 +26,7 @@ jobs:
           touch ./packages/ws-react-client/.npmrc
           echo "registry=https://registry.yarnpkg.com/" >> ./packages/ws-react-client/.npmrc
           echo "@chumnend:registry=https://npm.pkg.github.com" >> ./packages/ws-react-client/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ./packages/ws-react-client/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PAT }}" >> ./packages/ws-react-client/.npmrc
           echo "always-auth=true" >> ./packages/ws-react-client/.npmrc
 
       - name: Install Dependencies
