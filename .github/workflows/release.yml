@@ -21,13 +21,15 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Generate .npmrc
+      - name: Create .npmrc
+        run: cat .npmrc
+
+      - name: Populate .npmrc
         run: |
-          touch ./packages/ws-react-client/.npmrc
-          echo "registry=https://registry.yarnpkg.com/" >> ./packages/ws-react-client/.npmrc
-          echo "@chumnend:registry=https://npm.pkg.github.com" >> ./packages/ws-react-client/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PAT }}" >> ./packages/ws-react-client/.npmrc
-          echo "always-auth=true" >> ./packages/ws-react-client/.npmrc
+          echo "registry=https://registry.yarnpkg.com/" > .npmrc
+          echo "@chumnend:registry=https://npm.pkg.github.com" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
+          echo "always-auth=true" >> .npmrc
 
       - name: Install Dependencies
         run: yarn
