@@ -3,7 +3,6 @@ import { LineChart, Line, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { PlayerType, StonkType } from 'ws-core';
 
 import TimeDisplay from '../../../common/TimeDisplay';
-import { Layout, TimeArea, GameArea, ScoreArea } from './styles';
 import { getPlayerInfo } from '../../../../helpers/utils';
 import * as Styled from './styles';
 
@@ -56,10 +55,10 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
 
   const renderTimeArea = () => {
     return (
-      <TimeArea>
+      <Styled.TimeArea>
         <TimeDisplay value={timeLeft} />
         <h2>Now Playing: {code}</h2>
-      </TimeArea>
+      </Styled.TimeArea>
     );
   };
 
@@ -103,7 +102,7 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
       );
     });
 
-    return <GameArea>{charts}</GameArea>;
+    return <Styled.GameArea>{charts}</Styled.GameArea>;
   };
 
   const renderScoreArea = () => {
@@ -112,7 +111,7 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
     const otherPlayers = players.filter((player) => player.id !== playerId);
 
     return (
-      <ScoreArea>
+      <Styled.ScoreArea>
         <Styled.PlayerCard>
           <p>{playerName} (YOU)</p>
           <p>Cash: ${currentPlayer?.funds}</p>
@@ -124,16 +123,16 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
             <p>Net: ${player?.netValue}</p>
           </Styled.PlayerCard>
         ))}
-      </ScoreArea>
+      </Styled.ScoreArea>
     );
   };
 
   return (
-    <Layout>
+    <Styled.Layout>
       {renderTimeArea()}
       {renderGameArea()}
       {renderScoreArea()}
-    </Layout>
+    </Styled.Layout>
   );
 };
 
