@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.11.1
+
+### Patch Changes
+
+- 0073f29: fixed issue where any player can start the game
+
 ## 0.11.0
 
 ### Minor Changes
