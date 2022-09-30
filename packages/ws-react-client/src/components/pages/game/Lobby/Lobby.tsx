@@ -95,7 +95,7 @@ const Lobby = ({ code, players, startGame, leaveGame }: Props) => {
         </div>
       </CardContainer>
       <ButtonGroup direction="column">
-        <Button variant="primary" disabled={!isHost} onClick={handleStartGame} text="Start Game" />
+        <Button variant="primary" disabled={!isHost()} onClick={handleStartGame} text="Start Game" />
         <Button variant="primary" onClick={handleLeaveGame} text="Leave Lobby" />
       </ButtonGroup>
       <Footer />
