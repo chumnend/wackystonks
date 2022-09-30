@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.11.0
+
+### Minor Changes
+
+- 7d8a74a: add winner to end screen
+
 ## 0.10.0
 
 ### Minor Changes
