@@ -1,27 +1,25 @@
 import { PlayerType } from 'ws-core';
 
+import ButtonGroup from '../../../common/ButtonGroup';
+import Button from '../../../common/Button';
 import PageWrapper from '../../../common/PageWrapper';
 
 interface Props {
   /** array of player details */
   players: PlayerType[];
+  /** removes current user from lobby */
+  leaveGame: () => void;
 }
 
-const EndScreen = ({ players }: Props) => {
+const EndScreen = ({ players, leaveGame }: Props) => {
+  const getStandings = (): PlayerType[] => {
+    const standings = [...players];
+    standings.sort((a, b) => b.netValue - a.netValue);
+    return standings;
+  };
+
   const getWinner = (): PlayerType => {
-    let highestNetValue = -Infinity;
-    let winningPlayerId = '';
-
-    players.forEach((player: PlayerType) => {
-      const netValue = player.netValue;
-      if (netValue > highestNetValue) {
-        highestNetValue = netValue;
-        winningPlayerId = player.id;
-      }
-    });
-
-    const player = players.find((player) => player.id === winningPlayerId) as PlayerType;
-    return player;
+    return getStandings()[0];
   };
 
   return (
@@ -29,6 +27,10 @@ const EndScreen = ({ players }: Props) => {
       <h2>Game Over</h2>
       <p>Winner: {getWinner().name}</p>
       <p>Score: {getWinner().netValue}</p>
+
+      <ButtonGroup direction="row">
+        <Button variant="primary" onClick={leaveGame} text="Leave" />
+      </ButtonGroup>
     </PageWrapper>
   );
 };

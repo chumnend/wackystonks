@@ -137,7 +137,7 @@ const GamePage = () => {
       );
       break;
     case Game.STATUS_STOPPED:
-      content = <EndScreen players={players} />;
+      content = <EndScreen players={players} leaveGame={leaveGame} />;
       break;
     default:
       content = <Error />;
