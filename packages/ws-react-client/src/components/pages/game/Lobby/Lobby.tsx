@@ -68,15 +68,21 @@ const Lobby = ({ code, players, startGame, leaveGame }: Props) => {
     return playerId === players[0].id;
   };
 
-  const playerList = (
-    <PlayerCardGrid>
-      {players.map((p) => (
-        <PlayerCard key={p.id}>
-          {p.name} {playerId === p.id && '(You)'}
+  const playersList = () => {
+    const currentPlayer = players.filter((p: PlayerType) => p.id === playerId)[0];
+    const otherPlayers = players.filter((p: PlayerType) => p.id !== playerId);
+
+    return (
+      <PlayerCardGrid>
+        <PlayerCard>
+          {currentPlayer.name} {'(You)'}
         </PlayerCard>
-      ))}
-    </PlayerCardGrid>
-  );
+        {otherPlayers.map((p) => (
+          <PlayerCard key={p.id}>{p.name}</PlayerCard>
+        ))}
+      </PlayerCardGrid>
+    );
+  };
 
   return (
     <PageWrapper>
@@ -86,7 +92,7 @@ const Lobby = ({ code, players, startGame, leaveGame }: Props) => {
       </Flex>
       <CardContainer>
         <h3>Players</h3>
-        {playerList}
+        {playersList()}
       </CardContainer>
       <CardContainer>
         <h3>Chat</h3>
