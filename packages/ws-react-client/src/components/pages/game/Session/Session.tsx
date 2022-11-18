@@ -1,10 +1,94 @@
+import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
-import { LineChart, Line, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { PlayerType, StonkType } from 'ws-core';
 
 import TimeDisplay from '../../../common/TimeDisplay';
 import { getPlayerInfo } from '../../../../helpers/utils';
-import * as Styled from './styles';
+
+const Layout = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+`;
+
+const LeftRail = styled.div`
+  flex: 2 1 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Stonks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const StonksCard = styled.div`
+  width: 100%;
+  height: 50px;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border: 1px solid black;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const RightRail = styled.div`
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+`;
+
+const Timer = styled.div`
+  width: 100%;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Info = styled.div`
+  flex: 1 1 0;
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Holdings = styled.div`
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Standings = styled.div`
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Heading = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const Body = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Card = styled.div`
+  width: 100%;
+  max-height: 5rem;
+  border: 1px solid black;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  padding: 1rem;
+`;
 
 interface Props {
   /** game identifier  */
@@ -32,6 +116,10 @@ interface Quantity {
 const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props) => {
   const [quantity, setQuantity] = useState<Quantity>({});
   const stonksRef = useRef(stonks);
+  const [playerId, playerName] = getPlayerInfo();
+
+  const currentPlayer = players.find((player) => player.id === playerId);
+  const standings = players.sort((player1, player2) => player1.netValue - player2.netValue);
 
   useEffect(() => {
     const initialQuantity: Quantity = {};
@@ -53,86 +141,85 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
     setQuantity(updatedQuantity);
   };
 
-  const renderTimeArea = () => {
+  const renderLeftRail = () => {
     return (
-      <Styled.TimeArea>
-        <TimeDisplay value={timeLeft} />
-        <h2>Now Playing: {code}</h2>
-      </Styled.TimeArea>
+      <LeftRail>
+        <Stonks>
+          {stonks.map((stonk: StonkType) => (
+            <StonksCard key={stonk.symbol}>
+              <p>
+                {stonk.name} ({stonk.symbol})
+              </p>
+              <p>
+                {stonk.price}
+                <input
+                  type="number"
+                  min={0}
+                  max={99}
+                  value={quantity[stonk.symbol]}
+                  onChange={(e) => {
+                    const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
+                    setQuantity(updatedQuantity);
+                  }}
+                />
+                <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
+                <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
+              </p>
+            </StonksCard>
+          ))}
+        </Stonks>
+      </LeftRail>
     );
   };
 
-  const renderGameArea = () => {
-    const charts = stonks.map((stonk) => {
-      const values = [...stonk.previousPrices, stonk.price];
-      const data = values.map((v, idx) => ({
-        pv: v,
-      }));
-
-      return (
-        <Styled.StonkCard key={stonk.symbol}>
-          <Styled.StonkHeader>
-            <span>
-              {stonk.name} ({stonk.symbol})
-            </span>
-            <span>
-              {stonk.price}
-              <input
-                type="number"
-                min={0}
-                max={99}
-                value={quantity[stonk.symbol]}
-                onChange={(e) => {
-                  const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
-                  setQuantity(updatedQuantity);
-                }}
-              />
-              <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
-              <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
-            </span>
-          </Styled.StonkHeader>
-          <ResponsiveContainer height={250}>
-            <LineChart data={data}>
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
-        </Styled.StonkCard>
-      );
-    });
-
-    return <Styled.GameArea>{charts}</Styled.GameArea>;
-  };
-
-  const renderScoreArea = () => {
-    const [playerId, playerName] = getPlayerInfo();
-    const currentPlayer = players.find((player) => player.id === playerId);
-    const otherPlayers = players.filter((player) => player.id !== playerId);
-
+  const renderRightRail = () => {
     return (
-      <Styled.ScoreArea>
-        <Styled.PlayerCard>
-          <p>{playerName} (YOU)</p>
-          <p>Cash: ${currentPlayer?.funds}</p>
-          <p>Net: ${currentPlayer?.netValue}</p>
-        </Styled.PlayerCard>
-        {otherPlayers.map((player) => (
-          <Styled.PlayerCard key={player.id}>
-            <p>{player.name}</p>
-            <p>Net: ${player?.netValue}</p>
-          </Styled.PlayerCard>
-        ))}
-      </Styled.ScoreArea>
+      <RightRail>
+        <Timer>
+          <TimeDisplay value={timeLeft} />
+          <Heading>Now Playing: {code}</Heading>
+        </Timer>
+        <Info>
+          <Card>
+            <p>{playerName} (YOU)</p>
+            <p>Cash: ${currentPlayer?.funds}</p>
+            <p>Net: ${currentPlayer?.netValue}</p>
+          </Card>
+        </Info>
+        <Holdings>
+          <Heading>Portfolio</Heading>
+          <Body>
+            {currentPlayer && Object.entries(currentPlayer.portfolio).length > 0 ? (
+              Object.entries(currentPlayer.portfolio).map(([key, val]) => (
+                <Card key={key}>
+                  {key} - Qty: {val}
+                </Card>
+              ))
+            ) : (
+              <p>You currently own nothing!</p>
+            )}
+          </Body>
+        </Holdings>
+        <Standings>
+          <Heading>Standings</Heading>
+          <Body>
+            {standings.map((player, idx) => (
+              <Card key={player.id}>
+                {idx + 1}: {player.name}
+              </Card>
+            ))}
+          </Body>
+        </Standings>
+        <Standings></Standings>
+      </RightRail>
     );
   };
 
   return (
-    <Styled.Layout>
-      {renderTimeArea()}
-      {renderGameArea()}
-      {renderScoreArea()}
-    </Styled.Layout>
+    <Layout>
+      {renderLeftRail()}
+      {renderRightRail()}
+    </Layout>
   );
 };
 
