@@ -10,33 +10,85 @@ const Layout = styled.div`
   min-height: 100vh;
   padding: 1rem;
   display: flex;
+  gap: 1rem;
 `;
 
-const Stonks = styled.div`
+const LeftRail = styled.div`
   flex: 2 1 0;
-`;
-
-const Tracker = styled.div`
-  flex: 1 1 0;
   display: flex;
   flex-direction: column;
 `;
 
-const TrackerHeader = styled.div`
+const Stonks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const StonksCard = styled.div`
   width: 100%;
-  padding: 0.5rem;
+  height: 50px;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border: 1px solid black;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const RightRail = styled.div`
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+`;
+
+const Timer = styled.div`
+  width: 100%;
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 `;
 
-const TrackerBody = styled.div`
+const Info = styled.div`
+  flex: 1 1 0;
   width: 100%;
   padding: 0.5rem;
 `;
 
-const PlayerCard = styled.div``;
+const Holdings = styled.div`
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Standings = styled.div`
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Heading = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const Body = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+`;
+
+const Card = styled.div`
+  width: 100%;
+  max-height: 5rem;
+  border: 1px solid black;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  padding: 1rem;
+`;
 
 interface Props {
   /** game identifier  */
@@ -64,6 +116,10 @@ interface Quantity {
 const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props) => {
   const [quantity, setQuantity] = useState<Quantity>({});
   const stonksRef = useRef(stonks);
+  const [playerId, playerName] = getPlayerInfo();
+
+  const currentPlayer = players.find((player) => player.id === playerId);
+  const standings = players.sort((player1, player2) => player1.netValue - player2.netValue);
 
   useEffect(() => {
     const initialQuantity: Quantity = {};
@@ -85,87 +141,84 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
     setQuantity(updatedQuantity);
   };
 
-  const renderStonks = () => {
-    return stonks.map((stonk: StonkType) => (
-      <div key={stonk.symbol}>
-        <p>
-          {stonk.name} ({stonk.symbol})
-        </p>
-        <p>
-          {stonk.price}
-          <input
-            type="number"
-            min={0}
-            max={99}
-            value={quantity[stonk.symbol]}
-            onChange={(e) => {
-              const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
-              setQuantity(updatedQuantity);
-            }}
-          />
-          <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
-          <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
-        </p>
-      </div>
-    ));
-  };
-
-  const renderPlayerInfo = () => {
-    const [playerId, playerName] = getPlayerInfo();
-    const currentPlayer = players.find((player) => player.id === playerId);
-
+  const renderLeftRail = () => {
     return (
-      <PlayerCard>
-        <p>{playerName} (YOU)</p>
-        <p>Cash: ${currentPlayer?.funds}</p>
-        <p>Net: ${currentPlayer?.netValue}</p>
-      </PlayerCard>
+      <LeftRail>
+        <Stonks>
+          {stonks.map((stonk: StonkType) => (
+            <StonksCard key={stonk.symbol}>
+              <p>
+                {stonk.name} ({stonk.symbol})
+              </p>
+              <p>
+                {stonk.price}
+                <input
+                  type="number"
+                  min={0}
+                  max={99}
+                  value={quantity[stonk.symbol]}
+                  onChange={(e) => {
+                    const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
+                    setQuantity(updatedQuantity);
+                  }}
+                />
+                <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
+                <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
+              </p>
+            </StonksCard>
+          ))}
+        </Stonks>
+      </LeftRail>
     );
   };
 
-  const renderPlayerStonks = () => {
-    const [playerId] = getPlayerInfo();
-    const currentPlayer = players.find((player) => player.id === playerId);
-    if (!currentPlayer) return null;
-
+  const renderRightRail = () => {
     return (
-      <>
-        <p>Positions</p>
-        {Object.entries(currentPlayer?.portfolio).map(([key, val]) => (
-          <span key={key}>
-            {key}: {val}
-          </span>
-        ))}
-      </>
-    );
-  };
-
-  const renderPlayerStandings = () => {
-    const standings = players.sort((player1, player2) => player1.netValue - player2.netValue);
-    return (
-      <>
-        <p>Standings</p>
-        {standings.map((player) => (
-          <p key={player.id}>{player.name}</p>
-        ))}
-      </>
+      <RightRail>
+        <Timer>
+          <TimeDisplay value={timeLeft} />
+          <Heading>Now Playing: {code}</Heading>
+        </Timer>
+        <Info>
+          <Card>
+            <p>{playerName} (YOU)</p>
+            <p>Cash: ${currentPlayer?.funds}</p>
+            <p>Net: ${currentPlayer?.netValue}</p>
+          </Card>
+        </Info>
+        <Holdings>
+          <Heading>Portfolio</Heading>
+          <Body>
+            {currentPlayer && Object.entries(currentPlayer.portfolio).length > 0 ? (
+              Object.entries(currentPlayer.portfolio).map(([key, val]) => (
+                <Card key={key}>
+                  {key} - Qty: {val}
+                </Card>
+              ))
+            ) : (
+              <p>You currently own nothing!</p>
+            )}
+          </Body>
+        </Holdings>
+        <Standings>
+          <Heading>Standings</Heading>
+          <Body>
+            {standings.map((player, idx) => (
+              <Card key={player.id}>
+                {idx + 1}: {player.name}
+              </Card>
+            ))}
+          </Body>
+        </Standings>
+        <Standings></Standings>
+      </RightRail>
     );
   };
 
   return (
     <Layout>
-      <Stonks>{renderStonks()}</Stonks>
-      <Tracker>
-        <TrackerHeader>
-          <TimeDisplay value={timeLeft} />
-          <h2>Now Playing: {code}</h2>
-        </TrackerHeader>
-        <TrackerBody>
-          {renderPlayerInfo()}
-          {renderPlayerStonks()}
-          {renderPlayerStandings()}
-        </TrackerBody>
-      </Tracker>
+      {renderLeftRail()}
+      {renderRightRail()}
     </Layout>
   );
 };

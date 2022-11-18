@@ -63,8 +63,7 @@ const GamePage = () => {
   }, [params.id, socket, addMessage]);
 
   const updateGame = useCallback((game: GameType) => {
-    // setStatus(game.status);
-    setStatus(Game.STATUS_PLAYING);
+    setStatus(game.status);
     setPlayers(game.players);
     setStonks(game.stonks);
     setTimer(Math.round(game.timeLeft / 1000)); // convert ms to s
