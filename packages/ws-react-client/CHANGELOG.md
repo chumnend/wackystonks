@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.12.0
+
+### Minor Changes
+
+- 917df3d: simplified game session screen
+
 ## 0.11.1
 
 ### Patch Changes
