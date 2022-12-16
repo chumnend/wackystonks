@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.12.1
+
+### Patch Changes
+
+- 4e4e7a1: Bump express from 4.17.2 to 4.17.3
+
 ## 0.12.0
 
 ### Minor Changes

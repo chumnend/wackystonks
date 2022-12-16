@@ -1,5 +1,11 @@
 # ws-socket-server
 
+## 1.5.1
+
+### Patch Changes
+
+- 4e4e7a1: Bump express from 4.17.2 to 4.17.3
+
 ## 1.5.0
 
 ### Minor Changes
