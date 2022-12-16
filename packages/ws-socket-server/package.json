@@ -1,6 +1,6 @@
 {
   "name": "ws-socket-server",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Socket express server logic",
   "main": "dist/index.js",
   "author": "Nicholas Chumney",
