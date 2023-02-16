@@ -1,5 +1,16 @@
 # ws-react-client
 
+## 0.13.0
+
+### Minor Changes
+
+- 80b1d05: bumped package dependencies
+
+### Patch Changes
+
+- Updated dependencies [80b1d05]
+  - ws-core@2.6.0
+
 ## 0.12.1
 
 ### Patch Changes

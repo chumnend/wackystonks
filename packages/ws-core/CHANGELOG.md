@@ -1,5 +1,11 @@
 # ws-core
 
+## 2.6.0
+
+### Minor Changes
+
+- 80b1d05: bumped package dependencies
+
 ## 2.5.0
 
 ### Minor Changes
