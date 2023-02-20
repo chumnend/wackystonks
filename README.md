@@ -1,10 +1,10 @@
-# Wacky Stonks: Stock Simulator
+# Wacky Stonks: Stock Simulator (ABANDONED)
 
 ## About this project
 A multiplayer stock market simulator.
 
 ### Demo
-TBD
+N/A
 
 ### Built With
 - Typescript
