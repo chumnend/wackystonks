@@ -8,7 +8,7 @@ import { getPlayerInfo } from '../../../../helpers/utils';
 
 const Layout = styled.div`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   padding: 1rem;
   display: flex;
   gap: 1rem;
@@ -18,6 +18,9 @@ const LeftRail = styled.div`
   flex: 2 1 0;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
 `;
 
 const Stonks = styled.div`
@@ -55,6 +58,8 @@ const RightRail = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid black;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const Timer = styled.div`
