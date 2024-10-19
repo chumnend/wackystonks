@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { PlayerType, StonkType } from 'ws-core';
 
 import TimeDisplay from '../../../common/TimeDisplay';
@@ -7,7 +8,7 @@ import { getPlayerInfo } from '../../../../helpers/utils';
 
 const Layout = styled.div`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   padding: 1rem;
   display: flex;
   gap: 1rem;
@@ -17,6 +18,9 @@ const LeftRail = styled.div`
   flex: 2 1 0;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
 `;
 
 const Stonks = styled.div`
@@ -25,7 +29,14 @@ const Stonks = styled.div`
   gap: 1rem;
 `;
 
-const StonksCard = styled.div`
+const StonkCard = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const StonkCardTop = styled.div`
   width: 100%;
   height: 50px;
   padding: 0.5rem 1rem;
@@ -37,11 +48,18 @@ const StonksCard = styled.div`
   align-items: center;
 `;
 
+const StonkCardBottom = styled.div`
+  width: 100%;
+  height: 200px;
+`;
+
 const RightRail = styled.div`
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const Timer = styled.div`
@@ -145,28 +163,48 @@ const Session = ({ code, timeLeft, players, stonks, buyStonk, sellStonk }: Props
     return (
       <LeftRail>
         <Stonks>
-          {stonks.map((stonk: StonkType) => (
-            <StonksCard key={stonk.symbol}>
-              <p>
-                {stonk.name} ({stonk.symbol})
-              </p>
-              <p>
-                {stonk.price}
-                <input
-                  type="number"
-                  min={0}
-                  max={99}
-                  value={quantity[stonk.symbol]}
-                  onChange={(e) => {
-                    const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
-                    setQuantity(updatedQuantity);
-                  }}
-                />
-                <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
-                <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
-              </p>
-            </StonksCard>
-          ))}
+          {stonks.map((stonk: StonkType) => {
+            const data = stonk.previousPrices.map((price: number) => ({
+              date: new Date().toLocaleTimeString(),
+              value: price,
+            }));
+
+            return (
+              <StonkCard key={stonk.symbol}>
+                <StonkCardTop>
+                  <p>
+                    {stonk.name} ({stonk.symbol})
+                  </p>
+                  <p>
+                    {stonk.price}
+                    <input
+                      type="number"
+                      min={0}
+                      max={99}
+                      value={quantity[stonk.symbol]}
+                      onChange={(e) => {
+                        const updatedQuantity = { ...quantity, [stonk.symbol]: Number(e.target.value) };
+                        setQuantity(updatedQuantity);
+                      }}
+                    />
+                    <button onClick={() => handleBuy(stonk.symbol)}>Buy</button>
+                    <button onClick={() => handleSell(stonk.symbol)}>Sell</button>
+                  </p>
+                </StonkCardTop>
+                <StonkCardBottom>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={data}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </StonkCardBottom>
+              </StonkCard>
+            );
+          })}
         </Stonks>
       </LeftRail>
     );
