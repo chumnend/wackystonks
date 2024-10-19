@@ -1,5 +1,11 @@
 # ws-react-client
 
+## 0.14.0
+
+### Minor Changes
+
+- d5f1b7b: add chart ui for stonks
+
 ## 0.13.0
 
 ### Minor Changes
