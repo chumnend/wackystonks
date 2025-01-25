@@ -1,7 +1,8 @@
 {
-  "private": true,
   "name": "wackystonks",
+  "private": true,
   "workspaces": [
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
